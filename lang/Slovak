@@ -1,0 +1,88 @@
+﻿//TubeMaster++ Language File.
+//FOR TRANSLATORS : Please keep the correct syntax (<X>Translated_Text</X>).
+
+//Header
+	<0>Nastavenia</0>
+	<1>Podporte program</1>
+	<2>O programe</2>
+	<3>Zachytávanie médií</3>
+	<4>Vyhľadávanie videa</4>
+	<5>Vyhľadávanie MP3</5>
+
+//Panel Capture
+	<6>Zakázať zachytávanie</6>
+	<7>Povoliť zachytávanie</7>
+	<8>Uložiť vybrané</8>
+	<9>Konvertovať vybrané</9>
+
+//Video Search Panel
+	<10>Vyhľadávač videa</10>
+	<11>Globálne vyhľadávanie</11>
+	<12>Názov</12>
+	<13>Dĺžka</13>
+	<14>Kategória</14>
+	<15>Kanál</15>
+	
+	
+//MP3 Search Panel
+	<16>Vyhľadávač MP3</16>
+	<17>Názov</17>
+	<18>Stiahnuť !</18>
+
+//Options Panel
+	<19>Povoliť zachytávanie pri štarte TubeMaster++.</19>
+	<20>Kontrola aktualizácií pri štarte TubeMaster++.</20>
+	<21>Povoliť Tray ikonu pri minimalizovaní TubeMaster++.</21>
+	<22>Zmazať súbory zo zoznamu po konverzii.</22>
+	<23>Jazyk programu</23>
+	<24>Predvolený priečinok pre súbory</24>
+	<25>Povoliť automatickú konverziu súborov po stiahnutí.</25>
+	
+//List File Item	
+	<26>Uložiť súbor</26>
+	<27>Konvertovať</27>
+	<28>Prehrať súbor</28>
+	<29>Klikni pre premenovanie...</29>
+	<30>Hotovo !</30>
+	<31>Čaká sa na konverziu ...</31>
+	<32>Kopírovať priamy odkaz do clipboardu.</32>
+	<33>Prerušiť konverziu.</33>
+	<34>Nahrávam ...</34>
+	<35>Zistený nový súbor ! Zachytávam ...</35>
+
+	<36>Prehrať video</36>
+	
+//MessageBoxes
+	<37>Si si istý ?</37>
+	<38>Chceš prerušiť túto konverziu ?</38>
+	<39>Chceš zmazať všetky zachytené súbory ?</39>
+	<40>Súbor už existuje</40>
+	<41>Chyba. Súbor už existuje. Prosím zmeň názov.</41>
+	<42>Táto operácia zastaví sťahovanie ! Zavrieť sťahovač ?</42>
+	<43>Chceš zmazať tento súbor ?</43>
+	<44>Zdá sa, že nemáš nainštalovaný WinPcap. TubeMaster++ nefunguje bez WinPcap.</44>
+	<45>Chceš ho nainštalovať teraz ?</45>
+	<46>Chyba ! Prosím nainštaluj WinPcap !</46>
+	<47>Chceš zavrieť TubeMaster++ ?</47>
+	<48>Dostupná aktualizácia</48>
+	<49>Pre TubeMaster++ je dostupná nová aktualizácia. Chceš ju stiahnuť teraz ? (Odporúčané)</49>
+	
+//Added
+	<50>Chyba. Žiadna odpoveď. Prosím, skús znovu neskôr.</50>
+	<51>Sťahujem</51>
+	<52>Nahrávam</52>
+	<53>Zachytávanie je zapnuté. Mal by si ho vypnúť inak bude TubeMaster++ zachytávať MP3 súbory. Vypnúť teraz ?</53>
+	<54>Odporúčam vypnúť zachytávanie.</54>
+	<55>Pýtať sa pred ukončením TubeMaster++.</55>
+	<56>Zavrieť</56>
+	<57>Tip : Môžeš použiť Drag-And-Drop na externé súbory (MP3,MP4,FLV,MOV).</57>
+
+//ID3 Editor
+	<58>Song Title</58>
+	<59>Artist Name</59>
+	<60>Album Title</60>
+	<61>Year</61>
+	<62>Track Number</62>
+	<63>Genre</63>
+	<64>Cancel</64>
+	<65>Apply</65>
