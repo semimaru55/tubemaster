@@ -39,18 +39,20 @@ public class TMPacket
 	
 	public TMPacket(Packet p)
 	{
+
 		if (p instanceof TCPPacket)
 		{
 			TCPPacket pack = (TCPPacket) p;
-	
-					this.isValid = true;
-					this.ack = pack.ack_num; 
-					
-					this.seq = pack.sequence;
-					this.srcPort = pack.src_port;
-					this.dstPort = pack.dst_port;
 
-					this.byteArray = pack.data;
+			this.isValid = true;
+			this.ack = pack.ack_num; 
+			
+			this.seq = pack.sequence;
+			this.srcPort = pack.src_port;
+			this.dstPort = pack.dst_port;
+
+			this.byteArray = pack.data;
+			
 		}
 		else this.isValid = false;				
 	}
@@ -74,8 +76,6 @@ public class TMPacket
 	{
 		return Commun.arrayPos(this.byteArray, str.getBytes(),1)>-1;
 	}
-	
-	
 	
 
 }

@@ -71,11 +71,12 @@ public class EcouteInterface implements Runnable
 			System.out.println("-= TubeMaster++ Started on "+this.interf.description+" =-");
 			this.jpcap.setPacketReadTimeout(1000);
 			try {this.jpcap.loopPacket(-1,new PacketsReceiver());} catch (Exception e) {}
+			this.jpcap.updateStat();
 			this.jpcap.close();
 
 		}
 		
-		System.out.println("-= TubeMaster++ Stopped on "+this.interf.description+" =-");
+		System.out.println("-= TubeMaster++ Stopped on "+this.interf.description+" (Rcv="+this.jpcap.received_packets+"|Drp="+this.jpcap.dropped_packets+")=-");
 		this.semaClose.countDown();	
 	}
 	

@@ -128,7 +128,6 @@ public class FenAbout extends JFrame
 		this.lblGreets.setBounds(10,129,315,20);
 
 		this.areaGreets.setText("- WinPcap and LibPcap contributors.\n" +
-				"- Sly Technologies : JNetPcap library.\n" +
 				"- Keita Fujii : JPcap library.\n" +
 				"- FFMpeg Project : FFMpeg & FFPlay tools.\n" +
 				"- Iconspedia.com : Some nice icons.\n" +
@@ -155,7 +154,8 @@ public class FenAbout extends JFrame
 				"- Enver Can Cilingir : Turkish Translation.\n" +
 				"- Artur Penedo : Portuguese Translation.\n" + 
 				"- Arjan Lindeboom : Dutch Translation.\n" + 
-				"- Markus Grasel & Fabian K. : German Translation.\n"
+				"- Markus Grasel & Fabian K. : German Translation.\n" +
+				"- Nicolas Claverie : Japanese Translation.\n"
 				);
 		
 		

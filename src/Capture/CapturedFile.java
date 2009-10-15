@@ -54,6 +54,8 @@ public class CapturedFile
 	private File fichier;
 	private RandomAccessFile fw;
 	
+	private TCPMap tcpmap = new TCPMap();
+
 
 	//=====================================================================================================
 	
@@ -63,6 +65,7 @@ public class CapturedFile
 		this.cap_ident = newIdent;	
 		new File("temp").mkdir(); 
 		this.filename = "temp"+File.separator+"tm++_capture_"+this.idFile+this.random+"."+this.format.retFormat().toLowerCase();
+
 	}
 	
 	//=====================================================================================================
@@ -105,17 +108,13 @@ public class CapturedFile
 							
 				} catch (FileNotFoundException e) {Commun.logError(e);}	
 			}
-			
-					
-			
-			
+
 			if (this.fichier.exists())
 			{
 				try //On écrit dans le fichier de sortie (par offset avec les sequence numbers).
 				{
 					if (p.getSeq()>=this.firstSeqNum)
-					{
-						
+					{						
 						//Procede anti-retransmission.
 						if (p.getSeq()>this.latestSeq) //Normal
 						{
@@ -124,25 +123,25 @@ public class CapturedFile
 						}
 						else //Retransmission
 						{
-							byte[] newArray = new byte[p.getDatas().length];
-							this.fw.seek(p.getSeq()-this.firstSeqNum);	
-							this.fw.read(newArray);
+							long toWrite = p.getDatas().length; //Taille a ajouter.
+							int mapPos = this.tcpmap.seqPos(p.getSeq());
+							if (mapPos>-1)
+							{
+								long oldSize = this.tcpmap.getSize(mapPos);
+								if (toWrite >= oldSize) toWrite = p.getDatas().length - oldSize;
+								else toWrite = 0;
+								
+							}
 							
-							//On teste si l'espace n'a pas encore ete ecrit.
-							boolean zero = true;
-							for(int i=0;i<newArray.length;i++) 
-								if (newArray[i]!=0)
-								{
-									zero=false;
-									break;
-								}
-							if (zero) this.cap_size += p.getDatas().length;
+							this.cap_size += toWrite;												
 						}
 						
-					
+						this.tcpmap.addSeq(p.getSeq(),p.getDatas().length); //Ajout dans la tcp map.
+						
 						//On ecrit les donnees.
 						this.fw.seek(p.getSeq()-this.firstSeqNum);	
 						this.fw.write(p.getDatas());
+
 	
 					}
 	
@@ -169,6 +168,7 @@ public class CapturedFile
 
 	public void processToEnd()
 	{
+		this.tcpmap.clearMap();
 		this.isFull = true;
 		this.cap_ident = -1;	
 		try {if (this.fw != null) this.fw.close();} catch (IOException e) {Commun.logError(e);}
@@ -257,8 +257,6 @@ public class CapturedFile
 	public boolean isDestroyed() {return this.isDestroyed;}
 	
 	//=====================================================================================================
-	
-	
-	
+
 
 }
