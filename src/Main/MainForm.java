@@ -81,7 +81,7 @@ public class MainForm extends JFrame implements WindowListener, ActionListener
 	
 	public static NetworkInterface[] interfaces;
 	
-	public static String tm_version = "1.4";
+	public static String tm_version = "1.4.4";
 	
 	
 	
@@ -112,9 +112,7 @@ public class MainForm extends JFrame implements WindowListener, ActionListener
 		
 		this.placeComposants();
 		this.setVisible(true);
-		
-
-		
+				
 	}
 
 	

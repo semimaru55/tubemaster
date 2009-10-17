@@ -45,7 +45,7 @@ public class TMButton extends JPanel implements MouseListener
 	private int state = 0; 						//0:Normal/1:Down/2:Up/3:Over
 	private ActionListener listener;			//Ecouter les actions
 	private int imgX;							//Abscisse de l'image
-	private int imgY;							//Ordonn�e de l'image
+	private int imgY;							//Ordonnee de l'image
 	private int lblX;
 	private int lblY;
 	private int lblW;
@@ -89,8 +89,7 @@ public class TMButton extends JPanel implements MouseListener
 		this.lblCaption.setBounds(lblX,lblY,lblW,20);
 		this.lblCaption.setHorizontalAlignment(JLabel.CENTER);
 		this.lblCaption.setFont(new java.awt.Font("Default_tm", 0, 12));
-		//this.lblCaption.setBorder(BorderFactory.createLineBorder(Color.white));
-		
+		//this.lblCaption.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		this.add(this.lblCaption);
 		
@@ -173,7 +172,6 @@ public class TMButton extends JPanel implements MouseListener
 			this.lblCaption.setBounds(lblX,lblY,lblW,20);
 			ActionEvent ev = new ActionEvent(this,0,"");
 			this.listener.actionPerformed(ev);
-			//this.setBorder(BorderFactory.createLineBorder(Color.gray.darker().darker()));
 			
 		}	
 	}
@@ -189,10 +187,13 @@ public class TMButton extends JPanel implements MouseListener
 		this.lblCaption.setText(txt);
 	}
 	
+	public String getText() {return this.lblCaption.getText();}
+	
 	public int getLastX() {return this.mouseX;}
 	public int getLastY() {return this.mouseY;}
 	
 	public void setFlat() {this.isFlat = true;}
+	public void setTextColor(Color clr) {this.lblCaption.setForeground(clr);}
 	
 
 }
