@@ -175,21 +175,21 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 		
 		
 		String[] appids = {"ddd6c322b47839290","1a1cdc10a489172a5",
-						   "f750b2bce21b3b645","1x1jhj64466mi12ia",
-						   "c6d253dfddb9ecdf7","00ab829d5cf8db07c",
+						   "f750b2bce21b3b645","eb2878d5ba2559a30",
+						   "c6d253dfddb9ecdf7","22314468a76c407b9",
 						   "ae6a7e306503e03bb","d2c23d487bd7ff733",
 						   "52241d91273dd8a76","257cca8378384e02f",
-						   "0fd85d09cabc261c8"};
+						   "0fd85d09cabc261c8","490aacc5dca94eb5f"};
 		
 		
 		
 		Random randomGenerator = new Random();
 	
-		int nbr = 100;
+		int nbr = 200;
 		int found=0;
 		while(found<nbr)
 		{
-			int ran = randomGenerator.nextInt(11);		
+			int ran = randomGenerator.nextInt(12);		
 			XMLVideoWebSearch search = new XMLVideoWebSearch("http://xml.truveo.com/apiv3?appid="+appids[ran]+"&method=truveo.videos.getVideos&query="+query+channel+"&results=50&start="+found+"&formats=flash&showAdult=1",this.tabModele,this.lblLoad);
 			Thread threadManager = new Thread(search);
 			threadManager.start();

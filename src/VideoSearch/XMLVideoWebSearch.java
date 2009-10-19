@@ -82,7 +82,7 @@ public class XMLVideoWebSearch implements Runnable
 					
 					
 					Vector<String> newRow = new Vector<String>();
-					newRow.add(t);
+					newRow.add(t.replaceAll("&#039;", "").replaceAll("&amp;", "&").replaceAll("&quot;", ""));
 					newRow.add(time);
 					newRow.add(c);
 					newRow.add(ch);
