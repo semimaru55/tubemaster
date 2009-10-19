@@ -69,6 +69,7 @@ public class MP3Youtube
 											
 					Vector<String> newRow = new Vector<String>();
 					newRow.add(t);
+					newRow.add("YouTube.com");
 					newRow.add("http://www.youtube.com/watch?v="+id);
 					model.addRow(newRow);
 				}

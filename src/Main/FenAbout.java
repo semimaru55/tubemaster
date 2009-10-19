@@ -81,7 +81,7 @@ public class FenAbout extends JFrame implements ActionListener
 		this.panFen.setLayout(null);
 		this.panFen.setBackground(Color.decode("#D1D1D1"));
 		this.setTitle("About TubeMaster++");
-		this.setSize(418, 428);
+		this.setSize(418, 445);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setResizable(false);
@@ -122,9 +122,9 @@ public class FenAbout extends JFrame implements ActionListener
 		this.areaGreets.setWrapStyleWord(true);
 		
 		
-		this.btnLicense.setBounds(15,368,116,27);
-		this.btnWebsite.setBounds(148,368,116,27);	
-		this.btnChanges.setBounds(282,368,116,27);
+		this.btnLicense.setBounds(15,373,116,27);
+		this.btnWebsite.setBounds(148,373,116,27);	
+		this.btnChanges.setBounds(282,373,116,27);
 
 
 		

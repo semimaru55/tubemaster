@@ -55,6 +55,7 @@ import Conversion.ConvItemManager;
 import Conversion.ConversionPresets;
 import Graphique.Header;
 import MP3Search.PanelMP3Search;
+import MP3Search.MP3Downloader;
 
 
 
@@ -76,12 +77,13 @@ public class MainForm extends JFrame implements WindowListener, ActionListener
 
 	public static ConversionPresets convPresets = new ConversionPresets();
 	public static ConvItemManager convManager = new ConvItemManager();
+	public static MP3Downloader mp3down;
 	
 	public static TrayIcon trayIcon = null;
 	
 	public static NetworkInterface[] interfaces;
 	
-	public static String tm_version = "1.4.4";
+	public static String tm_version = "1.5";
 	
 	
 	
@@ -112,6 +114,7 @@ public class MainForm extends JFrame implements WindowListener, ActionListener
 		
 		this.placeComposants();
 		this.setVisible(true);
+
 				
 	}
 
@@ -246,7 +249,9 @@ public class MainForm extends JFrame implements WindowListener, ActionListener
 
 	   try
 	   { 
+		   
 		   new MainForm();
+		   mp3down = new MP3Downloader();
 	   }
 	   catch (Exception e) {Commun.logError(e);};	
 	}

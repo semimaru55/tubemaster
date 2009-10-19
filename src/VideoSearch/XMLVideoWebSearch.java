@@ -96,7 +96,7 @@ public class XMLVideoWebSearch implements Runnable
 			}
 			in.close();
 		} 
-		catch(Exception e) {Commun.logError(e);}
+		catch (Exception e) {}
 		
 		this.lblLoad.setVisible(false);
 	}

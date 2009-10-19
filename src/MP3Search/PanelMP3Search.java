@@ -50,7 +50,6 @@ import javax.swing.table.TableColumn;
 
 
 import Capture.PanelCapture;
-import Conversion.CommandRunner;
 import Graphique.TMButton;
 import Main.Commun;
 import Main.MainForm;
@@ -67,12 +66,12 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 	private DefaultTableModel tabModele = new DefaultTableModel();
 	private JScrollPane paneList;
 	
-	private static final String enteteTableau[]= {MainForm.lang.lang_table.get(17),""};
-	private static final int tailleColTableau[]= {200,0};
+	private static final String enteteTableau[]= {MainForm.lang.lang_table.get(17),"Source",""};
+	private static final int tailleColTableau[]= {200,200,0};
 	
 	private TMButton btnSearch = new TMButton(this,6,3,"","search.png",0,0,0);
 	private TMButton btnDown = new TMButton(this,6,4,MainForm.lang.lang_table.get(18),"downbutton.png",38,10,117);
-	private TMButton btnPlay = new TMButton(this,5,4,"","playmp3.png",0,0,0);
+	//private TMButton btnPlay = new TMButton(this,5,4,"","playmp3.png",0,0,0);
 	
 	
 	
@@ -108,8 +107,8 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 		this.btnDown.setBounds(533,8,160,40);
 		this.btnDown.setVisible(false);
 		
-		this.btnPlay.setBounds(485,8,42,40);
-		this.btnPlay.setVisible(false);
+		//this.btnPlay.setBounds(485,8,42,40);
+		//this.btnPlay.setVisible(false);
 	
 		
 		this.lblLoad.setBounds(250,17,32,32);
@@ -124,7 +123,7 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 		this.add(this.edtSearch);
 		this.add(this.btnSearch);
 		this.add(this.btnDown);
-		this.add(this.btnPlay);
+		//this.add(this.btnPlay);
 		this.add(this.lblLoad);
 		
 	}
@@ -142,6 +141,7 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 	        }
 	    };
 
+	    this.gridResults.getTableHeader().setReorderingAllowed(false);
 		this.gridResults.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.gridResults.addFocusListener(this);
 		this.paneList = new JScrollPane(this.gridResults);	
@@ -150,7 +150,7 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 		{	TableColumn col = this.gridResults.getColumnModel().getColumn(i);
 			col.setPreferredWidth(tailleColTableau[i]);
 			
-			if (i==1)
+			if (i==2)
 			{
 				col.setMinWidth(0);
 				col.setMaxWidth(0);
@@ -189,7 +189,7 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 			if (e.getSource().equals(this.btnDown))
 			{
 				
-				String url = (String) this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 1);
+				String url = (String) this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 2);
 				String title = (String) this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 0);
 				
 				boolean isFromYoutube = false;
@@ -202,26 +202,20 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 
 				String rep = MainForm.opts.defRep; 
 				if (rep.equals("")) rep = this.dirChooser();
-				if (!rep.equals("")) new FrameDownloader(url,title+".mp3",rep,isFromYoutube);
-			}
-			else
-			if (e.getSource().equals(this.btnPlay))
-			{
-				String url = (String) this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 1);
-				if (url.startsWith("http://www.youtube.com")) url = this.getYoutubeUrl(url);
-				CommandRunner cmd = new CommandRunner("ffplay -x 300 -y 225 -vn \""+url+"\"");
-				Thread threadManager = new Thread(cmd);
-				threadManager.start();
+				if (!rep.equals("")) MainForm.mp3down.ajoutItem(new ListMP3Item(url,title+".mp3",rep,isFromYoutube));
 			}
 		}
 	}
 
 	public void doSearch()
 	{		
-		String query = this.edtSearch.getText();	
-		this.search = new XMLMP3WebSearch(query,this.tabModele,this);		
-		Thread threadManager = new Thread(search);
-		threadManager.start();
+		String query = this.edtSearch.getText();
+		if (!query.equals(""))
+		{
+			this.search = new XMLMP3WebSearch(query,this.tabModele,this);		
+			Thread threadManager = new Thread(search);
+			threadManager.start();
+		}
 	}
 
 	public void keyTyped(KeyEvent arg0) {}
@@ -242,13 +236,11 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 	public void focusGained(FocusEvent e) 
 	{
 		this.btnDown.setVisible(true);
-		this.btnPlay.setVisible(true);	
 	}
 
 	public void focusLost(FocusEvent e)
 	{
 		this.btnDown.setVisible(false);
-		this.btnPlay.setVisible(false);
 	}
 
 	public String dirChooser()
@@ -303,10 +295,7 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 						
 			urls = Commun.parse(urls, deb, ",");
 			urls = urls.replaceAll("\"", "");
-			
-			System.out.println(addr);
-			System.out.println(urls);
-			
+				
 			return urls;
 		}
 		catch (Exception e) {Commun.logError(e); return "";}

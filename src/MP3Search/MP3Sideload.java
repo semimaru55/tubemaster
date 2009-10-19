@@ -78,6 +78,7 @@ public class MP3Sideload
 						
 						Vector<String> newRow = new Vector<String>();
 						newRow.add(titre);
+						newRow.add("SideLoad.com");
 						newRow.add(url);
 						model.addRow(newRow);
 	

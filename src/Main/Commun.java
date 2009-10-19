@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 
@@ -93,18 +94,22 @@ public class Commun
 		{
 			String nfoSize = "";
 			double size = 0;
+			DecimalFormat df = new DecimalFormat();
+			df.setMaximumFractionDigits(2);
+			df.setMinimumFractionDigits(2) ; 
 			if (capSize < 1000000)
 			{
 				size = ((double) capSize) / 1024;
 				size = Math.round(size*100.0) / 100.0;
-				nfoSize = ""+size+" KB";
+				nfoSize = ""+df.format(size)+" KB";
 			}
 			else
 			{
 				size = (((double) capSize) / 1024) / 1024;
 				size = Math.round(size*100.0) / 100.0;
-				nfoSize = ""+size+" MB";		
-			}	
+				nfoSize = ""+df.format(size)+" MB";		
+			}
+			
 			return nfoSize;		
 		}
 		

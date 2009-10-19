@@ -29,13 +29,14 @@ import javax.swing.table.DefaultTableModel;
 
 import Main.Commun;
 
-public class MP3Dizzler 
+
+public class MP3Playlist
 {
 	
 	private String query = "";
 	private boolean ended = false;
 	
-	public MP3Dizzler(String query)
+	public MP3Playlist(String query)
 	{
 		this.query = query;
 		this.query = this.query.replaceAll(" ", "+");
@@ -44,15 +45,14 @@ public class MP3Dizzler
 	
 	public void doSearch(DefaultTableModel model)
 	{
-	
+		
 		try
 		{
 			int page = 1;
 			while (!ended)
 			{
-				
-				
-				URL go = new URL("http://www.dizzler.com/index.search.dv8?q="+this.query+"&pg="+page);
+
+				URL go = new URL("http://www.playlist.com/async/searchbeta/tracks?searchfor="+this.query+"&page="+page);
 				URLConnection yc = go.openConnection();
 				BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
 				String inputLine;
@@ -63,33 +63,34 @@ public class MP3Dizzler
 				}
 				
 				page++;
-				if (total.indexOf("&pg="+page)==-1) ended = true;
+				if (total.indexOf("</li>")==-1) ended = true;
 				
-				if (total.indexOf("var songnames = {")>-1)
+				if (total.indexOf("<li id=")>-1)
 				{
-					total = Commun.parse(total, "var songnames = {", "}") + ",\"";
-		
-					
-					while (total.indexOf("\",\"")>-1)
+
+					while (total.indexOf("<li id=")>-1)
 					{
-						String element = "<" + Commun.parse(total, "\"", "\",\"") + ">";
-		
-						String url = "http://www.dizzler.com/getmp3.dv8?mid=" + Commun.parse(element, "<", "\"");
-						String titre = Commun.parse(element, ":\"", ">");
-					
+						total = total.substring(total.indexOf("<li id="));
+						String chaine = Commun.parse(total, "<li id=", "</li>");
+						String titre = Commun.parse(chaine, "class=\"song\">", "</a>");
+						String artist = Commun.parse(chaine, "class=\"artist\">", "</a>");
+						String url = Commun.parse(chaine, "<span class=\"url\" title=\"", "\">");
+						
+
+						
 						Vector<String> newRow = new Vector<String>();
-						newRow.add(titre);
-						newRow.add("Dizzler.com");
+						newRow.add(artist + " - " +titre);
+						newRow.add("Playlist.com");
 						newRow.add(url);
 						model.addRow(newRow);
-
-						total = total.substring(total.indexOf("\",\"")+2);		
+	
+						
+						total = total.substring(total.indexOf("</li>"));		
 						
 					}	
 				}
 				in.close();		
 				Thread.sleep(10);
-				
 			}
 				
 		} 
@@ -102,8 +103,6 @@ public class MP3Dizzler
 	{
 		this.ended = true;
 	}
-	
-	
 	
 
 }

@@ -29,7 +29,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.concurrent.CountDownLatch;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
@@ -61,11 +60,10 @@ public class FileDownloader implements Runnable, ActionListener
 	private JProgressBar pbar;
 	private JLabel lblStatus;
 	private Timer timerRefresh = new Timer(1000,this);
-	private JFrame parent;
 	
 
 	
-	public FileDownloader(String addr, String fileDir, String fileTitle, JProgressBar pbar, JLabel lblStatus, JFrame parent, boolean isFromYoutube)
+	public FileDownloader(String addr, String fileDir, String fileTitle, JProgressBar pbar, JLabel lblStatus, boolean isFromYoutube)
 	{	
 		this.addr = addr;
 		this.fileDir = fileDir;
@@ -74,7 +72,6 @@ public class FileDownloader implements Runnable, ActionListener
 		this.lblStatus = lblStatus;
 		this.timerRefresh.start();
 		this.timerRefresh.setRepeats(true);
-		this.parent = parent;
 		this.isFromYoutube = isFromYoutube;	
 	}
 
@@ -104,6 +101,7 @@ public class FileDownloader implements Runnable, ActionListener
 			if (this.fileSize == -1) //Lien Invalide.
             {
                 this.lblStatus.setText(MainForm.lang.lang_table.get(50));
+                this.isFinished = true;
                 return;
             }
 			
@@ -129,8 +127,7 @@ public class FileDownloader implements Runnable, ActionListener
 	            	writeFile.write(buffer, 0, read);
 	            	this.downSize += read;
 	            	this.pbar.setValue(this.downSize);
-	            	this.lblStatus.setText(MainForm.lang.lang_table.get(51)+" ... ("+this.downSize +" / "+this.fileSize+" Bytes) at "+this.speed);
-	            	this.parent.setTitle(""+((this.downSize*100)/this.fileSize)+"% - TM++ Downloader"); 
+	            	this.lblStatus.setText(MainForm.lang.lang_table.get(51)+" ... ("+Commun.sizeConvert(this.downSize) +" / "+Commun.sizeConvert(this.fileSize)+") at "+this.speed);
 	            }
 	                	           
 	            writeFile.flush();
@@ -163,25 +160,27 @@ public class FileDownloader implements Runnable, ActionListener
 			} catch (Exception e) 
 			{
 				 this.lblStatus.setText(MainForm.lang.lang_table.get(50));
+				 this.isFinished = true;
 	             return;
 			}
-				
-                            
-            
+
             this.isFinished = true;
-            if (!this.stop) this.parent.dispose();
-            else
+            if (this.stop)
             {
             	File f = new File(dir);
             	f.delete();
             }	
 
-		} catch (IOException e) {Commun.logError(e);}
+		} catch (IOException e) 
+		{
+			this.isFinished = true;
+			this.lblStatus.setText(MainForm.lang.lang_table.get(50));
+		}
 		
 
 	}
 	
-	public void actionPerformed(ActionEvent arg0) 
+	public void actionPerformed(ActionEvent e) 
 	{
 		this.speed = Commun.sizeConvert(this.downSize - this.sizePrec)+"/s";
 		this.sizePrec = this.downSize;	

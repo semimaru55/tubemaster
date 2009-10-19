@@ -185,7 +185,7 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 		
 		Random randomGenerator = new Random();
 	
-		int nbr = 500;
+		int nbr = 100;
 		int found=0;
 		while(found<nbr)
 		{

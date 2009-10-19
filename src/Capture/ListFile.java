@@ -246,7 +246,7 @@ public class ListFile extends JPanel
 		String ret = "";
 		JFileChooser fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		int returnVal = fc.showSaveDialog(null);
+		int returnVal = fc.showSaveDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) 
 		{
             File file = fc.getSelectedFile();
