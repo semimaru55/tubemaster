@@ -22,6 +22,8 @@ package Capture;
 import java.awt.Image;
 import java.awt.Toolkit;
 
+import Main.MainForm;
+
 
 
 public class FileFormat 
@@ -47,6 +49,15 @@ public class FileFormat
 	
 	public String retFormat() {return this.format;}
 	public Image retFormatLogo() {return this.formatLogo;}
+	public String retPlayer() 
+	{
+		if (this.format.equals("FLV")) return MainForm.opts.repFLV;
+		else if (this.format.equals("MP3")) return MainForm.opts.repMP3;
+		else if (this.format.equals("MP4")) return MainForm.opts.repMP4;
+		else if (this.format.equals("MOV")) return MainForm.opts.repMOV;
+		else return "";		
+	}
+	
 	
 	//=====================================================================================================
 	

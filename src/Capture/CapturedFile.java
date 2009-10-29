@@ -105,6 +105,7 @@ public class CapturedFile
 					this.fichier = new File(this.retFilename());
 					this.fichier.deleteOnExit();
 					this.fw = new RandomAccessFile(this.fichier,"rw");
+					
 							
 				} catch (FileNotFoundException e) {Commun.logError(e);}	
 			}
@@ -159,7 +160,7 @@ public class CapturedFile
 	
 	public void playFile()
 	{		
-		CommandRunner cmd = new CommandRunner("ffplay -x 300 -y 225 \""+this.retFilename()+"\"");
+		CommandRunner cmd = new CommandRunner(this.format.retPlayer()+" \""+this.retFilename()+"\"");
 		Thread threadManager = new Thread(cmd);
 		threadManager.start();
 	}
@@ -251,7 +252,18 @@ public class CapturedFile
 	public int getCap_FileSize() { return this.cap_filesize; }
 	public boolean is_Full() { return this.isFull; }	
 	public FileFormat getFileFormat() {return this.format;}
-	public String retFilename() {return this.filename;}
+	public String retFilename() 
+	{
+		String path = this.filename;
+		File dir = new File(this.filename);
+		try 
+		{
+			path = dir.getCanonicalPath();
+		} catch (Exception e) {Commun.logError(e);}
+		return path;
+
+	}
+	
 	public void setFilename(String name) {this.filename = name;}
 	public void setFichier(File f) {this.fichier = f;}
 	public boolean isDestroyed() {return this.isDestroyed;}

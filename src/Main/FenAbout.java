@@ -194,6 +194,7 @@ public class FenAbout extends JFrame implements ActionListener
 		"- Smaxe Ltd : RTMP Protocol Support.\n" + 
 		"- Paul Grebenc : JID3 Library.\n" + 
 		"- Other Contributions (Donators, Bug reporters ...).\n" + 
+		"- Worm00 : Graphic and Code contribution.\n" + 
 		"- Cocodidou : Unix version (help, tests).\n" +
 		"- Kiseong Kim : Korean Translation.\n" +
 		"- Dr.M.ReDa & Mr On Line : Arabic Translation.\n" +

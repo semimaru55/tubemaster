@@ -86,3 +86,8 @@
 	<63>流　派</63>
 	<64>取　消</64>
 	<65>應　用</65>
+
+//Added 1.6 Version
+	<66>Source</66>	
+	<67>Default Multimedia Players</67>
+	<68>Automatically start playing files during capture. (Minimum : 400 KB)</68>

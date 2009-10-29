@@ -97,11 +97,12 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	private TMButton btnConvert = new TMButton(this,6,4,MainForm.lang.lang_table.get(27),"convert.png",26,2,89);
 	private TMButton btnPlay = new TMButton(this,6,4,MainForm.lang.lang_table.get(28),"play.png",26,2,89);
 	private TMButton btnTags = new TMButton(this,5,2,"Tags","id3.png",26,2,34);
-	
+	private TMButton btnPrev = new TMButton(this,6,2,"","preview.png",0,0,0);
 	
 	private ConvertMenu menuConvert = new ConvertMenu(this);		//Menu de conversion.
 	
 	private boolean wasDragged = false;
+	private boolean wasAutoPlayed = false;
 
 	
 	
@@ -126,7 +127,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		
 		
 		this.placeComposants();
-			
+	
 	}
 
 	
@@ -189,7 +190,8 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 			this.runConversionClassic(MainForm.opts.defRep,((JMenuItem)e.getSource()).getText());
 		else
 		if (e.getSource().equals(this.btnTags)) new FenID3(this.leFichier.retFilename(),this.edtTitle,this.btnTags);	
-	
+		else
+		if (e.getSource().equals(this.btnPrev)) this.leFichier.playFile();
 	}
 	
 	//=====================================================================================================
@@ -250,11 +252,6 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	
 	//=====================================================================================================
 	
-	
-	
-	
-	//=====================================================================================================
-	
 	public void refreshDown()
 	{
 
@@ -263,7 +260,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 			this.timerRefresh.stop();			
 			File f = new File(this.leFichier.retFilename());
 			if (f.exists()) this.setFinished(); 
-			else this.toDestroy();			
+				else this.toDestroy();			
 		}
 		else
 		{
@@ -282,6 +279,14 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 				if (title.equals(" - ")) this.edtTitle.setText(MainForm.lang.lang_table.get(29));
 				else this.edtTitle.setText(title);
 			}
+			
+			if ((MainForm.opts.autoPlay) && (!this.wasAutoPlayed) && (this.leFichier.getCap_Size()>400000))
+			{
+				this.wasAutoPlayed = true;
+				this.leFichier.playFile();
+				
+			}
+			
 			
 		}	
 	}
@@ -302,15 +307,18 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.icoState.editImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/"+"download_done.png")));
 		this.lblState.setText(MainForm.lang.lang_table.get(30)+" ("+Commun.sizeConvert(this.leFichier.getCap_FileSize())+").");
 		this.pbProgress.setVisible(false);
+		this.pbProgress.setSize(new Dimension(617,24));
 		this.btnSave.setVisible(true);
 		this.btnPlay.setVisible(true);
 		if (this.leFichier.getFileFormat().retFormat().equals("MP3")) this.btnTags.setVisible(true);
 		this.btnCopy.setVisible(false);
+		this.btnPrev.setVisible(false);
 		this.btnConvert.setVisible(true);
 		this.btnStop.setVisible(false);
 		this.isFullReady = true;
 		this.chkSel.setVisible(true);
 		this.imgReduce.setVisible(true);
+	
 		
 		if ((MainForm.opts.autoConv) && (!this.autoConverted) && (!this.wasDragged))
 		{
@@ -416,17 +424,17 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.icoState.setBounds(3,3,18,18);
 		this.imgReduce.setBounds(629,5,14,14);
 		this.imgClose.setBounds(648,5,14,14);
-		this.pbProgress.setBounds(7,28,618,24);
+		this.pbProgress.setBounds(7,28,577,24);
 		this.edtTitle.setBounds(68,3,310,19);
 		this.lblState.setBounds(384,2,220,20);
 		this.btnSave.setBounds(108,26,120,27);
 		this.btnConvert.setBounds(270,26,120,27);
 		this.btnPlay.setBounds(430,26,120,27);
 		this.btnStop.setBounds(629,28,33,23);
-		this.btnCopy.setBounds(629,28,33,23);
+		this.btnCopy.setBounds(590,28,33,23);
 		this.chkSel.setBounds(607,2,20,20);
 		this.btnTags.setBounds(596,26,65,27);
-		
+		this.btnPrev.setBounds(629,28,33,23);
 	
 		this.chkSel.setOpaque(false);
 		this.chkSel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -492,6 +500,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.add(this.btnCopy);
 		this.add(this.chkSel);
 		this.add(this.btnTags);
+		this.add(this.btnPrev);
 		
 		if (MainForm.trayIcon != null) MainForm.trayIcon.displayMessage("TubeMaster++", MainForm.lang.lang_table.get(35)+"\n"+this.edtTitle.getText()+"."+this.leFichier.getFileFormat().retFormat().toLowerCase(), TrayIcon.MessageType.INFO);
 		
@@ -549,5 +558,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	public void setTitle(String title) {this.edtTitle.setText(title);}
 	public void setDragged(boolean drag) {this.wasDragged = drag;}
 	public boolean getDragged() {return this.wasDragged;}
+
+	//=====================================================================================================
 
 }

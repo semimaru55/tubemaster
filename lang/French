@@ -86,3 +86,8 @@
 	<63>Genre</63>
 	<64>Annuler</64>
 	<65>Appliquer</65>
+
+//Added 1.6 Version
+	<66>Source</66>	
+	<67>Lecteurs Multimédia par Défaut</67>
+	<68>Démarrer automatiquement la lecture lors de la capture. (Minimum : 400 Ko)</68>

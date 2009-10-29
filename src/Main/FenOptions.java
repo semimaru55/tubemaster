@@ -27,6 +27,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.URI;
 
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
@@ -36,7 +37,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import javax.swing.border.TitledBorder;
+
 
 import Graphique.TMButton;
 
@@ -67,16 +70,35 @@ public class FenOptions extends JFrame implements ActionListener
 	private TMButton btnLang = new TMButton(this,0,0,"Can you translate in your own language ?","",0,0,268);
 
 	private JPanel grpBitrate = new JPanel();
-	private String[] bitrates = {"64","128","224","192","320"};
+	private String[] bitrates = {"64","128","192","224","320"};
 	private JComboBox cmbBitrate = new JComboBox(this.bitrates);
 	private TMButton btnClose = new TMButton(this,0,0,MainForm.lang.lang_table.get(56),"",0,4,100);
 	
+
+	private JPanel grpPlayers = new JPanel();
+	private JTextField edtFLVDir = new JTextField();
+	private JTextField edtMP3Dir = new JTextField();
+	private JTextField edtMP4Dir = new JTextField();
+	private JTextField edtMOVDir = new JTextField();
+	private TMButton btnFLV = new TMButton(this,0,0,"...","",0,0,35);
+	private TMButton btnMP3 = new TMButton(this,0,0,"...","",0,0,35);
+	private TMButton btnMP4 = new TMButton(this,0,0,"...","",0,0,35);
+	private TMButton btnMOV = new TMButton(this,0,0,"...","",0,0,35);
+	private JCheckBox chkAutoStartPlay = new JCheckBox();
+	
+	
+	
+	
+	private JFileChooser fc = new JFileChooser();
+	
 	public FenOptions()
 	{
+		
+		
 		this.panFen.setLayout(null);
 		this.panFen.setBackground(Color.decode("#676767"));
 		this.setTitle("TubeMaster++ Configuration");
-		this.setSize(471, 358);
+		this.setSize(471, 498);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setResizable(false);
@@ -84,7 +106,7 @@ public class FenOptions extends JFrame implements ActionListener
 		ImageIcon monIcon= new ImageIcon(getClass().getResource("images/"+"icon.jpg"));
 		this.setIconImage(monIcon.getImage());
 			
-		
+//Checkboxes-------------------------------------		
 		this.chkAutoCapture.setFont(new java.awt.Font("Default_tm", 0, 11));
 		this.chkAutoCapture.setBounds(5,5,455,20);
 		this.chkAutoCapture.setText(MainForm.lang.lang_table.get(19));
@@ -129,7 +151,8 @@ public class FenOptions extends JFrame implements ActionListener
 		this.chkCloseBox.setForeground(Color.white);
 		this.chkCloseBox.setSelected(MainForm.opts.closeBox);
 		this.chkCloseBox.addActionListener(this);
-		
+
+//Language-----------------------------------------------------
 		this.grpLang.setFont(new java.awt.Font("Default_tm", 0, 11));
 		this.grpLang.setBounds(5,110,455,50);
 		this.grpLang.setOpaque(false);
@@ -139,13 +162,18 @@ public class FenOptions extends JFrame implements ActionListener
 		b1.setTitleFont(new java.awt.Font("Default_tm", 0, 11));
 		this.grpLang.setBorder(b1);
 		this.grpLang.setLayout(null);
-		this.cmbLang.setBounds(10,19,160,20);
+		this.cmbLang.setBounds(10,19,160,20);		
+		this.cmbLang.setFont(new java.awt.Font("Default_tm", 0, 11));
+		this.cmbLang.setSelectedItem(MainForm.opts.langFile);
+		this.cmbLang.addActionListener(this);
+		this.cmbLang.setMaximumRowCount(20);
 		this.btnLang.setBounds(178,19,268,20);
 		this.btnLang.setFlat();
 		
 		this.grpLang.add(this.cmbLang);
 		this.grpLang.add(this.btnLang);
-		
+
+//Default Output Folder-------------------------------
 		this.grpDefRep.setFont(new java.awt.Font("Default_tm", 0, 11));
 		this.grpDefRep.setBounds(5,165,455,100);
 		this.grpDefRep.setOpaque(false);
@@ -156,11 +184,17 @@ public class FenOptions extends JFrame implements ActionListener
 		this.grpDefRep.setBorder(b2);
 		this.grpDefRep.setLayout(null);
 		this.edtDefRep.setBounds(10,19,393,21);
-		this.edtDefRep.setFont(new java.awt.Font("Default_tm", 0, 11));
+		this.edtDefRep.setFont(new java.awt.Font("Default_tm", 0, 10));
 		this.edtDefRep.setEditable(false);
 		this.edtDefRep.setText(MainForm.opts.defRep);
-		this.btnDefRep.setBounds(410,19,35,20);
+		this.btnDefRep.setBounds(410,19,35,21);
 		
+		this.grpDefRep.add(this.btnDefRep);
+		this.grpDefRep.add(this.edtDefRep);
+		this.grpDefRep.add(this.chkAutoConv);
+		this.grpDefRep.add(this.cmbAutoConv);
+
+//Auto Conversion -----------------------------------
 		this.chkAutoConv.setFont(new java.awt.Font("Default_tm", 0, 11));
 		this.chkAutoConv.setBounds(5,45,455,20);
 		this.chkAutoConv.setText(MainForm.lang.lang_table.get(25));
@@ -197,15 +231,10 @@ public class FenOptions extends JFrame implements ActionListener
 		this.cmbAutoConv.setFont(new java.awt.Font("Default_tm", 0, 11));
 		this.cmbAutoConv.addActionListener(this);
 		this.cmbAutoConv.setSelectedItem(MainForm.opts.autoConvPreset);
-		
-		this.cmbLang.setFont(new java.awt.Font("Default_tm", 0, 11));
-		this.cmbLang.setSelectedItem(MainForm.opts.langFile);
-		this.cmbLang.addActionListener(this);
-		this.cmbLang.setMaximumRowCount(20);
-		
-		
+
+//MP3 Bitrate ------------------------------------
 		this.grpBitrate.setFont(new java.awt.Font("Default_tm", 0, 11));
-		this.grpBitrate.setBounds(5,270,130,55);
+		this.grpBitrate.setBounds(5,412,130,55);
 		this.grpBitrate.setOpaque(false);
 		this.grpBitrate.setForeground(Color.white);
 		TitledBorder b3 = BorderFactory.createTitledBorder(" MP3 Bitrate (Kbps) ");
@@ -221,15 +250,67 @@ public class FenOptions extends JFrame implements ActionListener
 		this.grpBitrate.add(this.cmbBitrate);
 		this.cmbBitrate.setSelectedItem(MainForm.opts.bitrate);
 		
-		this.grpDefRep.add(this.btnDefRep);
-		this.grpDefRep.add(this.edtDefRep);
-		this.grpDefRep.add(this.chkAutoConv);
-		this.grpDefRep.add(this.cmbAutoConv);
+//Players ---------------------------------------
+		this.grpPlayers.setFont(new java.awt.Font("Default_tm", 0, 11));
+		this.grpPlayers.setBounds(5,268,455,142);
+		this.grpPlayers.setOpaque(false);
+		this.grpPlayers.setForeground(Color.white);
+		TitledBorder b4 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table.get(67)+" ");
+		b4.setTitleColor(Color.white);
+		b4.setTitleFont(new java.awt.Font("Default_tm", 0, 11));
+		this.grpPlayers.setBorder(b4);
+		this.grpPlayers.setLayout(null);
 		
-		this.btnClose.setBounds(350,290,100,30);
 		
+		this.edtFLVDir.setBounds(10,19,393,21);
+		this.edtFLVDir.setFont(new java.awt.Font("Default_tm", 0, 10));
+		this.edtFLVDir.setEditable(false);
+		this.edtFLVDir.setText("FLV | " + MainForm.opts.repFLV);
 		
-						
+		this.edtMP3Dir.setBounds(10,43,393,21);
+		this.edtMP3Dir.setFont(new java.awt.Font("Default_tm", 0, 10));
+		this.edtMP3Dir.setEditable(false);
+		this.edtMP3Dir.setText("MP3 | " + MainForm.opts.repMP3);
+		
+		this.edtMP4Dir.setBounds(10,67,393,21);
+		this.edtMP4Dir.setFont(new java.awt.Font("Default_tm", 0, 10));
+		this.edtMP4Dir.setEditable(false);
+		this.edtMP4Dir.setText("MP4 | " + MainForm.opts.repMP4);
+		
+		this.edtMOVDir.setBounds(10,91,393,21);
+		this.edtMOVDir.setFont(new java.awt.Font("Default_tm", 0, 10));
+		this.edtMOVDir.setEditable(false);
+		this.edtMOVDir.setText("MOV | " + MainForm.opts.repMOV);
+				
+		this.btnFLV.setBounds(410,19,35,21);
+		this.btnMP3.setBounds(410,43,35,21);
+		this.btnMP4.setBounds(410,67,35,21);
+		this.btnMOV.setBounds(410,91,35,21);
+		
+		this.chkAutoStartPlay.setFont(new java.awt.Font("Default_tm", 0, 11));
+		this.chkAutoStartPlay.setBounds(6,115,455,20);
+		this.chkAutoStartPlay.setText(MainForm.lang.lang_table.get(68));
+		this.chkAutoStartPlay.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		this.chkAutoStartPlay.setOpaque(false);
+		this.chkAutoStartPlay.setForeground(Color.white);
+		this.chkAutoStartPlay.setSelected(MainForm.opts.autoPlay);
+		this.chkAutoStartPlay.addActionListener(this);
+
+		
+		this.grpPlayers.add(this.btnFLV);
+		this.grpPlayers.add(this.edtFLVDir);
+		this.grpPlayers.add(this.btnMP3);
+		this.grpPlayers.add(this.edtMP3Dir);
+		this.grpPlayers.add(this.btnMP4);
+		this.grpPlayers.add(this.edtMP4Dir);
+		this.grpPlayers.add(this.btnMOV);
+		this.grpPlayers.add(this.edtMOVDir);
+		this.grpPlayers.add(this.chkAutoStartPlay);
+		
+//Adding Components ----------------------	
+		
+		this.btnClose.setBounds(350,428,100,30);
+				
 		this.panFen.add(this.chkAutoCapture);
 		this.panFen.add(this.chkUpdate);
 		this.panFen.add(this.chkTray);
@@ -238,6 +319,7 @@ public class FenOptions extends JFrame implements ActionListener
 		this.panFen.add(this.grpDefRep);
 		this.panFen.add(this.grpLang);
 		this.panFen.add(this.grpBitrate);
+		this.panFen.add(this.grpPlayers);
 		this.panFen.add(this.btnClose);
 	}
 
@@ -286,7 +368,7 @@ public class FenOptions extends JFrame implements ActionListener
 		{
 			try 
 			{
-				Desktop.getDesktop().browse(new URI("http://tubemaster.free.fr/contact.html"));
+				Desktop.getDesktop().browse(new URI("http://www.tubemaster.net/contact.html"));
 			} catch (Exception e1) {Commun.logError(e1);}
 		}
 		else
@@ -294,26 +376,74 @@ public class FenOptions extends JFrame implements ActionListener
 			MainForm.opts.bitrate = (String) this.cmbBitrate.getSelectedItem();
 		else
 		if (e.getSource().equals(this.btnClose)) this.dispose();
+		else
+		if(e.getSource().equals(this.btnFLV))
+		{
+			String rep = this.fileChooser();
+			if (!rep.equals(""))
+			{
+				this.edtFLVDir.setText("FLV | " + rep); MainForm.opts.repFLV = rep;								
+			}			
+		}
+		else
+		if(e.getSource().equals(this.btnMP3))
+		{
+			String rep = this.fileChooser();
+			if (!rep.equals(""))
+			{
+				this.edtMP3Dir.setText("MP3 | " + rep); MainForm.opts.repMP3 = rep;								
+			}			
+		}
+		else
+		if(e.getSource().equals(this.btnMP4))
+		{
+			String rep = this.fileChooser();
+			if (!rep.equals(""))
+			{
+				this.edtMP4Dir.setText("MP4 | " + rep); MainForm.opts.repMP4 = rep;								
+			}			
+		}
+		else
+		if(e.getSource().equals(this.btnMOV))
+		{
+			String rep = this.fileChooser();
+			if (!rep.equals(""))
+			{
+				this.edtMOVDir.setText("MOV | " + rep); MainForm.opts.repMOV = rep;								
+			}			
+		}
+		else
+		if (e.getSource().equals(this.chkAutoStartPlay)) MainForm.opts.autoPlay = this.chkAutoStartPlay.isSelected();
 
-		
-	
+
 		MainForm.opts.WriteFile();	
 	}
 	
 	
 	public String dirChooser()
 	{
-		String ret = "";
-		JFileChooser fc = new JFileChooser();
-		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		int returnVal = fc.showSaveDialog(this);
+		String ret = "";		
+		this.fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int returnVal = this.fc.showSaveDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) 
 		{
-            File file = fc.getSelectedFile();
+            File file = this.fc.getSelectedFile();
             ret = file.getAbsolutePath();    	
 		}		
 		return ret;		
 	}
 	
+	public String fileChooser()
+	{
+		String ret = "";
+		this.fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		int returnVal = this.fc.showOpenDialog(this);
+		if (returnVal == JFileChooser.APPROVE_OPTION) 
+		{
+            File file = this.fc.getSelectedFile();
+            ret = file.getAbsolutePath();    	
+		}		
+		return ret;		
+	}
 
 }

@@ -134,6 +134,10 @@ public class Languages
 	   	    	lang_table.add(this.parse(total,"<64>","</64>")); //Cancel.
 	   	    	lang_table.add(this.parse(total,"<65>","</65>")); //Apply.
 	   	    	
+	   	    //Added 1.6 Version
+	   	    	lang_table.add(this.parse(total,"<66>","</66>")); //Source MP3.
+	   	    	lang_table.add(this.parse(total,"<67>","</67>")); //Default Multimedia Players.
+	   	    	lang_table.add(this.parse(total,"<68>","</68>")); //Auto Start Playing..
 	   	    	
 	   	    	
 	      } catch(Exception e) {Commun.logError(e);}

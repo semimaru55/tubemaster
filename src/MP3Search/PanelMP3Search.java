@@ -66,7 +66,7 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 	private DefaultTableModel tabModele = new DefaultTableModel();
 	private JScrollPane paneList;
 	
-	private static final String enteteTableau[]= {MainForm.lang.lang_table.get(17),"Source",""};
+	private static final String enteteTableau[]= {MainForm.lang.lang_table.get(17),MainForm.lang.lang_table.get(66),""};
 	private static final int tailleColTableau[]= {200,200,0};
 	
 	private TMButton btnSearch = new TMButton(this,6,3,"","search.png",0,0,0);
@@ -82,8 +82,7 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 	private boolean searchActive = false;
 	
 
-	
-	XMLMP3WebSearch search;
+	private XMLMP3WebSearch search;
 
 	public PanelMP3Search(PanelCapture capture)
 	{
@@ -154,13 +153,17 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 			{
 				col.setMinWidth(0);
 				col.setMaxWidth(0);
-			}	
+			}
+			else
+			if (i==1)
+			{
+				col.setMinWidth(0);
+				col.setMaxWidth(100);
+			}
 			
 		}
 
-		this.paneList.setBounds(8,53,685,390);
-		
-		
+		this.paneList.setBounds(8,53,685,390);	
 	}
 	
 
@@ -282,7 +285,7 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 			String inputLine;
 			String total = "";
 
-			while ((inputLine = in.readLine()).indexOf("watchGamUrl")==-1) total += inputLine;
+			while ((inputLine = in.readLine()).indexOf("SWF_GAM_URL")==-1) total += inputLine;
 			total += inputLine;
 			
 			String urls = Commun.parse(total, "\"fmt_url_map\"", "\"keywords\"");

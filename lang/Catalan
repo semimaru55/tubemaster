@@ -85,3 +85,8 @@
 	<63>Genre</63>
 	<64>Cancel</64>
 	<65>Apply</65>
+
+//Added 1.6 Version
+	<66>Source</66>	
+	<67>Default Multimedia Players</67>
+	<68>Automatically start playing files during capture. (Minimum : 400 KB)</68>

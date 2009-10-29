@@ -47,7 +47,11 @@ public class Options
 		public String langFile = "English";						//Fichier de langue.
 		public String bitrate = "224";							//MP3 Bitrate.
 		public boolean closeBox = true;							//Affichage de la closebox.
-		
+		public String repFLV = "ffplay";						//FLV Player.
+		public String repMP3 = "ffplay";						//MP3 Player.
+		public String repMP4 = "ffplay";						//MP4 Player.
+		public String repMOV = "ffplay";						//MOV Player.
+		public boolean autoPlay = false;						//AutoPlay des fichier capturés.
 		
 	public Options()
 	{
@@ -81,6 +85,11 @@ public class Options
 			fichier.println("<langFile>"+this.langFile+"</langFile>");
 			fichier.println("<mp3Bitrate>"+this.bitrate+"</mp3Bitrate>");
 			fichier.println("<closeBox>"+this.boolToStr(this.closeBox)+"</closeBox>");
+			fichier.println("<repFLV>"+this.repFLV+"</repFLV>");
+			fichier.println("<repMP3>"+this.repMP3+"</repMP3>");
+			fichier.println("<repMP4>"+this.repMP4+"</repMP4>");
+			fichier.println("<repMOV>"+this.repMOV+"</repMOV>");
+			fichier.println("<autoPlay>"+this.boolToStr(this.autoPlay)+"</autoPlay>");
 			
 			fichier.close();	
 				
@@ -123,7 +132,16 @@ public class Options
 	   	    	this.bitrate = this.parse(total, "<mp3Bitrate>", "</mp3Bitrate>"); 
 	   	    if (total.indexOf("<closeBox>")>-1) 
 	   	    	this.closeBox = this.strToBool(this.parse(total, "<closeBox>", "</closeBox>")); 
-	   	   
+	   	    if (total.indexOf("<repFLV>")>-1) 
+	   	    	this.repFLV = this.parse(total, "<repFLV>", "</repFLV>");
+	   	    if (total.indexOf("<repMP3>")>-1) 
+	   	    	this.repMP3 = this.parse(total, "<repMP3>", "</repMP3>");
+	   	    if (total.indexOf("<repMP4>")>-1) 
+	   	    	this.repMP4 = this.parse(total, "<repMP4>", "</repMP4>");
+	   	    if (total.indexOf("<repMOV>")>-1) 
+	   	    	this.repMOV = this.parse(total, "<repMOV>", "</repMOV>");
+	   	    if (total.indexOf("<autoPlay>")>-1) 
+	   	    	this.autoPlay = this.strToBool(this.parse(total, "<autoPlay>", "</autoPlay>")); 
 	   	   
 	      } catch(Exception e) {Commun.logError(e);}	
 	}
