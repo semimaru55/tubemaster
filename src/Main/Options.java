@@ -52,6 +52,7 @@ public class Options
 		public String repMP4 = "ffplay";						//MP4 Player.
 		public String repMOV = "ffplay";						//MOV Player.
 		public boolean autoPlay = false;						//AutoPlay des fichier capturés.
+		public String timeout = "15";							//Timeout dedestruction si coupure
 		
 	public Options()
 	{
@@ -90,6 +91,7 @@ public class Options
 			fichier.println("<repMP4>"+this.repMP4+"</repMP4>");
 			fichier.println("<repMOV>"+this.repMOV+"</repMOV>");
 			fichier.println("<autoPlay>"+this.boolToStr(this.autoPlay)+"</autoPlay>");
+			fichier.println("<timeout>"+this.timeout+"</timeout>");
 			
 			fichier.close();	
 				
@@ -142,7 +144,9 @@ public class Options
 	   	    	this.repMOV = this.parse(total, "<repMOV>", "</repMOV>");
 	   	    if (total.indexOf("<autoPlay>")>-1) 
 	   	    	this.autoPlay = this.strToBool(this.parse(total, "<autoPlay>", "</autoPlay>")); 
-	   	   
+	   	    if (total.indexOf("<timeout>")>-1) 
+	   	    	this.timeout =this.parse(total, "<timeout>", "</timeout>");
+	   	 
 	      } catch(Exception e) {Commun.logError(e);}	
 	}
 	

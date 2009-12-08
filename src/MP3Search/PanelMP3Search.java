@@ -202,7 +202,6 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 					url = this.getYoutubeUrl(url);
 					
 				}
-
 				String rep = MainForm.opts.defRep; 
 				if (rep.equals("")) rep = this.dirChooser();
 				if (!rep.equals("")) MainForm.mp3down.ajoutItem(new ListMP3Item(url,title+".mp3",rep,isFromYoutube));

@@ -24,9 +24,10 @@ import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.net.URI;
-
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -34,16 +35,16 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import javax.swing.border.TitledBorder;
 
-
 import Graphique.TMButton;
 
-public class FenOptions extends JFrame implements ActionListener
+public class FenOptions extends JFrame implements ActionListener, WindowListener
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -86,15 +87,16 @@ public class FenOptions extends JFrame implements ActionListener
 	private TMButton btnMOV = new TMButton(this,0,0,"...","",0,0,35);
 	private JCheckBox chkAutoStartPlay = new JCheckBox();
 	
-	
-	
+	private JTextField edtTimeout = new JTextField();
+	private JPanel grpTimeout = new JPanel();
+	private JLabel sec = new JLabel("sec (-1 to disable)");	
 	
 	private JFileChooser fc = new JFileChooser();
 	
 	public FenOptions()
 	{
 		
-		
+		this.addWindowListener(this);
 		this.panFen.setLayout(null);
 		this.panFen.setBackground(Color.decode("#676767"));
 		this.setTitle("TubeMaster++ Configuration");
@@ -306,6 +308,30 @@ public class FenOptions extends JFrame implements ActionListener
 		this.grpPlayers.add(this.btnMOV);
 		this.grpPlayers.add(this.edtMOVDir);
 		this.grpPlayers.add(this.chkAutoStartPlay);
+
+//Timeout ----------------------
+		
+		this.grpTimeout.setFont(new java.awt.Font("Default_tm", 0, 11));
+		this.grpTimeout.setBounds(135,412,155,55);
+		this.grpTimeout.setOpaque(false);
+		this.grpTimeout.setForeground(Color.white);
+		TitledBorder b5 = BorderFactory.createTitledBorder(" Capture Timeout ");
+		b5.setTitleColor(Color.white);
+		b5.setTitleFont(new java.awt.Font("Default_tm", 0, 11));
+		this.grpTimeout.setBorder(b5);
+		this.grpTimeout.setLayout(null);
+		
+		this.edtTimeout.setBounds(19,20,30,20);
+		this.edtTimeout.setFont(new java.awt.Font("Default_tm", 0, 10));
+		this.edtTimeout.setEditable(true);
+		this.edtTimeout.setText(MainForm.opts.timeout);
+		this.edtTimeout.setHorizontalAlignment(JTextField.RIGHT);		
+		
+		this.sec.setBounds(55,20,100,20);
+		this.sec.setForeground(Color.white);
+		
+		this.grpTimeout.add(this.edtTimeout);
+		this.grpTimeout.add(sec);
 		
 //Adding Components ----------------------	
 		
@@ -321,6 +347,7 @@ public class FenOptions extends JFrame implements ActionListener
 		this.panFen.add(this.grpBitrate);
 		this.panFen.add(this.grpPlayers);
 		this.panFen.add(this.btnClose);
+		this.panFen.add(this.grpTimeout);
 	}
 
 
@@ -445,5 +472,38 @@ public class FenOptions extends JFrame implements ActionListener
 		}		
 		return ret;		
 	}
+
+	public void windowDeactivated(WindowEvent arg0) 
+	{
+		String strTimeout = this.edtTimeout.getText();
+		try 
+		{
+			int intTimeout = Integer.parseInt(strTimeout);
+			if (intTimeout < -1 || intTimeout == 0)
+			{
+				this.edtTimeout.setText(MainForm.opts.timeout);
+				JOptionPane.showMessageDialog(this, "Invalid Timeout, use Positives values greater than 0 (or -1 to disable)", "Timeout Error",0);
+			}
+			else
+			{
+				MainForm.opts.timeout = strTimeout;
+				MainForm.opts.WriteFile();
+			}
+			
+		}
+		catch (Exception e)
+		{
+			Commun.logError(e);
+			this.edtTimeout.setText(MainForm.opts.timeout);
+			JOptionPane.showMessageDialog(this, "Invalid Timeout, please use Numeric Values", "Timeout Error",0);
+		}
+	}
+	
+	public void windowActivated(WindowEvent arg0) {}
+	public void windowClosed(WindowEvent arg0) {}
+	public void windowClosing(WindowEvent arg0) {}
+	public void windowDeiconified(WindowEvent arg0) {}
+	public void windowIconified(WindowEvent arg0) {}
+	public void windowOpened(WindowEvent arg0) {}
 
 }

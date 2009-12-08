@@ -19,21 +19,23 @@
 
 package Capture;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Date;
-
+import javax.swing.Timer;
 import org.blinkenlights.jid3.ID3Exception;
 import org.blinkenlights.jid3.ID3Tag;
 import org.blinkenlights.jid3.MP3File;
 import org.blinkenlights.jid3.MediaFile;
 import org.blinkenlights.jid3.v1.ID3V1_0Tag;
 import org.blinkenlights.jid3.v2.ID3V2_3_0Tag;
-
 import Conversion.CommandRunner;
 import Main.Commun;
+import Main.MainForm;
 
 
 public class CapturedFile
@@ -55,6 +57,9 @@ public class CapturedFile
 	private RandomAccessFile fw;
 	
 	private TCPMap tcpmap = new TCPMap();
+	
+	private Timer timer;
+	private int timeout = Integer.parseInt(MainForm.opts.timeout);
 
 
 	//=====================================================================================================
@@ -65,13 +70,15 @@ public class CapturedFile
 		this.cap_ident = newIdent;	
 		new File("temp").mkdir(); 
 		this.filename = "temp"+File.separator+"tm++_capture_"+this.idFile+this.random+"."+this.format.retFormat().toLowerCase();
-
+		this.timer = this.initTimer();
+		if (this.timeout > 0) {this.timer.start();}
 	}
 	
 	//=====================================================================================================
 	
 	public void addDatas(TMPacket p, boolean isFirst)
 	{
+		this.timeout = Integer.parseInt(MainForm.opts.timeout);
 		if(!this.isFull)
 		{
 			if (isFirst) //Test du premier paquet du fichier pour enlever éventuellement le header HTTP.
@@ -169,6 +176,7 @@ public class CapturedFile
 
 	public void processToEnd()
 	{
+		this.timer.stop();
 		this.tcpmap.clearMap();
 		this.isFull = true;
 		this.cap_ident = -1;	
@@ -236,6 +244,7 @@ public class CapturedFile
 	{
 		try 
 		{
+			this.timer.stop();
 			this.isDestroyed = true;
 			if (this.fw != null) this.fw.close();
 			if (this.fichier != null) this.fichier.delete();
@@ -270,5 +279,20 @@ public class CapturedFile
 	
 	//=====================================================================================================
 
-
+	public Timer initTimer()
+	 {
+		 ActionListener act = new ActionListener()
+		 {
+			  public void actionPerformed (ActionEvent event)
+			  {
+				  timeout--;
+				  if (timeout ==0)
+				  {
+					  deleteFile();
+					  isFull = true;
+				  }
+			  }
+		  };
+		  return new Timer (1000, act);
+	 }
 }
