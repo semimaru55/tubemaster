@@ -209,7 +209,7 @@ public class FenAbout extends JFrame implements ActionListener
 		"- Matheus Lutkmeier : Brazilian Translation.\n" + 
 		"- Dejan Omasta : Bosnian Translation.\n" +
 		"- Gabor Karikas : Hungarian Translation.\n" +
-		"- Artem Kashkanov : Russian Translation.\n" +
+		"- Artem Kashkanov & Ihor Polishchuk : Russian Translation.\n" +
 		"- Nguyen Quang Vinh : Vietnamese Translation.\n" + 
 		"- Jakub Gal : Slovak Translation.\n" +
 		"- Mollux67 : Elsassisch Translation.\n" +
@@ -217,7 +217,8 @@ public class FenAbout extends JFrame implements ActionListener
 		"- Artur Penedo : Portuguese Translation.\n" + 
 		"- Arjan Lindeboom : Dutch Translation.\n" + 
 		"- Markus Grasel & Fabian K. : German Translation.\n" +
-		"- Nicolas Claverie : Japanese Translation.\n";
+		"- Nicolas Claverie : Japanese Translation.\n" +
+		"- Ihor Polishchuk (Amigor) : Ukrainian Translation";
 	}
 	
 	public String getGNULicense()

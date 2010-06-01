@@ -58,7 +58,7 @@ public class Updater implements Runnable
 
 					try 
 					{
-						Desktop.getDesktop().browse(new URI("http://tubemaster.free.fr/down.html"));
+						Desktop.getDesktop().browse(new URI("http://www.tubemaster.net/down.html"));
 						System.exit(0);
 					} catch (Exception e1) {Commun.logError(e1);} 				
 				}			
