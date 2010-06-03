@@ -83,7 +83,7 @@ public class MainForm extends JFrame implements WindowListener, ActionListener
 	
 	public static NetworkInterface[] interfaces;
 	
-	public static String tm_version = "1.6";
+	public static String tm_version = "1.7";
 	
 	
 	
@@ -202,7 +202,10 @@ public class MainForm extends JFrame implements WindowListener, ActionListener
 			ImageIcon n = new ImageIcon(getClass().getResource("images/icon.jpg"));
 			trayIcon = new TrayIcon(n.getImage(),"TubeMaster++ | GgSofts");
 			trayIcon.setImageAutoSize(true);
-			trayIcon.addActionListener(this);  
+			trayIcon.addActionListener(this);
+			trayIcon.setPopupMenu(new TrayMenu(this));
+			((TrayMenu) trayIcon.getPopupMenu()).set_state(this.panCap.isCapAlive());
+
 			SystemTray systemTray = SystemTray.getSystemTray();
 			try 
 			{
@@ -256,18 +259,23 @@ public class MainForm extends JFrame implements WindowListener, ActionListener
 	   catch (Exception e) {Commun.logError(e);};	
 	}
 
-	
-	
-	
-	
+
 	public void actionPerformed(ActionEvent e)
 	{
-		SystemTray systemTray = SystemTray.getSystemTray();
-		systemTray.remove(trayIcon);
-		this.setVisible(true);
-		this.setState(Frame.NORMAL);
+		if (e.getActionCommand() == null)
+		{	
+			SystemTray systemTray = SystemTray.getSystemTray();
+			systemTray.remove(trayIcon);
+			this.setVisible(true);
+			this.setState(Frame.NORMAL);
+		}
+		else
+		if (e.getActionCommand().equals("START_STOP_TRAY"))
+		{
+			this.panCap.capManager(this.panCap.isCapAlive());
+			((TrayMenu) trayIcon.getPopupMenu()).set_state(this.panCap.isCapAlive());
+			
+		}	
 	}
-	
-	
-	
+
 }

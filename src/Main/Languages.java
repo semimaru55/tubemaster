@@ -139,6 +139,11 @@ public class Languages
 	   	    	lang_table.add(this.parse(total,"<67>","</67>")); //Default Multimedia Players.
 	   	    	lang_table.add(this.parse(total,"<68>","</68>")); //Auto Start Playing..
 	   	    	
+	   	     //Added 1.7 Version
+	   	    	lang_table.add(this.parse(total,"<69>","</69>")); //MP3 Bitrate.
+	   	    	lang_table.add(this.parse(total,"<70>","</70>")); //Capture Timeout.
+	   	    	lang_table.add(this.parse(total,"<71>","</71>")); //to disable.
+	   	    	
 	   	    	
 	      } catch(Exception e) {Commun.logError(e);}
 		

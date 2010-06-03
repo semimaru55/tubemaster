@@ -89,7 +89,7 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 	
 	private JTextField edtTimeout = new JTextField();
 	private JPanel grpTimeout = new JPanel();
-	private JLabel sec = new JLabel("sec (-1 to disable)");	
+	private JLabel sec = new JLabel("(-1 "+MainForm.lang.lang_table.get(71)+")");	
 	
 	private JFileChooser fc = new JFileChooser();
 	
@@ -99,7 +99,7 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 		this.addWindowListener(this);
 		this.panFen.setLayout(null);
 		this.panFen.setBackground(Color.decode("#676767"));
-		this.setTitle("TubeMaster++ Configuration");
+		this.setTitle("TubeMaster++ "+MainForm.lang.lang_table.get(0));
 		this.setSize(471, 498);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -239,7 +239,7 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 		this.grpBitrate.setBounds(5,412,130,55);
 		this.grpBitrate.setOpaque(false);
 		this.grpBitrate.setForeground(Color.white);
-		TitledBorder b3 = BorderFactory.createTitledBorder(" MP3 Bitrate (Kbps) ");
+		TitledBorder b3 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table.get(69)+" (Kbps) ");
 		b3.setTitleColor(Color.white);
 		b3.setTitleFont(new java.awt.Font("Default_tm", 0, 11));
 		this.grpBitrate.setBorder(b3);
@@ -312,10 +312,10 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 //Timeout ----------------------
 		
 		this.grpTimeout.setFont(new java.awt.Font("Default_tm", 0, 11));
-		this.grpTimeout.setBounds(135,412,155,55);
+		this.grpTimeout.setBounds(135,412,210,55);
 		this.grpTimeout.setOpaque(false);
 		this.grpTimeout.setForeground(Color.white);
-		TitledBorder b5 = BorderFactory.createTitledBorder(" Capture Timeout ");
+		TitledBorder b5 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table.get(70)+" ");
 		b5.setTitleColor(Color.white);
 		b5.setTitleFont(new java.awt.Font("Default_tm", 0, 11));
 		this.grpTimeout.setBorder(b5);

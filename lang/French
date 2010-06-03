@@ -91,3 +91,8 @@
 	<66>Source</66>	
 	<67>Lecteurs Multimédia par Défaut</67>
 	<68>Démarrer automatiquement la lecture lors de la capture. (Minimum : 400 Ko)</68>
+	
+//Added 1.7 Version	
+	<69>Qualité MP3</69>
+	<70>Timeout de Capture (Secondes)</70>
+	<71>pour désactiver</71>
