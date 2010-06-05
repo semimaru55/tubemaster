@@ -143,6 +143,9 @@ public class Languages
 	   	    	lang_table.add(this.parse(total,"<69>","</69>")); //MP3 Bitrate.
 	   	    	lang_table.add(this.parse(total,"<70>","</70>")); //Capture Timeout.
 	   	    	lang_table.add(this.parse(total,"<71>","</71>")); //to disable.
+	   	    	lang_table.add(this.parse(total,"<72>","</72>")); //Player Error.
+	   	    	lang_table.add(this.parse(total,"<73>","</73>")); //Player not found...
+	   	    	lang_table.add(this.parse(total,"<74>","</74>")); //FFMPeg terminated with errors..;
 	   	    	
 	   	    	
 	      } catch(Exception e) {Commun.logError(e);}

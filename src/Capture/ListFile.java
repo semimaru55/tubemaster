@@ -184,7 +184,7 @@ public class ListFile extends JPanel
 			if ((item.isFullReady()) && (item.isChecked()))
 			{
 				if (dir.equals("")) dir = this.dirChooser();
-				item.runConversionSave(dir);
+				if (!dir.equals("")) item.runConversionSave(dir);
 			}
 				
 		}
@@ -199,7 +199,7 @@ public class ListFile extends JPanel
 			if ((item.isFullReady()) && (item.isChecked()))
 			{
 				if (dir.equals("")) dir = this.dirChooser();
-				item.runConversionPreset(preset, dir);
+				if (!dir.equals("")) item.runConversionPreset(preset, dir);
 			}
 				
 		}
@@ -214,7 +214,7 @@ public class ListFile extends JPanel
 			if ((item.isFullReady()) && (item.isChecked()))	
 			{
 				if (dir.equals("")) dir = this.dirChooser();
-				item.runConversionExtractMP3(dir);
+				if (!dir.equals("")) item.runConversionExtractMP3(dir);
 			}
 				
 		}				
@@ -228,7 +228,7 @@ public class ListFile extends JPanel
 			if ((item.isFullReady()) && (item.isChecked()))
 			{
 				if (dir.equals("")) dir = this.dirChooser();
-				item.runConversionClassic(dir, preset);
+				if (!dir.equals("")) item.runConversionClassic(dir, preset);
 			}
 				
 		}				

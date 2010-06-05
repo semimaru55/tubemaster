@@ -229,7 +229,7 @@ public class CapturedFile
 					
 				}		
 		
-			} catch (ID3Exception e) {Commun.logError(e);}
+			} catch (ID3Exception e) {/*NoLog*/}
 		
 		}		
 		name.replaceAll(""+(char)0, "");

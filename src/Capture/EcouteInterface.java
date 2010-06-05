@@ -22,6 +22,7 @@ package Capture;
 
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import Main.Commun;
 
@@ -70,8 +71,11 @@ public class EcouteInterface implements Runnable
 		{
 			System.out.println("-= TubeMaster++ Started on "+this.interf.description+" =-");
 			this.jpcap.setPacketReadTimeout(1000);
-			try {this.jpcap.loopPacket(-1,new PacketsReceiver());} catch (Exception e) {}
+			
+			try {this.jpcap.loopPacket(-1,new PacketsReceiver());} catch (Exception e) {/*NoLog*/}
+			
 			this.jpcap.updateStat();
+			
 			this.jpcap.close();
 
 		}
@@ -89,8 +93,10 @@ public class EcouteInterface implements Runnable
 			this.jpcap.breakLoop();
 			try 
 			{
-				this.semaClose.await();
+				this.semaClose.await(2, TimeUnit.SECONDS);
+				
 			} catch (InterruptedException e) {Commun.logError(e);}
 		}
+
 	}
 }

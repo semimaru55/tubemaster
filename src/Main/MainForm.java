@@ -181,12 +181,15 @@ public class MainForm extends JFrame implements WindowListener, ActionListener
 		
 		if (vaFermer)
 		{
+			this.setVisible(false);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			MainForm.convManager.shutUp();
 			panCap.capManager(true);
 			panCap.getListe().clearAll();
 			File dossier = new File("temp");
 			if (dossier.exists()) this.deleteDir(dossier);
+			File f = new File ("Errors.log");
+			if ((f.exists()) && (f.length() > 1000000)) f.delete();	
 		} else this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 
@@ -235,6 +238,7 @@ public class MainForm extends JFrame implements WindowListener, ActionListener
 	    }
 	    catch (Error e)
 	    {
+    	
 		    if (JOptionPane.showConfirmDialog(null, 
 		    		MainForm.lang.lang_table.get(44)+"\n"+MainForm.lang.lang_table.get(45) 
 	    			, MainForm.lang.lang_table.get(46),

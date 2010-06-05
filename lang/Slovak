@@ -96,3 +96,6 @@
 	<69>MP3 Bitrate</69>
 	<70>Capture Timeout (Seconds)</70>
 	<71>to disable</71>
+	<72>Player Error</72>
+	<73>Multimedia player not found. You can fix it in the option window.</73>
+	<74>The FFMPeg converter terminated with following errors :</74>

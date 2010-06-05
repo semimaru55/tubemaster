@@ -44,6 +44,7 @@ public class Commun
 				
 				
 				File f = new File ("Errors.log");
+				
 				FileOutputStream os = new FileOutputStream(f,true);
 				
 				Calendar laDate = Calendar.getInstance();

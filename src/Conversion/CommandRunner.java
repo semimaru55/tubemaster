@@ -30,6 +30,7 @@ import javax.swing.JProgressBar;
 
 import Capture.ListFileItem;
 import Main.Commun;
+import Main.MainForm;
 
 
 
@@ -92,7 +93,7 @@ public class CommandRunner implements Runnable
 					process.exitValue();
 					finish = true;
 
-				} catch (Exception e1) {}
+				} catch (Exception e1) {Commun.logError(e1);}
 			}
 
 			if (this.sema != null) this.sema.countDown();
@@ -100,11 +101,23 @@ public class CommandRunner implements Runnable
 			
             if ((!this.isFFPLAY) && (convFailed)) 
             {
-            	JOptionPane.showMessageDialog(null, "FFMPEG converter terminated with following errors :\n"+lastLine, "FFMPEG Error", 0);
+            	JOptionPane.showMessageDialog(null, MainForm.lang.lang_table.get(74)+"\n"+lastLine, "FFMPEG Error", 0);
             }
 			
 	
-		} catch (IOException e) {Commun.logError(e);}
+		} catch (IOException e) 
+		{
+			if (this.isFFPLAY)
+			{
+				JOptionPane.showMessageDialog(null, MainForm.lang.lang_table.get(73), MainForm.lang.lang_table.get(72), 0);
+			} 
+			else
+			{
+				Commun.logError(e);
+			}
+			
+		
+		}
 	}
 	
 	public void stopProcess()
