@@ -284,7 +284,13 @@ public class PacketsManager implements Runnable
 		{
 			this.rtmpApp = "";
 			int pos = Commun.arrayPos(p.getDatas(), strKey.getBytes(), 1);
-			while (p.getDatas()[pos] != 2) pos++;
+			
+
+			
+			try {while (p.getDatas()[pos] != 2) pos++;}
+			catch (Exception e) {return;} //Valeur introuvable
+			
+			
 			int len = (0x000000FF & p.getDatas()[pos+2]) + ((0x000000FF & p.getDatas()[pos+1])*256);	
 			
 			pos += 3;
@@ -318,6 +324,10 @@ public class PacketsManager implements Runnable
 				
 				this.rtmpApp = this.rtmpApp.substring(0, this.rtmpApp.length());
 			
+				
+				System.out.println(this.rtmpHost);
+				System.out.println(this.rtmpApp);
+				
 				
 				RTMPDownloader rtmp = new RTMPDownloader(this.rtmpHost,this.rtmpApp);		
 				Thread threadManager3 = new Thread(rtmp);

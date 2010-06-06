@@ -23,14 +23,14 @@ package Capture;
 import java.io.File;
 import java.util.concurrent.Future;
 
-import com.smaxe.app.uv.downloader.Downloader;
+import com.smaxe.app.uv.downloader.RtmpDownloader;
 
 public class RTMPDownloader implements Runnable
 {
 	
 	private String host = "";
 	private String app = "";
-	private Downloader downloader = new Downloader();
+	private RtmpDownloader downloader = new RtmpDownloader();
 	private boolean isFinished = false;
 	private CapturedFile capFile = new CapturedFile(new FileFormat("FLV"),-1);
 	private Future<?> task;
@@ -66,7 +66,10 @@ public class RTMPDownloader implements Runnable
 			
 		}
 		
-		if (this.capFile.isDestroyed()) this.capFile.deleteFile();
+		if (this.capFile.isDestroyed()) 
+		{
+			this.capFile.deleteFile();
+		}
 		else
 		{
 			this.capFile.setCap_Size((int)f.length());
@@ -90,7 +93,7 @@ public class RTMPDownloader implements Runnable
 		{
 			try
 			{
-				downloader.setDebugMode(false);
+				downloader.setDebugMode(true);
 				task = downloader.download(host,null,null,app,capFile.retFilename());
 				task.get();
 			} catch (Exception e) {}

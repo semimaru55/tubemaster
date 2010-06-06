@@ -24,11 +24,12 @@ package Main;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Desktop;
-import java.awt.Frame;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
@@ -59,7 +60,7 @@ import MP3Search.MP3Downloader;
 
 
 
-public class MainForm extends JFrame implements WindowListener, ActionListener
+public class MainForm extends JFrame implements WindowListener, MouseListener, ActionListener
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -205,7 +206,7 @@ public class MainForm extends JFrame implements WindowListener, ActionListener
 			ImageIcon n = new ImageIcon(getClass().getResource("images/icon.jpg"));
 			trayIcon = new TrayIcon(n.getImage(),"TubeMaster++ | GgSofts");
 			trayIcon.setImageAutoSize(true);
-			trayIcon.addActionListener(this);
+			trayIcon.addMouseListener(this);
 			trayIcon.setPopupMenu(new TrayMenu(this));
 			((TrayMenu) trayIcon.getPopupMenu()).set_state(this.panCap.isCapAlive());
 
@@ -266,20 +267,31 @@ public class MainForm extends JFrame implements WindowListener, ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getActionCommand() == null)
-		{	
-			SystemTray systemTray = SystemTray.getSystemTray();
-			systemTray.remove(trayIcon);
-			this.setVisible(true);
-			this.setState(Frame.NORMAL);
-		}
-		else
 		if (e.getActionCommand().equals("START_STOP_TRAY"))
 		{
 			this.panCap.capManager(this.panCap.isCapAlive());
 			((TrayMenu) trayIcon.getPopupMenu()).set_state(this.panCap.isCapAlive());
-			
+
 		}	
+	}
+
+
+	public void mouseClicked(MouseEvent arg0) {}
+	public void mouseEntered(MouseEvent arg0) {}
+	public void mouseExited(MouseEvent arg0) {}
+	public void mousePressed(MouseEvent arg0) {}
+	
+	public void mouseReleased(MouseEvent e) 
+	{
+		if (e.getButton() == MouseEvent.BUTTON1)
+		{
+
+	    	this.setVisible(true);
+	    	this.setState(JFrame.NORMAL);
+	    	SystemTray systemTray = SystemTray.getSystemTray();
+			systemTray.remove(trayIcon);
+
+		}
 	}
 
 }
