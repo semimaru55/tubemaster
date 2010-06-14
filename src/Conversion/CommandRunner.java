@@ -93,7 +93,7 @@ public class CommandRunner implements Runnable
 					process.exitValue();
 					finish = true;
 
-				} catch (Exception e1) {Commun.logError(e1);}
+				} catch (Exception e1) {}
 			}
 
 			if (this.sema != null) this.sema.countDown();

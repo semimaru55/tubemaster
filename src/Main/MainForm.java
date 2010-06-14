@@ -69,7 +69,7 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	
 	
 	private JPanel panFen = new JPanel(); 										//Panel de la fenetre.
-	private PanelCapture panCap = new PanelCapture();							//Panel de capture
+	private PanelCapture  panCap = new PanelCapture();							//Panel de capture
 	private PanelVideoSearch panSVideo = new PanelVideoSearch();				//Panel de recherche video
 	private PanelMP3Search panSMP3 = new PanelMP3Search(this.panCap);			//Panel de recherche mp3
 	
