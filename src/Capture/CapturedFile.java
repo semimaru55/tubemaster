@@ -79,19 +79,21 @@ public class CapturedFile
 	public void addDatas(TMPacket p, boolean isFirst)
 	{
 		this.timeout = Integer.parseInt(MainForm.opts.timeout);
+		byte[] datas = p.getDatas();
+			
 		if(!this.isFull)
 		{
 			if (isFirst) //Test du premier paquet du fichier pour enlever éventuellement le header HTTP.
 			{
 				this.firstSeqNum = p.getSeq();
 				
-				String str = new String(p.getDatas());
+				String str = new String(datas);
 				if (str.indexOf("HTTP")==0)
 				{
 					int pos = 0;
-					for(int i=0;i<p.getDatas().length-3;i++)
+					for(int i=0;i<datas.length-3;i++)
 					{
-						if ((p.getDatas()[i]==13)&&(p.getDatas()[i+1]==10)&&(p.getDatas()[i+2]==13)&&(p.getDatas()[i+3]==10))
+						if ((datas[i]==13)&&(datas[i+1]==10)&&(datas[i+2]==13)&&(datas[i+3]==10))
 						{
 							pos = i + 4;
 							break;	
@@ -100,9 +102,9 @@ public class CapturedFile
 					
 					this.firstSeqNum += pos;
 					p.setSeq(this.firstSeqNum);
-					int size = p.getDatas().length-pos;
+					int size = datas.length-pos;
 					byte[] newArray = new byte[size];
-					for(int i=0;i<newArray.length;i++) newArray[i] = p.getDatas()[pos+i];
+					for(int i=0;i<newArray.length;i++) newArray[i] = datas[pos+i];
 					p.setDatas(newArray);	
 				}
 				
@@ -127,16 +129,16 @@ public class CapturedFile
 						if (p.getSeq()>this.latestSeq) //Normal
 						{
 							this.latestSeq = p.getSeq();
-							this.cap_size += p.getDatas().length;
+							this.cap_size += datas.length;
 						}
 						else //Retransmission
 						{
-							long toWrite = p.getDatas().length; //Taille a ajouter.
+							long toWrite = datas.length; //Taille a ajouter.
 							int mapPos = this.tcpmap.seqPos(p.getSeq());
 							if (mapPos>-1)
 							{
 								long oldSize = this.tcpmap.getSize(mapPos);
-								if (toWrite >= oldSize) toWrite = p.getDatas().length - oldSize;
+								if (toWrite >= oldSize) toWrite = datas.length - oldSize;
 								else toWrite = 0;
 								
 							}
@@ -144,11 +146,11 @@ public class CapturedFile
 							this.cap_size += toWrite;												
 						}
 						
-						this.tcpmap.addSeq(p.getSeq(),p.getDatas().length); //Ajout dans la tcp map.
+						this.tcpmap.addSeq(p.getSeq(),datas.length); //Ajout dans la tcp map.
 						
 						//On ecrit les donnees.
 						this.fw.seek(p.getSeq()-this.firstSeqNum);	
-						this.fw.write(p.getDatas());
+						this.fw.write(datas);
 
 	
 					}

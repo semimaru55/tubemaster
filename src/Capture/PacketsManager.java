@@ -39,12 +39,6 @@ public class PacketsManager implements Runnable
 		
 	private boolean isActive = true;
 	
-	//Type MP3 cache de Joua.
-	
-	private boolean rtmpBusy = false; //Si en attente d'un RTMP.
-	private String rtmpLatest = "";
-	private String rtmpHost = "";
-	private String rtmpApp = "";
 
 	
 	//=====================================================================================================
@@ -98,15 +92,6 @@ public class PacketsManager implements Runnable
 						else
 						if (p.contient("ftypqt") || p.contient("moov")) this.file_detected("MOV", p);
 						
-						//RTMP	
-						if ((p.contient("connect"+((char)0))) && (p.contient("tcUrl")))
-							this.RTMPStep1(p);
-						else
-						if (p.contient(""+(char)11+"startStream"+(char)0))
-							this.RTMPStep2(p,"startStream");
-						else
-						if (p.contient(""+(char)4+"play"+(char)0))
-							this.RTMPStep2(p,"play");
 						
 						else
 						{
@@ -257,93 +242,6 @@ public class PacketsManager implements Runnable
 	
 	//=====================================================================================================
 	
-		
-	public void RTMPStep1(TMPacket p)
-	{
-		if (!this.rtmpBusy)
-		{
-			this.rtmpHost = "";
-			this.rtmpBusy = true;
-			int pos = Commun.arrayPos(p.getDatas(), "tcUrl".getBytes(), 1);
-			while (p.getDatas()[pos] != 2) pos++;
-			int len = (0x000000FF & (int)p.getDatas()[pos+2]) + ((0x000000FF & (int)p.getDatas()[pos+1])*256);
-			pos += 3;
-			for (int i=0;i<len;i++)
-			{
-				if (p.getDatas()[pos+i]>30) 
-				{
-					this.rtmpHost += (char) p.getDatas()[pos+i];				
-				} else len++;
-			}
-		}
-	}
-	
-	public void RTMPStep2(TMPacket p, String strKey)
-	{
-		if (this.rtmpBusy)
-		{
-			this.rtmpApp = "";
-			int pos = Commun.arrayPos(p.getDatas(), strKey.getBytes(), 1);
-			
-
-			
-			try {while (p.getDatas()[pos] != 2) pos++;}
-			catch (Exception e) {return;} //Valeur introuvable
-			
-			
-			int len = (0x000000FF & p.getDatas()[pos+2]) + ((0x000000FF & p.getDatas()[pos+1])*256);	
-			
-			pos += 3;
-			for (int i=0;i<len;i++)
-			{
-				if (p.getDatas()[pos+i]>30) 
-				{
-					this.rtmpApp += (char) p.getDatas()[pos+i];				
-				} else len++;
-			}
-			
-			if (strKey.equals("startStream")) //Pour Yahoo.
-			{
-				this.rtmpApp += "?";
-				while (p.getDatas()[pos] != 2) pos++;
-				len = (0x000000FF & p.getDatas()[pos+2]) + ((0x000000FF & p.getDatas()[pos+1])*256);	
-				
-				pos += 3;
-				for (int i=0;i<len;i++)
-				{
-					if (p.getDatas()[pos+i]>30) 
-					{
-						this.rtmpApp += (char) p.getDatas()[pos+i];				
-					} else len++;
-				}		
-			}
-			
-			if (!this.rtmpLatest.equals(this.rtmpApp))
-			{
-				this.rtmpLatest = this.rtmpApp;
-				
-				this.rtmpApp = this.rtmpApp.substring(0, this.rtmpApp.length());
-			
-				
-				System.out.println(this.rtmpHost);
-				System.out.println(this.rtmpApp);
-				
-				
-				RTMPDownloader rtmp = new RTMPDownloader(this.rtmpHost,this.rtmpApp);		
-				Thread threadManager3 = new Thread(rtmp);
-				threadManager3.start();				
-				this.fileList.ajoutItem(new ListFileItem(this.fileList,rtmp.toCapturedFile(),this.rtmpHost+"|"+this.rtmpApp));	
-			} else this.rtmpLatest = "";
-			
-			this.rtmpBusy = false;
-			this.rtmpApp = "";
-			this.rtmpHost = "";
-			
-			
-		}
-	}
-	
-
 
 
 
