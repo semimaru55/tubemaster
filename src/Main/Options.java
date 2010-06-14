@@ -52,7 +52,8 @@ public class Options
 		public String repMP4 = "ffplay";						//MP4 Player.
 		public String repMOV = "ffplay";						//MOV Player.
 		public boolean autoPlay = false;						//AutoPlay des fichier capturés.
-		public String timeout = "15";							//Timeout dedestruction si coupure
+		public String timeout = "15";							//Timeout de destruction si coupure.
+		public String minimal = "100000";							//Taille minimale de capture.
 		
 	public Options()
 	{
@@ -92,6 +93,7 @@ public class Options
 			fichier.println("<repMOV>"+this.repMOV+"</repMOV>");
 			fichier.println("<autoPlay>"+this.boolToStr(this.autoPlay)+"</autoPlay>");
 			fichier.println("<timeout>"+this.timeout+"</timeout>");
+			fichier.println("<minimal>"+this.minimal+"</minimal>");
 			
 			fichier.close();	
 				
@@ -146,13 +148,15 @@ public class Options
 	   	    	this.autoPlay = this.strToBool(this.parse(total, "<autoPlay>", "</autoPlay>")); 
 	   	    if (total.indexOf("<timeout>")>-1) 
 	   	    	this.timeout =this.parse(total, "<timeout>", "</timeout>");
+	   	 if (total.indexOf("<minimal>")>-1) 
+	   	    	this.minimal =this.parse(total, "<minimal>", "</minimal>");
 	   	 
 	      } catch(Exception e) {Commun.logError(e);}	
 	}
 	
 	
 	public String boolToStr(boolean b) {if (b) return "1"; else return "0";}
-	public boolean strToBool(String s) {if (s.equals("1")) return true; else return false;}
+	public boolean strToBool(String s) {return (s.equals("1"));}
 	
 	
 	public String parse(String chaine, String deb, String fin)

@@ -272,6 +272,19 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 			this.panCap.capManager(this.panCap.isCapAlive());
 			((TrayMenu) trayIcon.getPopupMenu()).set_state(this.panCap.isCapAlive());
 
+		}
+		else
+		if (e.getActionCommand().equals("EXIT_TRAY"))
+		{
+			MainForm.convManager.shutUp();
+			panCap.capManager(true);
+			panCap.getListe().clearAll();
+			File dossier = new File("temp");
+			if (dossier.exists()) this.deleteDir(dossier);
+			File f = new File ("Errors.log");
+			if ((f.exists()) && (f.length() > 1000000)) f.delete();
+			System.exit(0);
+
 		}	
 	}
 

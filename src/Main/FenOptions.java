@@ -22,6 +22,7 @@ package Main;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -33,18 +34,22 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 import javax.swing.border.TitledBorder;
 
 import Graphique.TMButton;
 
-public class FenOptions extends JFrame implements ActionListener, WindowListener
+public class FenOptions extends JDialog implements ActionListener, WindowListener
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -59,10 +64,10 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 	private JCheckBox chkDelConv = new JCheckBox();
 	private JCheckBox chkCloseBox = new JCheckBox();
 	
-	
 	private JPanel grpDefRep = new JPanel();
 	private JTextField edtDefRep = new JTextField();
 	private TMButton btnDefRep = new TMButton(this,0,0,"...","",0,0,35);
+	
 	private JCheckBox chkAutoConv = new JCheckBox();
 	private JComboBox cmbAutoConv = new JComboBox();
 	
@@ -73,6 +78,7 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 	private JPanel grpBitrate = new JPanel();
 	private String[] bitrates = {"64","128","192","224","320"};
 	private JComboBox cmbBitrate = new JComboBox(this.bitrates);
+	
 	private TMButton btnClose = new TMButton(this,0,0,MainForm.lang.lang_table.get(56),"",0,4,100);
 	
 
@@ -87,11 +93,29 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 	private TMButton btnMOV = new TMButton(this,0,0,"...","",0,0,35);
 	private JCheckBox chkAutoStartPlay = new JCheckBox();
 	
-	private JTextField edtTimeout = new JTextField();
+	
+	SpinnerNumberModel timeoutModel = new SpinnerNumberModel (Integer.parseInt(MainForm.opts.timeout), -1, Integer.MAX_VALUE, 1);
+	private JSpinner edtTimeout = new JSpinner(timeoutModel);
 	private JPanel grpTimeout = new JPanel();
 	private JLabel sec = new JLabel("(-1 "+MainForm.lang.lang_table.get(71)+")");	
 	
+	SpinnerNumberModel minimalModel = new SpinnerNumberModel (Integer.parseInt(MainForm.opts.minimal), 0, Integer.MAX_VALUE, 128);
+	private JSpinner edtMinimal = new JSpinner(minimalModel);
+	private JPanel grpMinimal = new JPanel();
+	private JLabel bytes = new JLabel(MainForm.lang.lang_table.get(80));
+	
+	
+	
 	private JFileChooser fc = new JFileChooser();
+	
+	private JTabbedPane tabs = new JTabbedPane();
+	private JPanel tab_general = new JPanel();
+	private JPanel tab_capture = new JPanel();
+	private JPanel tab_save = new JPanel();
+	private JPanel tab_players = new JPanel();
+	
+	
+	
 	
 	public FenOptions()
 	{
@@ -100,7 +124,8 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 		this.panFen.setLayout(null);
 		this.panFen.setBackground(Color.decode("#676767"));
 		this.setTitle("TubeMaster++ "+MainForm.lang.lang_table.get(0));
-		this.setSize(471, 498);
+		this.setSize(491, 293);
+		this.setModal(true);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setResizable(false);
@@ -171,13 +196,12 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 		this.cmbLang.setMaximumRowCount(20);
 		this.btnLang.setBounds(178,19,268,20);
 		this.btnLang.setFlat();
-		
 		this.grpLang.add(this.cmbLang);
 		this.grpLang.add(this.btnLang);
 
 //Default Output Folder-------------------------------
 		this.grpDefRep.setFont(new java.awt.Font("Default_tm", 0, 11));
-		this.grpDefRep.setBounds(5,165,455,100);
+		this.grpDefRep.setBounds(5,5,455,100);
 		this.grpDefRep.setOpaque(false);
 		this.grpDefRep.setForeground(Color.white);
 		TitledBorder b2 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table.get(24)+" ");
@@ -190,7 +214,7 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 		this.edtDefRep.setEditable(false);
 		this.edtDefRep.setText(MainForm.opts.defRep);
 		this.btnDefRep.setBounds(410,19,35,21);
-		
+
 		this.grpDefRep.add(this.btnDefRep);
 		this.grpDefRep.add(this.edtDefRep);
 		this.grpDefRep.add(this.chkAutoConv);
@@ -236,7 +260,7 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 
 //MP3 Bitrate ------------------------------------
 		this.grpBitrate.setFont(new java.awt.Font("Default_tm", 0, 11));
-		this.grpBitrate.setBounds(5,412,130,55);
+		this.grpBitrate.setBounds(5,110,160,55);
 		this.grpBitrate.setOpaque(false);
 		this.grpBitrate.setForeground(Color.white);
 		TitledBorder b3 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table.get(69)+" (Kbps) ");
@@ -247,14 +271,13 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 		
 		this.cmbBitrate.setFont(new java.awt.Font("Default_tm", 0, 11));
 		this.cmbBitrate.addActionListener(this);
-		this.cmbBitrate.setBounds(19,20,90,20);
-		
+		this.cmbBitrate.setBounds(19,20,120,20);
 		this.grpBitrate.add(this.cmbBitrate);
 		this.cmbBitrate.setSelectedItem(MainForm.opts.bitrate);
 		
 //Players ---------------------------------------
 		this.grpPlayers.setFont(new java.awt.Font("Default_tm", 0, 11));
-		this.grpPlayers.setBounds(5,268,455,142);
+		this.grpPlayers.setBounds(5,5,455,142);
 		this.grpPlayers.setOpaque(false);
 		this.grpPlayers.setForeground(Color.white);
 		TitledBorder b4 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table.get(67)+" ");
@@ -312,7 +335,7 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 //Timeout ----------------------
 		
 		this.grpTimeout.setFont(new java.awt.Font("Default_tm", 0, 11));
-		this.grpTimeout.setBounds(135,412,210,55);
+		this.grpTimeout.setBounds(5,5,210,55);
 		this.grpTimeout.setOpaque(false);
 		this.grpTimeout.setForeground(Color.white);
 		TitledBorder b5 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table.get(70)+" ");
@@ -321,33 +344,91 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 		this.grpTimeout.setBorder(b5);
 		this.grpTimeout.setLayout(null);
 		
-		this.edtTimeout.setBounds(19,20,30,20);
+		this.edtTimeout.setBounds(19,20,70,20);
 		this.edtTimeout.setFont(new java.awt.Font("Default_tm", 0, 10));
-		this.edtTimeout.setEditable(true);
-		this.edtTimeout.setText(MainForm.opts.timeout);
-		this.edtTimeout.setHorizontalAlignment(JTextField.RIGHT);		
 		
-		this.sec.setBounds(55,20,100,20);
+		this.sec.setBounds(95,20,100,20);
 		this.sec.setForeground(Color.white);
 		
 		this.grpTimeout.add(this.edtTimeout);
 		this.grpTimeout.add(sec);
 		
+//Minimal size ----------------------
+		
+		this.grpMinimal.setFont(new java.awt.Font("Default_tm", 0, 11));
+		this.grpMinimal.setBounds(220,5,230,55);
+		this.grpMinimal.setOpaque(false);
+		this.grpMinimal.setForeground(Color.white);
+		TitledBorder b6 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table.get(79)+" ");
+		b6.setTitleColor(Color.white);
+		b6.setTitleFont(new java.awt.Font("Default_tm", 0, 11));
+		this.grpMinimal.setBorder(b6);
+		this.grpMinimal.setLayout(null);
+		
+		this.edtMinimal.setBounds(19,20,100,20);
+		this.edtMinimal.setFont(new java.awt.Font("Default_tm", 0, 10));
+	
+		
+		this.bytes.setBounds(125,20,100,20);
+		this.bytes.setForeground(Color.white);
+		
+		this.grpMinimal.add(this.edtMinimal);
+		this.grpMinimal.add(bytes);
+		
+		
+// Tabs ------------------------		
+		
+		this.tab_general.setBackground(Color.decode("#676767"));
+		this.tab_general.setBorder(BorderFactory.createLoweredBevelBorder());
+		this.tab_general.setLayout(null);
+		this.tab_general.add(this.chkAutoCapture);
+		this.tab_general.add(this.chkUpdate);
+		this.tab_general.add(this.chkTray);
+		this.tab_general.add(this.chkDelConv);
+		this.tab_general.add(this.chkCloseBox);
+		this.tab_general.add(this.grpLang);
+		
+		this.tab_capture.setBackground(Color.decode("#676767"));
+		this.tab_capture.setBorder(BorderFactory.createLoweredBevelBorder());
+		this.tab_capture.setLayout(null);
+		this.tab_capture.add(this.grpTimeout);
+		this.tab_capture.add(this.grpMinimal);
+		
+		this.tab_save.setBackground(Color.decode("#676767"));
+		this.tab_save.setBorder(BorderFactory.createLoweredBevelBorder());
+		this.tab_save.setLayout(null);
+		this.tab_save.add(this.grpDefRep);
+		this.tab_save.add(this.grpBitrate);
+		
+		this.tab_players.setBackground(Color.decode("#676767"));
+		this.tab_players.setBorder(BorderFactory.createLoweredBevelBorder());
+		this.tab_players.setLayout(null);
+		this.tab_players.add(this.grpPlayers);
+		
+		
+
+		this.tabs.setForeground(Color.white);
+		this.tabs.setOpaque(false);
+		this.tabs.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI()
+		{
+		      protected void paintTabBackground(Graphics g,int tabPlacement,int tabIndex,int x,int y,int w,int h,boolean isSelected){}
+		      protected void paintContentBorder(Graphics g,int tabPlacement,int selectedIndex){}
+		
+		});
+
+		this.tabs.setBounds(5,5,476,210);
+		this.tabs.addTab(MainForm.lang.lang_table.get(75), this.tab_general);
+		this.tabs.addTab(MainForm.lang.lang_table.get(76), this.tab_capture);
+		this.tabs.addTab(MainForm.lang.lang_table.get(77), this.tab_save);
+		this.tabs.addTab(MainForm.lang.lang_table.get(78), this.tab_players);
+		
+		this.btnClose.setBounds(377,225,100,30);
+		
 //Adding Components ----------------------	
 		
-		this.btnClose.setBounds(350,428,100,30);
-				
-		this.panFen.add(this.chkAutoCapture);
-		this.panFen.add(this.chkUpdate);
-		this.panFen.add(this.chkTray);
-		this.panFen.add(this.chkDelConv);
-		this.panFen.add(this.chkCloseBox);
-		this.panFen.add(this.grpDefRep);
-		this.panFen.add(this.grpLang);
-		this.panFen.add(this.grpBitrate);
-		this.panFen.add(this.grpPlayers);
+		this.panFen.add(this.tabs);
 		this.panFen.add(this.btnClose);
-		this.panFen.add(this.grpTimeout);
+		
 	}
 
 
@@ -387,7 +468,7 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 		if (e.getSource().equals(this.cmbLang)) 
 		{
 			MainForm.opts.langFile = (String) this.cmbLang.getSelectedItem();
-			this.cmbBitrate.requestFocus();
+			this.chkAutoCapture.requestFocus();
 			JOptionPane.showMessageDialog(this, "Now, you must restart TubeMaster++ to change the application language.","Please Restart",1);
 		}
 		else
@@ -475,28 +556,14 @@ public class FenOptions extends JFrame implements ActionListener, WindowListener
 
 	public void windowDeactivated(WindowEvent arg0) 
 	{
-		String strTimeout = this.edtTimeout.getText();
-		try 
-		{
-			int intTimeout = Integer.parseInt(strTimeout);
-			if (intTimeout < -1 || intTimeout == 0)
-			{
-				this.edtTimeout.setText(MainForm.opts.timeout);
-				JOptionPane.showMessageDialog(this, "Invalid Timeout, use Positives values greater than 0 (or -1 to disable)", "Timeout Error",0);
-			}
-			else
-			{
-				MainForm.opts.timeout = strTimeout;
-				MainForm.opts.WriteFile();
-			}
-			
-		}
-		catch (Exception e)
-		{
-			Commun.logError(e);
-			this.edtTimeout.setText(MainForm.opts.timeout);
-			JOptionPane.showMessageDialog(this, "Invalid Timeout, please use Numeric Values", "Timeout Error",0);
-		}
+		
+		MainForm.opts.timeout = ""+this.timeoutModel.getNumber().intValue();
+		MainForm.opts.minimal = ""+this.minimalModel.getNumber().intValue();
+		MainForm.opts.WriteFile();
+		
+		
+		
+		
 	}
 	
 	public void windowActivated(WindowEvent arg0) {}

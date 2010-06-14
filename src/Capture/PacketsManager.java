@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 
 import Main.Commun;
+import Main.MainForm;
 
 
 
@@ -213,7 +214,7 @@ public class PacketsManager implements Runnable
 		}
 		
 
-		if (size > 100000)//if (size > 200000)
+		if (size > Integer.parseInt(MainForm.opts.minimal));
 		{
 			newFile.setCap_FileSize(size);
 			newFile.addDatas(p, true);	

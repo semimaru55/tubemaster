@@ -146,7 +146,12 @@ public class Languages
 	   	    	lang_table.add(this.parse(total,"<72>","</72>")); //Player Error.
 	   	    	lang_table.add(this.parse(total,"<73>","</73>")); //Player not found...
 	   	    	lang_table.add(this.parse(total,"<74>","</74>")); //FFMPeg terminated with errors..;
-	   	    	
+	   	    	lang_table.add(this.parse(total,"<75>","</75>")); //General
+	   	    	lang_table.add(this.parse(total,"<76>","</76>")); //Capture
+	   	    	lang_table.add(this.parse(total,"<77>","</77>")); //Save/Conversion
+	   	    	lang_table.add(this.parse(total,"<78>","</78>")); //Multimedia Players
+	   	    	lang_table.add(this.parse(total,"<79>","</79>")); //Capture Minimal Size
+	   	    	lang_table.add(this.parse(total,"<80>","</80>")); //bytes
 	   	    	
 	      } catch(Exception e) {Commun.logError(e);}
 		

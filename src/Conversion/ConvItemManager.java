@@ -104,7 +104,10 @@ public class ConvItemManager implements Runnable
 		item.setWaitingFor();
 	}
 
-	public void shutUp() {this.stop = true;}
+	public void shutUp()
+	{
+		this.stop = true;	
+	}
 
 
 }

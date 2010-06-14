@@ -97,5 +97,11 @@
 	<70>Timeout de Capture (Secondes)</70>
 	<71>pour désactiver</71>
 	<72>Player Error</72>
-	<73>Multimedia player not found. You can fix it in the option window.</73>
-	<74>The FFMPeg converter terminated with following errors :</74>
+	<73>Lecteur Multimédia introuvable. Vous pouvez réparer cela dans la fenêtre d'options.</73>
+	<74>Le convertisseur FFMPEG à terminé avec les erreurs suivantes :</74>
+	<75>General</75>
+	<76>Capture</76>
+	<77>Sauvegarde/Convertion</77>
+	<78>Lecteurs Multimédia</78>
+	<79>Taille Minimale de Capture</79>
+	<80>octets</80>
