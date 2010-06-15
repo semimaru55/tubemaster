@@ -52,7 +52,7 @@ public class Updater implements Runnable
 			if (!total.equals(MainForm.tm_version))
 			{
 				
-				if (JOptionPane.showConfirmDialog(null, MainForm.lang.lang_table.get(49), MainForm.lang.lang_table.get(48),
+				if (JOptionPane.showConfirmDialog(null, MainForm.lang.lang_table[49], MainForm.lang.lang_table[48],
 						JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
 				{
 

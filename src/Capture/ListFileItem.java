@@ -93,9 +93,9 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	
 	private TMButton btnCopy = new TMButton(this,6,1,"","copy.png",0,0,0);
 	private TMButton btnStop = new TMButton(this,7,2,"","stopconv.png",0,0,0);
-	private TMButton btnSave = new TMButton(this,6,4,MainForm.lang.lang_table.get(26),"save_as.png",26,2,89);				
-	private TMButton btnConvert = new TMButton(this,6,4,MainForm.lang.lang_table.get(27),"convert.png",26,2,89);
-	private TMButton btnPlay = new TMButton(this,6,4,MainForm.lang.lang_table.get(28),"play.png",26,2,89);
+	private TMButton btnSave = new TMButton(this,6,4,MainForm.lang.lang_table[26],"save_as.png",26,2,89);				
+	private TMButton btnConvert = new TMButton(this,6,4,MainForm.lang.lang_table[27],"convert.png",26,2,89);
+	private TMButton btnPlay = new TMButton(this,6,4,MainForm.lang.lang_table[28],"play.png",26,2,89);
 	private TMButton btnTags = new TMButton(this,5,2,"Tags","id3.png",26,2,34);
 	private TMButton btnPrev = new TMButton(this,6,2,"","preview.png",0,0,0);
 	
@@ -165,7 +165,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	{
 		if (e.getSource().equals(this.btnStop))
 		{
-			if (JOptionPane.showConfirmDialog(null, MainForm.lang.lang_table.get(38), MainForm.lang.lang_table.get(37),
+			if (JOptionPane.showConfirmDialog(null, MainForm.lang.lang_table[38], MainForm.lang.lang_table[37],
 					JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)	
 					this.cmd.stopProcess();
 		}	
@@ -272,11 +272,11 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 			this.sizePrec = this.leFichier.getCap_Size();		
 			this.lblState.setText(nfoSize + " (at " + speed+").");
 			
-			if ((this.edtTitle.getText().equals(MainForm.lang.lang_table.get(29))) && (!this.edtTitle.hasFocus())
+			if ((this.edtTitle.getText().equals(MainForm.lang.lang_table[29])) && (!this.edtTitle.hasFocus())
 				&& (this.leFichier.getFileFormat().retFormat().equals("MP3")))
 			{
 				String title = this.leFichier.findID3();
-				if (title.equals(" - ")) this.edtTitle.setText(MainForm.lang.lang_table.get(29));
+				if (title.equals(" - ")) this.edtTitle.setText(MainForm.lang.lang_table[29]);
 				else this.edtTitle.setText(title);
 			}
 			
@@ -296,7 +296,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	
 	public void setFinished()
 	{
-		if (this.edtTitle.getText().equals(MainForm.lang.lang_table.get(29)))
+		if (this.edtTitle.getText().equals(MainForm.lang.lang_table[29]))
 		{
 			CaptureSystem.unNamedId++;
 			this.edtTitle.setText("Untitled_"+CaptureSystem.unNamedId);
@@ -305,7 +305,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		
 		this.isWaitingFor = false;
 		this.icoState.editImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/"+"download_done.png")));
-		this.lblState.setText(MainForm.lang.lang_table.get(30)+" ("+Commun.sizeConvert(this.leFichier.getCap_FileSize())+").");
+		this.lblState.setText(MainForm.lang.lang_table[30]+" ("+Commun.sizeConvert(this.leFichier.getCap_FileSize())+").");
 		this.pbProgress.setVisible(false);
 		this.pbProgress.setSize(new Dimension(617,24));
 		this.btnSave.setVisible(true);
@@ -358,7 +358,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.isWaitingFor = true;
 		this.isFullReady = false;
 		this.reduce();
-		this.lblState.setText(MainForm.lang.lang_table.get(31));
+		this.lblState.setText(MainForm.lang.lang_table[31]);
 		this.imgReduce.setVisible(false);
 		this.chkSel.setVisible(false);
 	}
@@ -439,12 +439,12 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.chkSel.setOpaque(false);
 		this.chkSel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
-		this.btnCopy.setToolTipText(MainForm.lang.lang_table.get(32));
+		this.btnCopy.setToolTipText(MainForm.lang.lang_table[32]);
 		
 		this.btnStop.setVisible(false);
-		this.btnStop.setToolTipText(MainForm.lang.lang_table.get(33));
+		this.btnStop.setToolTipText(MainForm.lang.lang_table[33]);
 		
-		this.lblState.setText(MainForm.lang.lang_table.get(34));
+		this.lblState.setText(MainForm.lang.lang_table[34]);
 		this.lblState.setFont(new java.awt.Font("Default_tm", 0, 11));
 		
 		this.pbProgress.setMaximum(this.leFichier.getCap_FileSize());
@@ -458,7 +458,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.edtTitle.addKeyListener(this);
 		this.edtTitle.setOpaque(false);
 		
-		if (CaptureSystem.custTitle.equals(""))	this.edtTitle.setText(MainForm.lang.lang_table.get(29));
+		if (CaptureSystem.custTitle.equals(""))	this.edtTitle.setText(MainForm.lang.lang_table[29]);
 		else 
 		{
 			if (this.leFichier.getFileFormat().retFormat().equals("FLV")) 
@@ -502,7 +502,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.add(this.btnTags);
 		this.add(this.btnPrev);
 		
-		if (MainForm.trayIcon != null) MainForm.trayIcon.displayMessage("TubeMaster++", MainForm.lang.lang_table.get(35)+"\n"+this.edtTitle.getText()+"."+this.leFichier.getFileFormat().retFormat().toLowerCase(), TrayIcon.MessageType.INFO);
+		if (MainForm.trayIcon != null) MainForm.trayIcon.displayMessage("TubeMaster++", MainForm.lang.lang_table[35]+"\n"+this.edtTitle.getText()+"."+this.leFichier.getFileFormat().retFormat().toLowerCase(), TrayIcon.MessageType.INFO);
 		
 
 	}

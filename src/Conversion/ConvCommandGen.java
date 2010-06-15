@@ -66,7 +66,7 @@ public class ConvCommandGen
 			
 			if (f_out.exists())
 			{
-				JOptionPane.showMessageDialog(null, MainForm.lang.lang_table.get(41), MainForm.lang.lang_table.get(40),1);
+				JOptionPane.showMessageDialog(null, MainForm.lang.lang_table[41], MainForm.lang.lang_table[40],1);
 				return false;
 			}
 				else

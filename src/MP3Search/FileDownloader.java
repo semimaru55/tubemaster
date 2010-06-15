@@ -96,7 +96,7 @@ public class FileDownloader implements Runnable, ActionListener
 			
 			if (this.fileSize == -1) //Lien Invalide.
             {
-                this.lblStatus.setText(MainForm.lang.lang_table.get(50));
+                this.lblStatus.setText(MainForm.lang.lang_table[50]);
                 this.isFinished = true;
                 return;
             }
@@ -123,7 +123,7 @@ public class FileDownloader implements Runnable, ActionListener
 	            	writeFile.write(buffer, 0, read);
 	            	this.downSize += read;
 	            	this.pbar.setValue(this.downSize);
-	            	this.lblStatus.setText(MainForm.lang.lang_table.get(51)+" ... ("+Commun.sizeConvert(this.downSize) +" / "+Commun.sizeConvert(this.fileSize)+") at "+this.speed);
+	            	this.lblStatus.setText(MainForm.lang.lang_table[51]+" ... ("+Commun.sizeConvert(this.downSize) +" / "+Commun.sizeConvert(this.fileSize)+") at "+this.speed);
 	            }
 	                	           
 	            writeFile.flush();
@@ -133,7 +133,7 @@ public class FileDownloader implements Runnable, ActionListener
                 
 			} catch (Exception e) 
 			{
-				 this.lblStatus.setText(MainForm.lang.lang_table.get(50));
+				 this.lblStatus.setText(MainForm.lang.lang_table[50]);
 				 this.isFinished = true;
 	             return;
 			}
@@ -148,7 +148,7 @@ public class FileDownloader implements Runnable, ActionListener
 		} catch (IOException e) 
 		{
 			this.isFinished = true;
-			this.lblStatus.setText(MainForm.lang.lang_table.get(50));
+			this.lblStatus.setText(MainForm.lang.lang_table[50]);
 		}
 		
 

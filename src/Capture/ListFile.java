@@ -72,7 +72,7 @@ public class ListFile extends JPanel
 			{
 				g.drawImage(this.img, 60, 45, this);
 				g.setColor(Color.gray.darker().darker());
-				g.drawString(MainForm.lang.lang_table.get(57), 3, 392);
+				g.drawString(MainForm.lang.lang_table[57], 3, 392);
 				
 			}
 		}

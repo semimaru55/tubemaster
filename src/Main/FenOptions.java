@@ -79,7 +79,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 	private String[] bitrates = {"64","128","192","224","320"};
 	private JComboBox cmbBitrate = new JComboBox(this.bitrates);
 	
-	private TMButton btnClose = new TMButton(this,0,0,MainForm.lang.lang_table.get(56),"",0,4,100);
+	private TMButton btnClose = new TMButton(this,0,0,MainForm.lang.lang_table[56],"",0,4,100);
 	
 
 	private JPanel grpPlayers = new JPanel();
@@ -97,12 +97,12 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 	SpinnerNumberModel timeoutModel = new SpinnerNumberModel (Integer.parseInt(MainForm.opts.timeout), -1, Integer.MAX_VALUE, 1);
 	private JSpinner edtTimeout = new JSpinner(timeoutModel);
 	private JPanel grpTimeout = new JPanel();
-	private JLabel sec = new JLabel("(-1 "+MainForm.lang.lang_table.get(71)+")");	
+	private JLabel sec = new JLabel("(-1 "+MainForm.lang.lang_table[71]+")");	
 	
 	SpinnerNumberModel minimalModel = new SpinnerNumberModel (Integer.parseInt(MainForm.opts.minimal), 0, Integer.MAX_VALUE, 128);
 	private JSpinner edtMinimal = new JSpinner(minimalModel);
 	private JPanel grpMinimal = new JPanel();
-	private JLabel bytes = new JLabel(MainForm.lang.lang_table.get(80));
+	private JLabel bytes = new JLabel(MainForm.lang.lang_table[80]);
 	
 	
 	
@@ -123,7 +123,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.addWindowListener(this);
 		this.panFen.setLayout(null);
 		this.panFen.setBackground(Color.decode("#676767"));
-		this.setTitle("TubeMaster++ "+MainForm.lang.lang_table.get(0));
+		this.setTitle("TubeMaster++ "+MainForm.lang.lang_table[0]);
 		this.setSize(491, 293);
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
@@ -136,7 +136,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 //Checkboxes-------------------------------------		
 		this.chkAutoCapture.setFont(new java.awt.Font("Default_tm", 0, 11));
 		this.chkAutoCapture.setBounds(5,5,455,20);
-		this.chkAutoCapture.setText(MainForm.lang.lang_table.get(19));
+		this.chkAutoCapture.setText(MainForm.lang.lang_table[19]);
 		this.chkAutoCapture.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		this.chkAutoCapture.setOpaque(false);
 		this.chkAutoCapture.setForeground(Color.white);
@@ -145,7 +145,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		
 		this.chkUpdate.setFont(new java.awt.Font("Default_tm", 0, 11));
 		this.chkUpdate.setBounds(5,25,455,20);
-		this.chkUpdate.setText(MainForm.lang.lang_table.get(20));
+		this.chkUpdate.setText(MainForm.lang.lang_table[20]);
 		this.chkUpdate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		this.chkUpdate.setOpaque(false);
 		this.chkUpdate.setForeground(Color.white);
@@ -154,7 +154,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		
 		this.chkTray.setFont(new java.awt.Font("Default_tm", 0, 11));
 		this.chkTray.setBounds(5,45,455,20);
-		this.chkTray.setText(MainForm.lang.lang_table.get(21));
+		this.chkTray.setText(MainForm.lang.lang_table[21]);
 		this.chkTray.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		this.chkTray.setOpaque(false);
 		this.chkTray.setForeground(Color.white);
@@ -163,7 +163,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		
 		this.chkDelConv.setFont(new java.awt.Font("Default_tm", 0, 11));
 		this.chkDelConv.setBounds(5,65,455,20);
-		this.chkDelConv.setText(MainForm.lang.lang_table.get(22));
+		this.chkDelConv.setText(MainForm.lang.lang_table[22]);
 		this.chkDelConv.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		this.chkDelConv.setOpaque(false);
 		this.chkDelConv.setForeground(Color.white);
@@ -172,7 +172,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		
 		this.chkCloseBox.setFont(new java.awt.Font("Default_tm", 0, 11));
 		this.chkCloseBox.setBounds(5,85,455,20);
-		this.chkCloseBox.setText(MainForm.lang.lang_table.get(55));
+		this.chkCloseBox.setText(MainForm.lang.lang_table[55]);
 		this.chkCloseBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		this.chkCloseBox.setOpaque(false);
 		this.chkCloseBox.setForeground(Color.white);
@@ -184,7 +184,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.grpLang.setBounds(5,110,455,50);
 		this.grpLang.setOpaque(false);
 		this.grpLang.setForeground(Color.white);
-		TitledBorder b1 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table.get(23)+" ");
+		TitledBorder b1 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table[23]+" ");
 		b1.setTitleColor(Color.white);
 		b1.setTitleFont(new java.awt.Font("Default_tm", 0, 11));
 		this.grpLang.setBorder(b1);
@@ -204,7 +204,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.grpDefRep.setBounds(5,5,455,100);
 		this.grpDefRep.setOpaque(false);
 		this.grpDefRep.setForeground(Color.white);
-		TitledBorder b2 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table.get(24)+" ");
+		TitledBorder b2 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table[24]+" ");
 		b2.setTitleColor(Color.white);
 		b2.setTitleFont(new java.awt.Font("Default_tm", 0, 11));
 		this.grpDefRep.setBorder(b2);
@@ -223,7 +223,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 //Auto Conversion -----------------------------------
 		this.chkAutoConv.setFont(new java.awt.Font("Default_tm", 0, 11));
 		this.chkAutoConv.setBounds(5,45,455,20);
-		this.chkAutoConv.setText(MainForm.lang.lang_table.get(25));
+		this.chkAutoConv.setText(MainForm.lang.lang_table[25]);
 		this.chkAutoConv.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		this.chkAutoConv.setOpaque(false);
 		this.chkAutoConv.setForeground(Color.white);
@@ -263,7 +263,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.grpBitrate.setBounds(5,110,160,55);
 		this.grpBitrate.setOpaque(false);
 		this.grpBitrate.setForeground(Color.white);
-		TitledBorder b3 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table.get(69)+" (Kbps) ");
+		TitledBorder b3 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table[69]+" (Kbps) ");
 		b3.setTitleColor(Color.white);
 		b3.setTitleFont(new java.awt.Font("Default_tm", 0, 11));
 		this.grpBitrate.setBorder(b3);
@@ -280,7 +280,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.grpPlayers.setBounds(5,5,455,142);
 		this.grpPlayers.setOpaque(false);
 		this.grpPlayers.setForeground(Color.white);
-		TitledBorder b4 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table.get(67)+" ");
+		TitledBorder b4 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table[67]+" ");
 		b4.setTitleColor(Color.white);
 		b4.setTitleFont(new java.awt.Font("Default_tm", 0, 11));
 		this.grpPlayers.setBorder(b4);
@@ -314,7 +314,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		
 		this.chkAutoStartPlay.setFont(new java.awt.Font("Default_tm", 0, 11));
 		this.chkAutoStartPlay.setBounds(6,115,455,20);
-		this.chkAutoStartPlay.setText(MainForm.lang.lang_table.get(68));
+		this.chkAutoStartPlay.setText(MainForm.lang.lang_table[68]);
 		this.chkAutoStartPlay.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		this.chkAutoStartPlay.setOpaque(false);
 		this.chkAutoStartPlay.setForeground(Color.white);
@@ -338,7 +338,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.grpTimeout.setBounds(5,5,210,55);
 		this.grpTimeout.setOpaque(false);
 		this.grpTimeout.setForeground(Color.white);
-		TitledBorder b5 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table.get(70)+" ");
+		TitledBorder b5 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table[70]+" ");
 		b5.setTitleColor(Color.white);
 		b5.setTitleFont(new java.awt.Font("Default_tm", 0, 11));
 		this.grpTimeout.setBorder(b5);
@@ -359,7 +359,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.grpMinimal.setBounds(220,5,230,55);
 		this.grpMinimal.setOpaque(false);
 		this.grpMinimal.setForeground(Color.white);
-		TitledBorder b6 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table.get(79)+" ");
+		TitledBorder b6 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table[79]+" ");
 		b6.setTitleColor(Color.white);
 		b6.setTitleFont(new java.awt.Font("Default_tm", 0, 11));
 		this.grpMinimal.setBorder(b6);
@@ -417,10 +417,10 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		});
 
 		this.tabs.setBounds(5,5,476,210);
-		this.tabs.addTab(MainForm.lang.lang_table.get(75), this.tab_general);
-		this.tabs.addTab(MainForm.lang.lang_table.get(76), this.tab_capture);
-		this.tabs.addTab(MainForm.lang.lang_table.get(77), this.tab_save);
-		this.tabs.addTab(MainForm.lang.lang_table.get(78), this.tab_players);
+		this.tabs.addTab(MainForm.lang.lang_table[75], this.tab_general);
+		this.tabs.addTab(MainForm.lang.lang_table[76], this.tab_capture);
+		this.tabs.addTab(MainForm.lang.lang_table[77], this.tab_save);
+		this.tabs.addTab(MainForm.lang.lang_table[78], this.tab_players);
 		
 		this.btnClose.setBounds(377,225,100,30);
 		

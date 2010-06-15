@@ -101,7 +101,7 @@ public class CommandRunner implements Runnable
 			
             if ((!this.isFFPLAY) && (convFailed)) 
             {
-            	JOptionPane.showMessageDialog(null, MainForm.lang.lang_table.get(74)+"\n"+lastLine, "FFMPEG Error", 0);
+            	JOptionPane.showMessageDialog(null, MainForm.lang.lang_table[74]+"\n"+lastLine, "FFMPEG Error", 0);
             }
 			
 	
@@ -109,7 +109,7 @@ public class CommandRunner implements Runnable
 		{
 			if (this.isFFPLAY)
 			{
-				JOptionPane.showMessageDialog(null, MainForm.lang.lang_table.get(73), MainForm.lang.lang_table.get(72), 0);
+				JOptionPane.showMessageDialog(null, MainForm.lang.lang_table[73], MainForm.lang.lang_table[72], 0);
 			} 
 			else
 			{

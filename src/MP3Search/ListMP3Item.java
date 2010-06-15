@@ -111,7 +111,7 @@ public class ListMP3Item extends JPanel
 
 		this.lblStatus.setForeground(Color.black);
 		this.lblStatus.setFont(new Font("Default_tm", Font.BOLD, 10));
-		this.lblStatus.setText(MainForm.lang.lang_table.get(52)+" ...");
+		this.lblStatus.setText(MainForm.lang.lang_table[52]+" ...");
 		
 
 		this.closer.setPreferredSize(new Dimension(14,14));

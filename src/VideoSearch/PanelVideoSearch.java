@@ -52,14 +52,14 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 	private static final long serialVersionUID = 1L;
 
 	
-	private String[] tabSites = {MainForm.lang.lang_table.get(11),"YouTube","Dailymotion","MySpace","Yahoo! Video","Google Video","ABC News","Amazon Unbox","Bloomberg","CBS News","CBS Sportsline","CHBN","CNBC","Comedy Central","Crackle","C-SPAN","CSTV","CW","AOL Music","ESPN","FOX News","FT.com","Funny or Die","KDKA Pittsburgh","KUTV Salt Lake City","MovieLink","MSN Video","MSNBC","NBA.com","NECN","NFL.com","ON Networks","Reuters","ROOTV","Seattle Seahawks","Sports Illustrated","The Sun","The Weather Channel","Warner Bros.","Zipidee","Vimeo","IFILM","VideoRigolo","metacafe","Veoh","56.com","Bebo","Megavideo","My Video","PANDORA.TV","soapbox","TU.tv","Tudou","YoQoo","RTVE.es","Revver","Forbes.com","NY1","sevenload","WCBS New York","CTV.ca","Sport1.de","sportal.de","blip.tv","Handelsblatt","KCAL/KCBS Los Angeles","MarketWatch","blogTV","Gametrailers.com","Jujunation","Myspace","ultimateGuitar","The Daily Show","AP Video","FORA.tv","France 24","Infolive.tv","KCNC Denver","Le Monde","MediaScrape","Moblogic","New York Times Video","Daily Star","U.S.News","USA TODAY","BBC News","UnCut Video","tu.tv","Nico Video","MSN France","South Park Studios","TMZ.com","Clipta","IGN","Hulu","CBS"};
-	private JLabel lblTitle = new JLabel(MainForm.lang.lang_table.get(10) + " :");
+	private String[] tabSites = {MainForm.lang.lang_table[11],"YouTube","Dailymotion","MySpace","Yahoo! Video","Google Video","ABC News","Amazon Unbox","Bloomberg","CBS News","CBS Sportsline","CHBN","CNBC","Comedy Central","Crackle","C-SPAN","CSTV","CW","AOL Music","ESPN","FOX News","FT.com","Funny or Die","KDKA Pittsburgh","KUTV Salt Lake City","MovieLink","MSN Video","MSNBC","NBA.com","NECN","NFL.com","ON Networks","Reuters","ROOTV","Seattle Seahawks","Sports Illustrated","The Sun","The Weather Channel","Warner Bros.","Zipidee","Vimeo","IFILM","VideoRigolo","metacafe","Veoh","56.com","Bebo","Megavideo","My Video","PANDORA.TV","soapbox","TU.tv","Tudou","YoQoo","RTVE.es","Revver","Forbes.com","NY1","sevenload","WCBS New York","CTV.ca","Sport1.de","sportal.de","blip.tv","Handelsblatt","KCAL/KCBS Los Angeles","MarketWatch","blogTV","Gametrailers.com","Jujunation","Myspace","ultimateGuitar","The Daily Show","AP Video","FORA.tv","France 24","Infolive.tv","KCNC Denver","Le Monde","MediaScrape","Moblogic","New York Times Video","Daily Star","U.S.News","USA TODAY","BBC News","UnCut Video","tu.tv","Nico Video","MSN France","South Park Studios","TMZ.com","Clipta","IGN","Hulu","CBS"};
+	private JLabel lblTitle = new JLabel(MainForm.lang.lang_table[10] + " :");
 	private JTextField edtSearch = new JTextField(); 
 	private JTable gridResults;
 	private DefaultTableModel tabModele = new DefaultTableModel();
 	private JScrollPane paneList;
 	
-	private static final String enteteTableau[]= {MainForm.lang.lang_table.get(12),MainForm.lang.lang_table.get(13),MainForm.lang.lang_table.get(14),MainForm.lang.lang_table.get(15),"","",""};
+	private static final String enteteTableau[]= {MainForm.lang.lang_table[12],MainForm.lang.lang_table[13],MainForm.lang.lang_table[14],MainForm.lang.lang_table[15],"","",""};
 	private static final int tailleColTableau[]= {320,5,40,40,0,0,0};
 	
 	private TMButton btnSearch = new TMButton(this,6,3,"","search.png",0,0,0);
@@ -170,7 +170,7 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 
 		
 		String channel = "";
-		if (!((String)this.comboSites.getSelectedItem()).equals(MainForm.lang.lang_table.get(11)))
+		if (!((String)this.comboSites.getSelectedItem()).equals(MainForm.lang.lang_table[11]))
 				channel = "%20channel:\"" +(String)this.comboSites.getSelectedItem()+'"';
 		
 		

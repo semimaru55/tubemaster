@@ -74,7 +74,7 @@ private static final long serialVersionUID = 1L;
 	public void mousePressed(MouseEvent arg0) {}
 	public void mouseReleased(MouseEvent arg0) 
 	{
-		if (JOptionPane.showConfirmDialog(null, MainForm.lang.lang_table.get(43), MainForm.lang.lang_table.get(37),
+		if (JOptionPane.showConfirmDialog(null, MainForm.lang.lang_table[43], MainForm.lang.lang_table[37],
 												JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
 		{
 

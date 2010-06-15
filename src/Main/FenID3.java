@@ -72,8 +72,8 @@ public class FenID3 extends JFrame implements ActionListener, WindowListener
 	private JLabel lblGenre = new JLabel();
 	private JComboBox cmbGenre;
 	
-	private TMButton btnCancel = new TMButton(this,0,0,MainForm.lang.lang_table.get(64),"",0,4,100);
-	private TMButton btnApply = new TMButton(this,0,0,MainForm.lang.lang_table.get(65),"",0,4,100);
+	private TMButton btnCancel = new TMButton(this,0,0,MainForm.lang.lang_table[64],"",0,4,100);
+	private TMButton btnApply = new TMButton(this,0,0,MainForm.lang.lang_table[65],"",0,4,100);
 	
 	private JTextField edtParent = new JTextField();
 	private TMButton btnParent;
@@ -262,7 +262,7 @@ public class FenID3 extends JFrame implements ActionListener, WindowListener
 	public void placeComposants()
 	{
 		
-		this.lblTitle.setText(MainForm.lang.lang_table.get(58));
+		this.lblTitle.setText(MainForm.lang.lang_table[58]);
 		this.lblTitle.setForeground(Color.white);
 		this.lblTitle.setBounds(15,10,250,20);
 		this.lblTitle.setHorizontalAlignment(JLabel.LEFT);
@@ -270,7 +270,7 @@ public class FenID3 extends JFrame implements ActionListener, WindowListener
 		this.edtTitle.setBounds(15,29,250,21);
 		this.edtTitle.setFont(new java.awt.Font("Default_tm", 0, 11));
 		
-		this.lblArtist.setText(MainForm.lang.lang_table.get(59));
+		this.lblArtist.setText(MainForm.lang.lang_table[59]);
 		this.lblArtist.setForeground(Color.white);
 		this.lblArtist.setBounds(15,59,250,20);
 		this.lblArtist.setHorizontalAlignment(JLabel.LEFT);
@@ -278,7 +278,7 @@ public class FenID3 extends JFrame implements ActionListener, WindowListener
 		this.edtArtist.setBounds(15,78,250,21);
 		this.edtArtist.setFont(new java.awt.Font("Default_tm", 0, 11));
 		
-		this.lblAlbum.setText(MainForm.lang.lang_table.get(60));
+		this.lblAlbum.setText(MainForm.lang.lang_table[60]);
 		this.lblAlbum.setForeground(Color.white);
 		this.lblAlbum.setBounds(15,108,250,20);
 		this.lblAlbum.setHorizontalAlignment(JLabel.LEFT);
@@ -286,7 +286,7 @@ public class FenID3 extends JFrame implements ActionListener, WindowListener
 		this.edtAlbum.setBounds(15,127,250,21);
 		this.edtAlbum.setFont(new java.awt.Font("Default_tm", 0, 11));
 		
-		this.lblYear.setText(MainForm.lang.lang_table.get(61));
+		this.lblYear.setText(MainForm.lang.lang_table[61]);
 		this.lblYear.setForeground(Color.white);
 		this.lblYear.setBounds(15,157,95,20);
 		this.lblYear.setHorizontalAlignment(JLabel.LEFT);
@@ -294,7 +294,7 @@ public class FenID3 extends JFrame implements ActionListener, WindowListener
 		this.edtYear.setBounds(15,176,95,21);
 		this.edtYear.setFont(new java.awt.Font("Default_tm", 0, 11));
 		
-		this.lblTrack.setText(MainForm.lang.lang_table.get(62));
+		this.lblTrack.setText(MainForm.lang.lang_table[62]);
 		this.lblTrack.setForeground(Color.white);
 		this.lblTrack.setBounds(120,157,145,20);
 		this.lblTrack.setHorizontalAlignment(JLabel.LEFT);
@@ -302,7 +302,7 @@ public class FenID3 extends JFrame implements ActionListener, WindowListener
 		this.edtTrack.setBounds(120,176,145,21);
 		this.edtTrack.setFont(new java.awt.Font("Default_tm", 0, 11));
 		
-		this.lblGenre.setText(MainForm.lang.lang_table.get(63));
+		this.lblGenre.setText(MainForm.lang.lang_table[63]);
 		this.lblGenre.setForeground(Color.white);
 		this.lblGenre.setBounds(15,206,250,20);
 		this.lblGenre.setHorizontalAlignment(JLabel.LEFT);

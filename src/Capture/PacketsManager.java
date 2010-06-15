@@ -141,7 +141,8 @@ public class PacketsManager implements Runnable
 		//Si on trouve pas alors on va chercher dans le cache.
 		if (size==-250289)
 		{
-			for (int i=0;i<this.packetCache.size();i++)
+			int len = this.packetCache.size();
+			for (int i=0;i<len;i++)
 			{
 				if (p.getAck()==this.packetCache.get(i).getAck())
 				{					
@@ -178,7 +179,8 @@ public class PacketsManager implements Runnable
 		//Si on trouve pas alors on va chercher dans le cache. (Utilisation des Ports).
 		if (url.equals(""))
 		{
-			for (int i=0;i<this.packetCache.size();i++)
+			int len = this.packetCache.size();
+			for (int i=0;i<len;i++)
 			{
 				if (p.getPorts()==this.packetCache.get(i).getPorts())
 				{					
@@ -221,7 +223,8 @@ public class PacketsManager implements Runnable
 			this.fileList.ajoutItem(new ListFileItem(this.fileList,newFile,real_url));
 			
 			//SAUVETAGE TEMP
-			for (int i=0;i<this.packetCache.size();i++)
+			int len = this.packetCache.size();
+			for (int i=0;i<len;i++)
 			{
 				if (p.getAck()==this.packetCache.get(i).getAck())
 				{		

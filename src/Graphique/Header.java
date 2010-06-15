@@ -46,16 +46,16 @@ public class Header extends JPanel implements ActionListener
 	
 	private JLabel lblVersion = new JLabel();
 	
-	private TabbedButton tab1 = new TabbedButton(MainForm.lang.lang_table.get(3),"tabCapture.png");
-	private TabbedButton tab2 = new TabbedButton(MainForm.lang.lang_table.get(4),"tabVideo.png");
-	private TabbedButton tab3 = new TabbedButton(MainForm.lang.lang_table.get(5),"tabMusic.png");
+	private TabbedButton tab1 = new TabbedButton(MainForm.lang.lang_table[3],"tabCapture.png");
+	private TabbedButton tab2 = new TabbedButton(MainForm.lang.lang_table[4],"tabVideo.png");
+	private TabbedButton tab3 = new TabbedButton(MainForm.lang.lang_table[5],"tabMusic.png");
 	private JPanel pan1;
 	private JPanel pan2;
 	private JPanel pan3;
 	
-	private TMButton btnOptions = new TMButton(this,45,6,MainForm.lang.lang_table.get(0),"options.png",2,38,116);
-	private TMButton btnDonate = new TMButton(this,45,6,MainForm.lang.lang_table.get(1),"donate.png",2,38,116);
-	private TMButton btnAbout = new TMButton(this,45,6,MainForm.lang.lang_table.get(2),"about.png",2,38,116);
+	private TMButton btnOptions = new TMButton(this,45,6,MainForm.lang.lang_table[0],"options.png",2,38,116);
+	private TMButton btnDonate = new TMButton(this,45,6,MainForm.lang.lang_table[1],"donate.png",2,38,116);
+	private TMButton btnAbout = new TMButton(this,45,6,MainForm.lang.lang_table[2],"about.png",2,38,116);
 	
 	private Image fond = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/"+"Header.png"));
 	

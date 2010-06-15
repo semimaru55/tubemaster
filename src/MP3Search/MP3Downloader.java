@@ -129,7 +129,7 @@ public class MP3Downloader extends JFrame implements ActionListener, WindowListe
 		if (this.laListe.getComponentCount()>0)
 		{
 		
-			if (JOptionPane.showConfirmDialog(null, MainForm.lang.lang_table.get(42), MainForm.lang.lang_table.get(37),
+			if (JOptionPane.showConfirmDialog(null, MainForm.lang.lang_table[42], MainForm.lang.lang_table[37],
 					JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
 			{
 	

@@ -158,6 +158,20 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
     } 
 	
 	
+	
+	private void exit_properly()
+	{
+		MainForm.convManager.shutUp();
+		panCap.capManager(true);
+		panCap.getListe().clearAll();
+		File dossier = new File("temp");
+		if (dossier.exists()) this.deleteDir(dossier);
+		File f = new File ("Errors.log");
+		if ((f.exists()) && (f.length() > 1000000)) f.delete();
+	}
+	
+	
+	
 	//=====================================================================================================
 	
 
@@ -173,7 +187,7 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 		
 		
 		if (opts.closeBox)
-		if (!(JOptionPane.showConfirmDialog(this, MainForm.lang.lang_table.get(47), MainForm.lang.lang_table.get(37),
+		if (!(JOptionPane.showConfirmDialog(this, MainForm.lang.lang_table[47], MainForm.lang.lang_table[37],
 				JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION))
 		{	
 			vaFermer = false;
@@ -184,13 +198,7 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 		{
 			this.setVisible(false);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			MainForm.convManager.shutUp();
-			panCap.capManager(true);
-			panCap.getListe().clearAll();
-			File dossier = new File("temp");
-			if (dossier.exists()) this.deleteDir(dossier);
-			File f = new File ("Errors.log");
-			if ((f.exists()) && (f.length() > 1000000)) f.delete();	
+			this.exit_properly();
 		} else this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 
@@ -241,8 +249,8 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	    {
     	
 		    if (JOptionPane.showConfirmDialog(null, 
-		    		MainForm.lang.lang_table.get(44)+"\n"+MainForm.lang.lang_table.get(45) 
-	    			, MainForm.lang.lang_table.get(46),
+		    		MainForm.lang.lang_table[44]+"\n"+MainForm.lang.lang_table[45] 
+	    			, MainForm.lang.lang_table[46],
 	    			JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
 	    	{
 	    		try
@@ -276,13 +284,7 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 		else
 		if (e.getActionCommand().equals("EXIT_TRAY"))
 		{
-			MainForm.convManager.shutUp();
-			panCap.capManager(true);
-			panCap.getListe().clearAll();
-			File dossier = new File("temp");
-			if (dossier.exists()) this.deleteDir(dossier);
-			File f = new File ("Errors.log");
-			if ((f.exists()) && (f.length() > 1000000)) f.delete();
+			this.exit_properly();
 			System.exit(0);
 
 		}	

@@ -50,17 +50,17 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 	private static final long serialVersionUID = 1L;
 	
 	
-	private JLabel lblTitle = new JLabel(MainForm.lang.lang_table.get(16)+" :");
+	private JLabel lblTitle = new JLabel(MainForm.lang.lang_table[16]+" :");
 	private JTextField edtSearch = new JTextField();; 
 	private JTable gridResults;
 	private DefaultTableModel tabModele = new DefaultTableModel();
 	private JScrollPane paneList;
 	
-	private static final String enteteTableau[]= {MainForm.lang.lang_table.get(17),MainForm.lang.lang_table.get(66),""};
+	private static final String enteteTableau[]= {MainForm.lang.lang_table[17],MainForm.lang.lang_table[66],""};
 	private static final int tailleColTableau[]= {200,200,0};
 	
 	private TMButton btnSearch = new TMButton(this,6,3,"","search.png",0,0,0);
-	private TMButton btnDown = new TMButton(this,6,4,MainForm.lang.lang_table.get(18),"downbutton.png",38,10,117);
+	private TMButton btnDown = new TMButton(this,6,4,MainForm.lang.lang_table[18],"downbutton.png",38,10,117);
 	//private TMButton btnPlay = new TMButton(this,5,4,"","playmp3.png",0,0,0);
 	
 	
@@ -172,7 +172,7 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 		{
 			if (this.capture.isCapAlive())
 			{
-				if (JOptionPane.showConfirmDialog(this, MainForm.lang.lang_table.get(53), MainForm.lang.lang_table.get(54),
+				if (JOptionPane.showConfirmDialog(this, MainForm.lang.lang_table[53], MainForm.lang.lang_table[54],
 						JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
 				{
 					this.capture.capManager(true);

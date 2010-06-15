@@ -11,8 +11,8 @@ public class TrayMenu extends PopupMenu
 
 	private static final long serialVersionUID = 1L;
 	
-	private MenuItem menu_exit = new MenuItem(MainForm.lang.lang_table.get(56));
-	private MenuItem menu_start_stop = new MenuItem(MainForm.lang.lang_table.get(7));
+	private MenuItem menu_exit = new MenuItem(MainForm.lang.lang_table[56]);
+	private MenuItem menu_start_stop = new MenuItem(MainForm.lang.lang_table[7]);
 
 	public TrayMenu(ActionListener listener)
 	{
@@ -31,8 +31,8 @@ public class TrayMenu extends PopupMenu
 	
 	public void set_state(boolean started)
 	{
-		if (started) this.menu_start_stop.setLabel(MainForm.lang.lang_table.get(6));
-		else this.menu_start_stop.setLabel(MainForm.lang.lang_table.get(7));	
+		if (started) this.menu_start_stop.setLabel(MainForm.lang.lang_table[6]);
+		else this.menu_start_stop.setLabel(MainForm.lang.lang_table[7]);	
 	}
 	
 	

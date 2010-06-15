@@ -47,7 +47,7 @@ public class PanelVideoPresent extends JPanel implements ActionListener
 	private Image image;
 	private JTextArea edtVideo = new JTextArea();
 	private JScrollPane paneEdit = new JScrollPane(this.edtVideo);
-	private TMButton btnPlay = new TMButton(this,13,8,MainForm.lang.lang_table.get(36),"play.png",32,7,115);
+	private TMButton btnPlay = new TMButton(this,13,8,MainForm.lang.lang_table[36],"play.png",32,7,115);
 	
 	private String currentURL = new String("");
 

@@ -51,8 +51,8 @@ public class PanelCapture extends JPanel implements ActionListener
 	private boolean checkState = false;
 	
 	private TMButton btnCapture;
-	private TMButton btnSaveAll = new TMButton(this,7,4,MainForm.lang.lang_table.get(8),"saveall.png",41,9,140);
-	private TMButton btnConvertAll = new TMButton(this,7,4,MainForm.lang.lang_table.get(9),"convertall.png",41,9,140);
+	private TMButton btnSaveAll = new TMButton(this,7,4,MainForm.lang.lang_table[8],"saveall.png",41,9,140);
+	private TMButton btnConvertAll = new TMButton(this,7,4,MainForm.lang.lang_table[9],"convertall.png",41,9,140);
 	private TMButton btnCheckAll = new TMButton(this,8,12,"","unchecked.png",0,0,0);
 	private TMButton btnClearAll = new TMButton(this,8,12,"","close.png",0,0,0);
 	private TMButton btnReduceAll = new TMButton(this,8,12,"","reduce.png",0,0,0);
@@ -71,12 +71,12 @@ public class PanelCapture extends JPanel implements ActionListener
 		//Démarrage auto de la capture ou pas.
 		if (MainForm.opts.autoCapture)
 		{
-			this.btnCapture = new TMButton(this,7,4,MainForm.lang.lang_table.get(6),"stop_cap.png",41,9,140);
+			this.btnCapture = new TMButton(this,7,4,MainForm.lang.lang_table[6],"stop_cap.png",41,9,140);
 			this.capture = new CaptureSystem(this.laListe);
 			this.capAlive = true;
 		} else 
 		{
-			this.btnCapture = new TMButton(this,7,4,MainForm.lang.lang_table.get(7),"start_cap.png",41,9,140);
+			this.btnCapture = new TMButton(this,7,4,MainForm.lang.lang_table[7],"start_cap.png",41,9,140);
 			this.capAlive = false;
 		}
 
@@ -144,7 +144,7 @@ public class PanelCapture extends JPanel implements ActionListener
 		{
 			if (this.laListe.getItemsCount()>0)
 			{
-				if (JOptionPane.showConfirmDialog(null, MainForm.lang.lang_table.get(39), MainForm.lang.lang_table.get(37),
+				if (JOptionPane.showConfirmDialog(null, MainForm.lang.lang_table[39], MainForm.lang.lang_table[37],
 				JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
 					this.laListe.clearAll();
 			}
@@ -213,14 +213,14 @@ public class PanelCapture extends JPanel implements ActionListener
 		    	{
 		    		if (capture != null) capture.shutUp();
 		    		btnCapture.changeImage("start_cap.png");
-		    		btnCapture.changeText(MainForm.lang.lang_table.get(7));
+		    		btnCapture.changeText(MainForm.lang.lang_table[7]);
 					capAlive = false;
 		    	}
 		    	else
 		    	{
 		    		capture = new CaptureSystem(laListe);
 		    		btnCapture.changeImage("stop_cap.png");
-		    		btnCapture.changeText(MainForm.lang.lang_table.get(6));
+		    		btnCapture.changeText(MainForm.lang.lang_table[6]);
 					capAlive = true;
 		    	}
 	    	
