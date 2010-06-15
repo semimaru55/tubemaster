@@ -84,8 +84,7 @@ public class PacketsManager implements Runnable
 						if (p.contient("FLV"+(char)1)) this.file_detected("FLV", p);
 						else
 						if (p.contient("ID3"+(char)2) || p.contient("ID3"+(char)3) || p.contient("ID3"+(char)4) || 
-							p.contient("Content-Type: audio/mpeg") || (p.contient("LAME3.") && p.contient("Xing"))
-							|| (p.contient("X-Powered-By: PHP/5.2.6-pl7-gentoo"))) 
+							p.contient("Content-Type: audio/mpeg") || (p.contient("LAME3.") && p.contient("Xing")))
 								this.file_detected("MP3", p);
 						else
 						if (p.contient("ftypisom") || p.contient("ftypmp4") || p.contient("isomavc1"))

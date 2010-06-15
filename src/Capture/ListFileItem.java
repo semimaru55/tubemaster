@@ -502,7 +502,9 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.add(this.btnTags);
 		this.add(this.btnPrev);
 		
-		if (MainForm.trayIcon != null) MainForm.trayIcon.displayMessage("TubeMaster++", MainForm.lang.lang_table[35]+"\n"+this.edtTitle.getText()+"."+this.leFichier.getFileFormat().retFormat().toLowerCase(), TrayIcon.MessageType.INFO);
+
+		
+		if (MainForm.trayIcon != null) MainForm.trayIcon.displayMessage("TubeMaster++", MainForm.lang.lang_table[35], TrayIcon.MessageType.INFO);
 		
 
 	}
