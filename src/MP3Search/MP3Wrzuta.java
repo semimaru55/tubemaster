@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
@@ -30,13 +31,13 @@ import javax.swing.table.DefaultTableModel;
 import Main.Commun;
 
 
-public class MP3Sideload 
+public class MP3Wrzuta
 {
 	
 	private String query = "";
 	private boolean ended = false;
 	
-	public MP3Sideload(String query)
+	public MP3Wrzuta(String query)
 	{
 		this.query = query;
 		this.query = this.query.replaceAll(" ", "+");
@@ -44,49 +45,60 @@ public class MP3Sideload
 	
 	
 	public void doSearch(DefaultTableModel model)
-	{
-		
+	{		
 		try
 		{
 			int page = 1;
 			while (!ended)
 			{
-				
-				URL go = new URL("http://www.sideload.com/cb/search/?keywords="+this.query+"&pg="+page);
+
+				URL go = new URL("http://www.wrzuta.pl/szukaj/audio/"+this.query+"/"+page);
 				URLConnection yc = go.openConnection();
+							
 				BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
 				String inputLine;
 				String total = "";
+				
+				page++;
+				
 				while ((inputLine = in.readLine()) != null)
 				{
 					total += inputLine;	
 				}
-				
-				page++;
-				if (total.indexOf("&pg="+page)==-1) ended = true;
-				
-				if (total.indexOf("loadExternalUrl")>-1)
+
+	
+				if (total.indexOf("file_mini_user")>-1)
 				{
 
-					while (total.indexOf("loadExternalUrl")>-1)
+					while (total.indexOf("file_mini_user")>-1)
 					{
-						total = total.substring(total.indexOf("loadExternalUrl"));
-						String chaine = "<" + Commun.parse(total, "','", "');") + ">";
-						String url = Commun.parse(chaine, "<", "','");
-						String titre = Commun.parse(chaine, "','", ">");
-
+						total = total.substring(total.indexOf("file_mini_user"));
+						String url = Commun.parse(total, "<a href=\"", "\">");
+						url = url.replace("/audio/", "/sr/f/");
+						url = url.substring(0, url.lastIndexOf('/'));
+						
+						String titre = Commun.parse(total, "alt=\"", "\" ");
+						titre = titre.replace("&#039;", "'");
+						titre = titre.replace("&amp;", "&");
 						
 						Vector<String> newRow = new Vector<String>();
+						
+						titre = URLDecoder.decode(titre, "UTF-8"); 
+						url = URLDecoder.decode(url, "UTF-8");
+						
 						newRow.add(titre);
-						newRow.add("SideLoad.com");
+						newRow.add("Wrzuta.pl");
 						newRow.add(url);
 						model.addRow(newRow);
 	
 						
-						total = total.substring(total.indexOf("javascript:Sideload"));		
+						total = total.substring(total.indexOf("</div>"));		
 						
 					}	
-				}
+				} else ended = true;
+				
+				
+				
 				in.close();		
 				Thread.sleep(10);
 			}
@@ -104,3 +116,4 @@ public class MP3Sideload
 	
 
 }
+

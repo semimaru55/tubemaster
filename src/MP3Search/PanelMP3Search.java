@@ -27,14 +27,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLDecoder;
-
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -47,11 +40,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-
-
 import Capture.PanelCapture;
 import Graphique.TMButton;
-import Main.Commun;
 import Main.MainForm;
 
 
@@ -195,16 +185,10 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 				String url = (String) this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 2);
 				String title = (String) this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 0);
 				
-				boolean isFromYoutube = false;
-				if (url.startsWith("http://www.youtube.com")) 
-				{
-					isFromYoutube = true;
-					url = this.getYoutubeUrl(url);
-					
-				}
+
 				String rep = MainForm.opts.defRep; 
 				if (rep.equals("")) rep = this.dirChooser();
-				if (!rep.equals("")) MainForm.mp3down.ajoutItem(new ListMP3Item(url,title+".mp3",rep,isFromYoutube));
+				if (!rep.equals("")) MainForm.mp3down.ajoutItem(new ListMP3Item(url,title+".mp3",rep));
 			}
 		}
 	}
@@ -274,38 +258,7 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 		this.btnSearch.changeImage("search.png");		
 	}
 		
-	public String getYoutubeUrl(String addr)
-	{
-		try
-		{
-			URL link = new URL(addr);
-			HttpURLConnection yc = (HttpURLConnection) link.openConnection();
-			BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
-			String inputLine;
-			String total = "";
 
-			while ((inputLine = in.readLine()).indexOf("SWF_GAM_URL")==-1) total += inputLine;
-			total += inputLine;
-			
-			String urls = Commun.parse(total, "\"fmt_url_map\"", "\"keywords\"");
-			urls = URLDecoder.decode(urls, "UTF-8");
-			
-			String deb = "";
-			if (urls.indexOf("18|")>-1) deb = "18|";
-			else if (urls.indexOf("34|")>-1) deb = "34|";
-			else if (urls.indexOf("5|")>-1) deb = "5|";
-						
-			urls = Commun.parse(urls, deb, ",");
-			urls = urls.replaceAll("\"", "");
-				
-			return urls;
-		}
-		catch (Exception e) {Commun.logError(e); return "";}
-	}
-
-
-	
-	
 	
 
 	

@@ -27,15 +27,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.concurrent.CountDownLatch;
+
 
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
 
 import Capture.CaptureSystem;
-import Conversion.CommandRunner;
-import Conversion.ConvCommandGen;
 import Main.Commun;
 import Main.MainForm;
 
@@ -53,7 +51,6 @@ public class FileDownloader implements Runnable, ActionListener
 	private String speed = "0.0 KB/s";
 	private boolean stop = false;
 	private boolean isFinished = false;
-	private boolean isFromYoutube = false;
 
 	
 	
@@ -63,7 +60,7 @@ public class FileDownloader implements Runnable, ActionListener
 	
 
 	
-	public FileDownloader(String addr, String fileDir, String fileTitle, JProgressBar pbar, JLabel lblStatus, boolean isFromYoutube)
+	public FileDownloader(String addr, String fileDir, String fileTitle, JProgressBar pbar, JLabel lblStatus)
 	{	
 		this.addr = addr;
 		this.fileDir = fileDir;
@@ -72,7 +69,6 @@ public class FileDownloader implements Runnable, ActionListener
 		this.lblStatus = lblStatus;
 		this.timerRefresh.start();
 		this.timerRefresh.setRepeats(true);
-		this.isFromYoutube = isFromYoutube;	
 	}
 
 	
@@ -106,7 +102,7 @@ public class FileDownloader implements Runnable, ActionListener
             }
 			
 			String dir = this.fileDir + File.separator + this.fileTitle;	
-			if (this.isFromYoutube) dir = "temp"+File.separator+this.fileTitle+".tmdl"; //Si c'est un MP3 de YouTube.
+			
 			
 			try
 			{
@@ -133,29 +129,7 @@ public class FileDownloader implements Runnable, ActionListener
 	            writeFile.flush();
 	            writeFile.close();
                 input.close();
-                
-                if ((this.isFromYoutube) && (!this.stop)) //Si c'est du MP3Search alors on Encode.
-                {
-                	ConvCommandGen mc = new ConvCommandGen(this.fileTitle,dir,this.fileDir);
-                	String command = mc.ConvertClassic("-acodec libmp3lame -ab "+MainForm.opts.bitrate+"kb -ac 2 -ar 44100");
-                	if (!command.equals(""))
-            		{
-            			CountDownLatch sema = new CountDownLatch(1);
-            			CommandRunner cmd = new CommandRunner(command,this.lblStatus,this.pbar,null,sema);
-            			Thread threadManager = new Thread(cmd);
-            			threadManager.start();
-            			try //Sémaphore pour attendre la fin de la conversion.
-            			{
-							sema.await();
-						} catch (InterruptedException e) {Commun.logError(e);}
-						
-						File f = new File(dir);
-	                	f.delete();
-						
-            		}              	
-                }
-                
-                
+    
                 
 			} catch (Exception e) 
 			{

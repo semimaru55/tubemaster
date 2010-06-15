@@ -32,7 +32,9 @@ public class XMLMP3WebSearch implements Runnable
 	private PanelMP3Search panel;
 	private boolean stopped = false;
 	
-	MP3Sideload sideload_search;
+	private MP3Sideload sideload_search;
+	private MP3Skreemr skreemr_search;
+	private MP3Wrzuta wrzuta_search;
 	
 	public XMLMP3WebSearch(String query, DefaultTableModel model,PanelMP3Search panel)
 	{
@@ -46,9 +48,14 @@ public class XMLMP3WebSearch implements Runnable
 	{
 		this.panel.startSearch();
 
+		this.wrzuta_search = new MP3Wrzuta(this.query);
 		this.sideload_search = new MP3Sideload(this.query);
+		this.skreemr_search = new MP3Skreemr(this.query);
 		
+		if (!this.stopped) this.wrzuta_search.doSearch(this.model);
+		if (!this.stopped) this.skreemr_search.doSearch(this.model);
 		if (!this.stopped) this.sideload_search.doSearch(this.model);
+		
 
 		this.panel.stopSearch();
 	}
@@ -58,6 +65,8 @@ public class XMLMP3WebSearch implements Runnable
 	{
 		this.stopped = true;
 		if (this.sideload_search!=null) this.sideload_search.shutup();
+		if (this.skreemr_search!=null) this.skreemr_search.shutup();
+		if (this.wrzuta_search!=null) this.wrzuta_search.shutup();
 		
 	}
 	

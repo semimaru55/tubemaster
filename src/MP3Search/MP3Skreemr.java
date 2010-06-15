@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
@@ -30,13 +31,13 @@ import javax.swing.table.DefaultTableModel;
 import Main.Commun;
 
 
-public class MP3Sideload 
+public class MP3Skreemr
 {
 	
 	private String query = "";
 	private boolean ended = false;
 	
-	public MP3Sideload(String query)
+	public MP3Skreemr(String query)
 	{
 		this.query = query;
 		this.query = this.query.replaceAll(" ", "+");
@@ -44,16 +45,15 @@ public class MP3Sideload
 	
 	
 	public void doSearch(DefaultTableModel model)
-	{
-		
+	{		
 		try
 		{
-			int page = 1;
 			while (!ended)
 			{
-				
-				URL go = new URL("http://www.sideload.com/cb/search/?keywords="+this.query+"&pg="+page);
+
+				URL go = new URL("http://skreemr.org/results.jsp?q="+this.query);
 				URLConnection yc = go.openConnection();
+							
 				BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
 				String inputLine;
 				String total = "";
@@ -61,32 +61,35 @@ public class MP3Sideload
 				{
 					total += inputLine;	
 				}
-				
-				page++;
-				if (total.indexOf("&pg="+page)==-1) ended = true;
-				
-				if (total.indexOf("loadExternalUrl")>-1)
+
+				if (total.indexOf("soundFile=")>-1)
 				{
 
-					while (total.indexOf("loadExternalUrl")>-1)
+					while (total.indexOf("soundFile=")>-1)
 					{
-						total = total.substring(total.indexOf("loadExternalUrl"));
-						String chaine = "<" + Commun.parse(total, "','", "');") + ">";
-						String url = Commun.parse(chaine, "<", "','");
-						String titre = Commun.parse(chaine, "','", ">");
-
+						total = total.substring(total.indexOf("titles="));
+						String titre = Commun.parse(total, "titles=", "&");
+						String url = Commun.parse(total, "soundFile=", "'");
 						
 						Vector<String> newRow = new Vector<String>();
+						
+						titre = URLDecoder.decode(titre, "UTF-8"); 
+						url = URLDecoder.decode(url, "UTF-8");
+						
 						newRow.add(titre);
-						newRow.add("SideLoad.com");
+						newRow.add("SkreemR.com");
 						newRow.add(url);
 						model.addRow(newRow);
 	
 						
-						total = total.substring(total.indexOf("javascript:Sideload"));		
+						total = total.substring(total.indexOf("</object>"));		
 						
 					}	
-				}
+				} 
+				ended = true;
+				
+				
+				
 				in.close();		
 				Thread.sleep(10);
 			}
@@ -104,3 +107,4 @@ public class MP3Sideload
 	
 
 }
+

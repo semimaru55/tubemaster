@@ -72,7 +72,7 @@ public class ListMP3Item extends JPanel
 		}
 	};
 
-	public ListMP3Item(String url, String filetitle, String filedir, boolean isFromYoutube)
+	public ListMP3Item(String url, String filetitle, String filedir)
 	{
 		super();
 		this.setLayout(new BoxLayout(this,1));
@@ -87,7 +87,7 @@ public class ListMP3Item extends JPanel
 		
 		this.placeComposants();
 		
-		this.fdown = new FileDownloader(this.url,this.filedir,this.filetitle,this.pbar,this.lblStatus,isFromYoutube);
+		this.fdown = new FileDownloader(this.url,this.filedir,this.filetitle,this.pbar,this.lblStatus);
 		Thread threadManager = new Thread(this.fdown);
 		threadManager.start();
 	
