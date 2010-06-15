@@ -77,7 +77,10 @@ public class MP3Wrzuta
 						url = url.replace("/audio/", "/sr/f/");
 						url = url.substring(0, url.lastIndexOf('/'));
 						
-						String titre = Commun.parse(total, "alt=\"", "\" ");
+						String titre = "";
+						try{titre = Commun.parse(total, "alt=\"", "\" ");}
+						catch (Exception e) { titre= "Unknown";}
+						
 						titre = titre.replace("&#039;", "'");
 						titre = titre.replace("&amp;", "&");
 						
