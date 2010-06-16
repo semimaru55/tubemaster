@@ -42,8 +42,8 @@ public class CaptureSystem
 	//Titre de fichier customise.
 	public static String custTitle = "";
 	
-	//Taille du prochain MP3 telecharger (pour exclusion de la capture).
-	public static int custSize = 0;
+	//Taille du prochain MP3 a telecharger (pour exclusion de la capture).
+	public static int filterSize = 0;
 	
 	public static int unNamedId = 0;
 	

@@ -99,6 +99,7 @@ public class MP3Downloader extends JFrame implements ActionListener, WindowListe
 		this.bigRefresh();
 		this.setVisible(true);
 		this.timerRefresh.start();
+		this.setState(JFrame.NORMAL);
 	}
 
 	public void actionPerformed(ActionEvent e) 

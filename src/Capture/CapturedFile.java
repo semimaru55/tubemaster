@@ -33,6 +33,7 @@ import org.blinkenlights.jid3.MP3File;
 import org.blinkenlights.jid3.MediaFile;
 import org.blinkenlights.jid3.v1.ID3V1_0Tag;
 import org.blinkenlights.jid3.v2.ID3V2_3_0Tag;
+
 import Conversion.CommandRunner;
 import Main.Commun;
 import Main.MainForm;
@@ -40,26 +41,23 @@ import Main.MainForm;
 
 public class CapturedFile
 {
-	private boolean isFull = false;											//Fichier Complet.										//Fichier en attente.
-	private int cap_size = 0; 												//Taille de capture actuelle.
-	private int cap_filesize = 0;											//Taille totale du fichier.
-	private long cap_ident = 0;											    //Identité du fichier.	
-	private FileFormat format;												//Format fu fichier.
-	private long firstSeqNum = 0;											//Premier Num. de Sequence.
-	private long latestSeq = -1;
-	private Date laDate = new Date();
-	private long idFile = laDate.getTime();
-	private long random = (long) (Math.random()*100000);
-	private String filename = "";
-	private boolean isDestroyed = false;	
-	
-	private File fichier;
-	private RandomAccessFile fw;
-	
-	private TCPMap tcpmap = new TCPMap();
-	
-	private Timer timer;
-	private int timeout = Integer.parseInt(MainForm.opts.timeout);
+	private boolean 			isFull = false;							
+	private int 				cap_size = 0; 												
+	private int 				cap_filesize = 0;											
+	private long 				cap_ident = 0;											    	
+	private FileFormat 			format;												
+	private long 				firstSeqNum = 0;											
+	private long 				latestSeq = -1;
+	private Date 				laDate = new Date();
+	private long 				idFile = laDate.getTime();
+	private long 				random = (long) (Math.random()*100000);
+	private String 				filename = "";
+	private boolean 			isDestroyed = false;	
+	private File 				fichier;
+	private RandomAccessFile 	fw;
+	private TCPMap 				tcpmap = new TCPMap();
+	private Timer 				timer;
+	private int 				timeout = Integer.parseInt(MainForm.opts.timeout);
 
 
 	//=====================================================================================================
@@ -76,95 +74,80 @@ public class CapturedFile
 	
 	//=====================================================================================================
 	
-	public void addDatas(TMPacket p, boolean isFirst)
+	public void addDatas(TMPacket p, boolean isFirstPaquet)
 	{
 		this.timeout = Integer.parseInt(MainForm.opts.timeout);
-		byte[] datas = p.getDatas();
 			
-		if(!this.isFull)
+		if (!this.isFull)
 		{
-			if (isFirst) //Test du premier paquet du fichier pour enlever éventuellement le header HTTP.
+			if (isFirstPaquet)
 			{
-				this.firstSeqNum = p.getSeq();
-				
-				String str = new String(datas);
-				if (str.indexOf("HTTP")==0)
-				{
-					int pos = 0;
-					for(int i=0;i<datas.length-3;i++)
-					{
-						if ((datas[i]==13)&&(datas[i+1]==10)&&(datas[i+2]==13)&&(datas[i+3]==10))
-						{
-							pos = i + 4;
-							break;	
-						}
-					}
-					
-					this.firstSeqNum += pos;
-					p.setSeq(this.firstSeqNum);
-					int size = datas.length-pos;
-					byte[] newArray = new byte[size];
-					for(int i=0;i<newArray.length;i++) newArray[i] = datas[pos+i];
-					p.setDatas(newArray);	
-				}
-				
-				try //On crée le fichier de sortie.
-				{
-					new File("temp").mkdir(); 
-					this.fichier = new File(this.retFilename());
-					this.fichier.deleteOnExit();
-					this.fw = new RandomAccessFile(this.fichier,"rw");
-					
-							
-				} catch (FileNotFoundException e) {Commun.logError(e);}	
+				p.removeHTTPHeader();
+				this.firstSeqNum = p.getSeq();				
+				this.create_file();
 			}
 
 			if (this.fichier.exists())
 			{
-				try //On écrit dans le fichier de sortie (par offset avec les sequence numbers).
+				try
 				{
 					if (p.getSeq()>=this.firstSeqNum)
 					{						
-						//Procede anti-retransmission.
-						if (p.getSeq()>this.latestSeq) //Normal
-						{
-							this.latestSeq = p.getSeq();
-							this.cap_size += datas.length;
-						}
-						else //Retransmission
-						{
-							long toWrite = datas.length; //Taille a ajouter.
-							int mapPos = this.tcpmap.seqPos(p.getSeq());
-							if (mapPos>-1)
-							{
-								long oldSize = this.tcpmap.getSize(mapPos);
-								if (toWrite >= oldSize) toWrite = datas.length - oldSize;
-								else toWrite = 0;
-								
-							}
-							
-							this.cap_size += toWrite;												
-						}
-						
-						this.tcpmap.addSeq(p.getSeq(),datas.length); //Ajout dans la tcp map.
-						
-						//On ecrit les donnees.
+						this.add_packet_size(p);
+						this.tcpmap.addSeq(p.getSeq(),p.getDatas().length); 
 						this.fw.seek(p.getSeq()-this.firstSeqNum);	
-						this.fw.write(datas);
-
-	
+						this.fw.write(p.getDatas());
 					}
 	
-				} catch (Exception e) 
-				{
-					Commun.logError(e);
-				}
+				} catch (Exception e) {Commun.logError(e);}
 			}
 
-			if (this.cap_size>=this.cap_filesize) this.processToEnd();
+			if (this.cap_size >= this.cap_filesize) this.processToEnd();
 		}
 	}
 
+	//=====================================================================================================
+	
+	private void add_packet_size(TMPacket p)
+	{
+		if (p.getSeq() > this.latestSeq) //Normal
+		{
+			this.latestSeq = p.getSeq();
+			this.cap_size += p.getDatas().length;
+		}
+		else //Retransmission
+		{
+			long toWrite = p.getDatas().length;
+			int mapPos = this.tcpmap.seqPos(p.getSeq());
+			if (mapPos > -1)
+			{
+				long oldSize = this.tcpmap.getSize(mapPos);
+				if (toWrite >= oldSize) toWrite = p.getDatas().length - oldSize;
+				else toWrite = 0;	
+			}
+			
+			this.cap_size += toWrite;												
+		}
+		
+	}
+	
+	
+	//=====================================================================================================
+	
+	private void create_file()
+	{
+		try
+		{
+			new File("temp").mkdir(); 
+			this.fichier = new File(this.retFilename());
+			this.fichier.deleteOnExit();
+			this.fw = new RandomAccessFile(this.fichier,"rw");
+			
+					
+		} catch (FileNotFoundException e) {Commun.logError(e);}
+	}
+	
+	
 	//=====================================================================================================
 	
 	public void playFile()
@@ -288,11 +271,12 @@ public class CapturedFile
 			  public void actionPerformed (ActionEvent event)
 			  {
 				  timeout--;
-				  if (timeout ==0)
+				  if (timeout == 0) 
 				  {
-					  deleteFile();
-					  isFull = true;
+				  	deleteFile();
+				  	isFull = true;
 				  }
+				  
 			  }
 		  };
 		  return new Timer (1000, act);

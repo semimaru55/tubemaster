@@ -22,47 +22,49 @@ package Capture;
 import java.util.ArrayList;
 
 
-public class SeqTracker 
+public class StreamsFilter 
 {
 	
-	private ArrayList<Long> seqTable = new ArrayList<Long>();
-	private ArrayList<Long> seqTableTracker = new ArrayList<Long>();
 	
+	private ArrayList<Long> seqTable;
+	private ArrayList<Integer> seqOccur;
 	
-	public SeqTracker() {}
-	
-	
-	public void addSequence(long seq)
+
+	public StreamsFilter() 
 	{
-		if (this.seqTable.size()>100) 
+		this.seqTable = new ArrayList<Long>();
+		this.seqOccur = new ArrayList<Integer>();
+	}
+
+	
+	public void addToFilter(long seq)
+	{
+		if (this.seqTable.size() > 300)
 		{
 			this.seqTable.clear();
-			this.seqTableTracker.clear();
+			this.seqOccur.clear();
 		}
-		
+			 	
 		int pos = this.seqTable.indexOf(seq);
 		if (pos==-1)
 		{
 			this.seqTable.add(seq);
-			this.seqTableTracker.add((long)1);
+			this.seqOccur.add(1);
 		}
-		else this.seqTableTracker.set(pos, this.seqTableTracker.get(pos)+1);	
-	}
-	
-	public boolean isValidSeq(long seq)
-	{
+		else this.seqOccur.set(pos, this.seqOccur.get(pos)+1); 
 		
-		boolean ret = true;
-		int pos = this.seqTable.indexOf(seq);
-		if (pos!=-1)
-		{			
-			if (this.seqTableTracker.get(pos)>10) ret = false;	
-		}
-		return ret;
 	}
 	
 	
-	
-	
+	public boolean isNotFiltered(long seq)
+	{
+		boolean ret = true;
+	 	int pos = this.seqTable.indexOf(seq);
+	  	if (pos!=-1)
+	 	{
+	  		if (this.seqOccur.get(pos) > 10) ret = false;
+	 	}
+	 	return ret; 
+	}
 
 }

@@ -32,7 +32,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -40,7 +39,6 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import Capture.PanelCapture;
 import Graphique.TMButton;
 import Main.MainForm;
 
@@ -61,28 +59,24 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 	
 	private TMButton btnSearch = new TMButton(this,6,3,"","search.png",0,0,0);
 	private TMButton btnDown = new TMButton(this,6,4,MainForm.lang.lang_table[18],"downbutton.png",38,10,117);
-	//private TMButton btnPlay = new TMButton(this,5,4,"","playmp3.png",0,0,0);
-	
+
 	
 	
 	private Icon loadIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/loading.gif")));
 	private JLabel lblLoad = new JLabel(this.loadIcon);
-	
-	private PanelCapture capture;
+
 	private boolean searchActive = false;
 	
 
 	private XMLMP3WebSearch search;
 
-	public PanelMP3Search(PanelCapture capture)
+	public PanelMP3Search()
 	{
 		super();
 		this.setLayout(null);
 		this.setBounds(2,110,700,441);
 		this.setBackground(Color.decode("#676767"));
 		this.setVisible(false);
-		
-		this.capture = capture;
 	
 		this.lblTitle.setFont(new java.awt.Font("Default_tm", 0, 11));
 		this.lblTitle.setBounds(8,2,200,20);
@@ -170,14 +164,6 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 		}	
 		else
 		{
-			if (this.capture.isCapAlive())
-			{
-				if (JOptionPane.showConfirmDialog(this, MainForm.lang.lang_table[53], MainForm.lang.lang_table[54],
-						JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
-				{
-					this.capture.capManager(true);
-				}
-			}
 			
 			if (e.getSource().equals(this.btnDown))
 			{
@@ -185,7 +171,6 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 				String url = (String) this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 2);
 				String title = (String) this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 0);
 				
-
 				String rep = MainForm.opts.defRep; 
 				if (rep.equals("")) rep = this.dirChooser();
 				if (!rep.equals("")) MainForm.mp3down.ajoutItem(new ListMP3Item(url,title+".mp3",rep));

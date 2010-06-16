@@ -82,8 +82,8 @@ public class FileDownloader implements Runnable, ActionListener
 			
 			URLConnection connection = url.openConnection();
 
-			this.fileSize = connection.getContentLength(); //Taille du fichier.
-			CaptureSystem.custSize = this.fileSize; //On exclu de la capture.
+			this.fileSize = connection.getContentLength(); 	//Taille du fichier.
+			CaptureSystem.filterSize = this.fileSize; 		//On le filtre de la capture.
 			
 			try 
 			{
