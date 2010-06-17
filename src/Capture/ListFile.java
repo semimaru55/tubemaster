@@ -269,16 +269,13 @@ public class ListFile extends JPanel
              (extension.equals("MP4")) ||
              (extension.equals("MOV")))
          {
-         	CapturedFile capfile = new CapturedFile(new FileFormat(extension),-1);
-         	capfile.setFilename(file.getAbsolutePath());
-         	capfile.setCap_FileSize((int)file.length());
-         	capfile.setCap_Size((int)file.length());
-         	capfile.processToEnd();
-         	ListFileItem item = new ListFileItem(this,capfile,file.getAbsolutePath());
+        	 
+        	StreamFile stream_file = new StreamFile(new FileFormat(extension),null,file.length(),file.getAbsolutePath());
+         	ListFileItem item = new ListFileItem(this,stream_file,"");
          	item.setDragged(true);
          	item.setTitle(file.getName().substring(0, file.getName().lastIndexOf(".")));
          	this.ajoutItem(item);
-         	
+
          }
 		
 	}

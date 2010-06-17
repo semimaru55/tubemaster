@@ -48,7 +48,7 @@ public class FileFormat
 	//=====================================================================================================
 	
 	public String retFormat() {return this.format;}
-	public Image retFormatLogo() {return this.formatLogo;}
+	public Image retLogo() {return this.formatLogo;}
 	public String retPlayer() 
 	{
 		if (this.format.equals("FLV")) return MainForm.opts.repFLV;

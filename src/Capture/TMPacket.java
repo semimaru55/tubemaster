@@ -62,7 +62,7 @@ public class TMPacket
 	public int 		getPorts() 			{return this.srcPort+this.dstPort;}
 	
 	
-	private boolean contains(String str)
+	public boolean contains(String str)
 	{
 		return (Commun.arrayPos(this.byteArray, str.getBytes(),1)>-1);
 	}
@@ -108,7 +108,6 @@ public class TMPacket
 	
 	//=====================================================================================================	
 	
-	
 	public void removeHTTPHeader()
 	{		
 		String str = new String(this.byteArray);
@@ -133,8 +132,38 @@ public class TMPacket
 		}
 	}
 	
+	//=====================================================================================================	
 	
+	public long search_content_length()
+	{
+		String s = new String(this.byteArray);
+		long size = -1;
+		if (s.indexOf("Content-Length: ") > -1) 
+			size = Integer.parseInt(Commun.parse(s,"Content-Length: ",""+(char)13));	
+		else
+		if (s.indexOf("Content-length: ") > -1) 
+			size = Integer.parseInt(Commun.parse(s,"Content-length: ",""+(char)13));
+		
+		return size;
+	}
 	
+	//=====================================================================================================	
 	
+	public String search_url()
+	{
+		String s = new String(this.byteArray);
+		String url = "";
+		String host = "";
+		
+		if ((s.indexOf("GET /") == 0) && (s.indexOf("crossdomain.xml") == -1))
+		{
+			url = Commun.parse(s, "GET /", " HTTP/");
+			host = Commun.parse(s, "Host: ", ""+(char)13);	
+		}
+				
+		return "http://"+host+"/"+url;	
+	}
+	
+	//=====================================================================================================	
 
 }

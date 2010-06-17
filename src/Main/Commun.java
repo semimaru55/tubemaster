@@ -91,22 +91,22 @@ public class Commun
 			return chaine.substring(chaine.indexOf(deb)+deb.length(),chaine.indexOf(fin));
 		}
 	
-		public static String sizeConvert(int capSize)
+		public static String sizeConvert(long l)
 		{
 			String nfoSize = "";
 			double size = 0;
 			DecimalFormat df = new DecimalFormat();
 			df.setMaximumFractionDigits(2);
 			df.setMinimumFractionDigits(2) ; 
-			if (capSize < 1000000)
+			if (l < 1000000)
 			{
-				size = ((double) capSize) / 1024;
+				size = ((double) l) / 1024;
 				size = Math.round(size*100.0) / 100.0;
 				nfoSize = ""+df.format(size)+" KB";
 			}
 			else
 			{
-				size = (((double) capSize) / 1024) / 1024;
+				size = (((double) l) / 1024) / 1024;
 				size = Math.round(size*100.0) / 100.0;
 				nfoSize = ""+df.format(size)+" MB";		
 			}

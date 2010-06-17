@@ -31,14 +31,11 @@ import Main.MainForm;
 
 public class PacketsManager implements Runnable
 {
-	
 	private ListFile 				fileList;									
 	private ArrayList<TMPacket> 	packetCache;						
 	private StreamsFilter 			streamsFilter;
 	private boolean 				isActive;
-	
-	
-	//=====================================================================================================
+
 
 	public PacketsManager(ListFile fileList) 
 	{
@@ -49,9 +46,8 @@ public class PacketsManager implements Runnable
 	}
 	
 	//=====================================================================================================
-	
-	
-	public void run() //Core
+
+	public void run()
 	{		
 		System.out.println("*TubeMaster++ Core Started*");
 		
@@ -62,16 +58,16 @@ public class PacketsManager implements Runnable
 			if ((p != null) && (p.isValid()))
 			{
 
-				boolean found = this.searchCapturedFile(p);
+				boolean found = this.search_stream(p);
 
 				if ((!found) && (this.streamsFilter.isNotFiltered(p.getAck())))
 				{	
-						 if (p.searchFLV()) this.file_detected("FLV", p);
-					else if (p.searchMP3()) this.file_detected("MP3", p);
-					else if (p.searchMP4()) this.file_detected("MP4", p);
-					else if (p.searchMOV()) this.file_detected("MOV", p);
-						 
-					else if (p.searchFileHeader()) this.addToCache(p); 	/* Cache Files Headers */
+						 if (p.searchFLV()) this.new_stream("FLV", p);
+					else if (p.searchMP3()) this.new_stream("MP3", p);
+					else if (p.searchMP4()) this.new_stream("MP4", p);
+					else if (p.searchMOV()) this.new_stream("MOV", p);
+										 
+					else if (p.searchFileHeader()) this.addToCache(p); 	/* Cache Packets with Headers */
 					else this.streamsFilter.addToFilter(p.getAck());	/* Useless Stream, Set Filter */ 		
 				}
 				
@@ -82,26 +78,6 @@ public class PacketsManager implements Runnable
 		System.out.println("*TubeMaster++ Core Closed*");
 	}
 	
-	
-	//=====================================================================================================	
-	
-	private boolean searchCapturedFile(TMPacket p)
-	{
-		boolean found = false;
-		int len = this.fileList.getItemsCount();
-		for (int i=0;i<len;i++)
-		{
-			CapturedFile f = this.fileList.getItem(i).getFichier();
-			if (f.getCap_Ident() == p.getAck())
-			{		
-				f.addDatas(p,false);
-				found = true;
-				break;
-			}	
-		}
-		return found;	
-	}
-	
 	//=====================================================================================================
 	
 	private void addToCache(TMPacket p)
@@ -109,123 +85,110 @@ public class PacketsManager implements Runnable
 		if (this.packetCache.size() >= 100) this.packetCache.remove(0);
 		this.packetCache.add(p);
 	}
-	
+		
 	//=====================================================================================================	
 	
-	private void file_detected(String format, TMPacket p)
+	private boolean search_stream(TMPacket p)
+	{
+		boolean found = false;
+		int len = this.fileList.getItemsCount();
+		for (int i=0;i<len;i++)
+		{
+			StreamFile stream = this.fileList.getItem(i).getFile();
+			if (stream.get_ack_number() == p.getAck())
+			{		
+				stream.add_datas(p);
+				found = true;
+				break;
+			}	
+		}
+		return found;	
+	}
+	
+	//=====================================================================================================	
+
+	private void new_stream(String str_format, TMPacket p)
 	{	
-		CapturedFile newFile = new CapturedFile(new FileFormat(format),p.getAck());
-
-		String real_url = this.get_real_url(p);
-		int size = this.content_length(p);
-
+		/* Search content length */
+		long size = this.stream_content_length(p);
 		
-		if (size == CaptureSystem.filterSize)
+		/* Check if not from MP3 downloader */
+		if ((str_format.equals("MP3")) && (size == CaptureSystem.filterSize)) 
 		{
 			size = -1;
 			CaptureSystem.filterSize = 0;		
 		}
 		
-
+		/* If not too small, let's go! */
 		if (size > Integer.parseInt(MainForm.opts.minimal))
 		{
-			newFile.setCap_FileSize(size);
-			newFile.addDatas(p, true);	
-			this.fileList.ajoutItem(new ListFileItem(this.fileList,newFile,real_url));
 			
-			//SAUVETAGE TEMP
+			/* Search url */
+			String url = this.stream_url(p);
+			
+			FileFormat format = new FileFormat(str_format);
+			StreamFile new_stream = new StreamFile(format, p, size, "");
+			
+			/* Search for datas in cache */
+			int len = this.packetCache.size();
+			for (int i=0;i<len;i++)
+				if (p.getAck()==this.packetCache.get(i).getAck())
+					new_stream.add_datas(this.packetCache.get(i));
+			
+			/* Add to the list */
+			this.fileList.ajoutItem(new ListFileItem(this.fileList,new_stream,url));	
+			
+			this.packetCache.clear();
+		}
+	}
+	
+	//=====================================================================================================	
+	
+	private long stream_content_length(TMPacket p)
+	{
+		/* Search content length */
+		long size = p.search_content_length();
+		if (size == -1)
+		{
+			/* Search in the cache */
 			int len = this.packetCache.size();
 			for (int i=0;i<len;i++)
 			{
-				if (p.getAck()==this.packetCache.get(i).getAck())
-				{		
-						newFile.addDatas(this.packetCache.get(i),false);
+				if (p.getAck() == this.packetCache.get(i).getAck())
+				{					
+					size = this.packetCache.get(i).search_content_length();
+					if (size > -1) break;					
 				}	
 			}		
 		}
-		this.packetCache.clear();
+		return size;
 	}
 	
-	//=====================================================================================================
-	
-	
-	
-	private int content_length(TMPacket p)
-	{
-		
-		String s = new String(p.getDatas());
-		
-		//Recherche dans le paquet actuel.
-		int size = -250289;
-		if (s.indexOf("Content-Length: ") > -1) 
-			size = Integer.parseInt(Commun.parse(s,"Content-Length: ",""+(char)13));	
-		else
-		if (s.indexOf("Content-length: ") > -1) 
-			size = Integer.parseInt(Commun.parse(s,"Content-length: ",""+(char)13));
-			
-		
-		//Si on trouve pas alors on va chercher dans le cache.
-		if (size==-250289)
-		{
-			int len = this.packetCache.size();
-			for (int i=0;i<len;i++)
-			{
-				if (p.getAck()==this.packetCache.get(i).getAck())
-				{					
-					String s1 = new String(this.packetCache.get(i).getDatas());
-					if (s1.indexOf("Content-Length: ") > -1) 
-					{
-						size = Integer.parseInt(Commun.parse(s1,"Content-Length: ",""+(char)13));						
-						break;
-					}
-				}	
-			}	
-		}	
-
-		return size;		
-	}
-	
-	//=====================================================================================================
-	
-	private String get_real_url(TMPacket p)
-	{
-		String s = new String(p.getDatas());
-		String url = "";
-		String host = "";
-		
-		//Recherche dans le paquet actuel.
-		if (s.indexOf("GET /") == 0) 
-		{
-			url = Commun.parse(s, "GET /", " HTTP/");
-			host = Commun.parse(s, "Host: ", ""+(char)13);	
-		}
-			
-
-		//Si on trouve pas alors on va chercher dans le cache. (Utilisation des Ports).
-		if (url.equals(""))
-		{
-			int len = this.packetCache.size();
-			for (int i=0;i<len;i++)
-			{
-				if (p.getPorts()==this.packetCache.get(i).getPorts())
-				{					
-					String s1 = new String(this.packetCache.get(i).getDatas());
-					if ((s1.indexOf("GET /") == 0) && (s1.indexOf("crossdomain.xml") == -1))
-					{
-						url = Commun.parse(s1, "GET /", " HTTP/");
-						host = Commun.parse(s1, "Host: ", ""+(char)13);	
-						this.packetCache.remove(i);
-						break;
-					}
-				}	
-			}	
-		}			
-		return "http://"+host+"/"+url;
-	}
-
 	//=====================================================================================================	
 	
+	private String stream_url(TMPacket p)
+	{
+		/* Search stream url */
+		String url = p.search_url();
+		if (url.equals("http:///"))
+		{
+			
+			/* Search in the cache */
+			int len = this.packetCache.size();
+			for (int i=0;i<len;i++)
+			{
+				if (p.getPorts() == this.packetCache.get(i).getPorts())
+				{					
+					url = this.packetCache.get(i).search_url();
+					if (url.equals("http:///") == false) break;					
+				}	
+			}		
+		}
+		return url;
+	}
 	
+	//=====================================================================================================	
+
 	public void shutUp()
 	{
 		this.isActive = false;
@@ -233,12 +196,6 @@ public class PacketsManager implements Runnable
 	}
 	
 	//=====================================================================================================
-	
-
 
 
 }
-
-
-
-

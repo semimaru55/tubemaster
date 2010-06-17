@@ -57,8 +57,6 @@ import Main.FenID3;
 import Main.MainForm;
 import Main.TextTransfer;
 import java.awt.TrayIcon;
-import java.io.File;
-
 
 
 
@@ -72,11 +70,10 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	private int currentHeight = ITEM_HEIGHT;				//Hauteur actuelle.
 	private ListFile parentList;							//La liste parente.
 	private boolean alive = true;							//Element a supprimer ou non.
-	private CapturedFile leFichier;							//Fichier de cet element.	
+	private StreamFile file;								//Fichier de cet element.	
 	private Timer timerRefresh = new Timer(1000,this);		//Timer de rafraichissement du download.
 	private int sizePrec = 0;								//Taille precedente pour le calcul du speed.
 	private CommandRunner cmd = null;						//Execution de conversion.
-	private String realUrl = "";							//Url directe du fichier capture.
 	private boolean isFullReady = false;					//Si l'item est idle.
 	private boolean isWaitingFor = false;					//Si l'item est en attente de conversion.
 	private boolean autoConverted = false;					//A deja ete auto converted une fois.
@@ -103,6 +100,8 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	
 	private boolean wasDragged = false;
 	private boolean wasAutoPlayed = false;
+	
+	private String url;
 
 	
 	
@@ -110,7 +109,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	
 	//=====================================================================================================
 	
-	public ListFileItem(ListFile parentList, CapturedFile leFichier, String realUrl)
+	public ListFileItem(ListFile parentList, StreamFile file, String url)
 	{
 		
 		super();
@@ -121,9 +120,9 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.setBorder(grayline);
 		this.addMouseListener(this);
 		this.parentList = parentList;
-		this.leFichier = leFichier;
-		this.icone = new Icon(this.leFichier.getFileFormat().retFormatLogo(),false);
-		this.realUrl = realUrl;
+		this.file = file;
+		this.url = url;
+		this.icone = new Icon(this.file.get_format().retLogo(),false);
 		
 		
 		this.placeComposants();
@@ -170,7 +169,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 					this.cmd.stopProcess();
 		}	
 		else
-		if (e.getSource().equals(this.btnCopy)) new TextTransfer().setClipboardContents(this.realUrl);
+		if (e.getSource().equals(this.btnCopy)) new TextTransfer().setClipboardContents(this.url);
 		else
 		if (e.getSource().equals(this.timerRefresh)) this.refreshDown();		
 		else
@@ -179,7 +178,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		if (e.getSource().equals(this.btnConvert))
 			this.menuConvert.show(this.btnConvert,this.btnConvert.getLastX(),this.btnConvert.getLastY());					
 		else
-		if (e.getSource().equals(this.btnPlay)) this.leFichier.playFile();	
+		if (e.getSource().equals(this.btnPlay)) this.file.play();	
 		else
 		if (e.getActionCommand().equals("*Menu_ExtractMP3*")) this.runConversionExtractMP3(MainForm.opts.defRep);		
 		else
@@ -189,9 +188,9 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		if (e.getActionCommand().equals("*Menu_Classic*")) 
 			this.runConversionClassic(MainForm.opts.defRep,((JMenuItem)e.getSource()).getText());
 		else
-		if (e.getSource().equals(this.btnTags)) new FenID3(this.leFichier.retFilename(),this.edtTitle,this.btnTags);	
+		if (e.getSource().equals(this.btnTags)) new FenID3(this.file.get_filepath(),this.edtTitle,this.btnTags);	
 		else
-		if (e.getSource().equals(this.btnPrev)) this.leFichier.playFile();
+		if (e.getSource().equals(this.btnPrev)) this.file.play();
 	}
 	
 	//=====================================================================================================
@@ -199,7 +198,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	
 	public void runConversionPreset(String dir, String preset)
 	{
-		ConvCommandGen conv = new ConvCommandGen(this.edtTitle.getText(),this.leFichier.retFilename(),dir);
+		ConvCommandGen conv = new ConvCommandGen(this.edtTitle.getText(),this.file.get_filepath(),dir);
 		String command = conv.ConvertToPreset(preset);
 		if (!command.equals(""))
 		{
@@ -214,7 +213,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	{
 		ConversionClassic classic = new ConversionClassic(preset);
 		String fileName = this.edtTitle.getText()+"."+classic.getExtension();
-		ConvCommandGen conv = new ConvCommandGen(fileName,this.leFichier.retFilename(),dir);
+		ConvCommandGen conv = new ConvCommandGen(fileName,this.file.get_filepath(),dir);
 		String command = conv.ConvertClassic(classic.getCommand());
 		if (!command.equals(""))
 		{
@@ -226,7 +225,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	public void runConversionExtractMP3(String dir)
 	{
 		String fileName = this.edtTitle.getText()+".mp3";
-		ConvCommandGen conv = new ConvCommandGen(fileName,this.leFichier.retFilename(),dir);
+		ConvCommandGen conv = new ConvCommandGen(fileName,this.file.get_filepath(),dir);
 		if (conv.FLVtoMP3())
 			if (MainForm.opts.delConv) this.toDestroy();
 	}
@@ -234,8 +233,8 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	public void runConversionSave(String dir)
 	{
 		String fileName = this.edtTitle.getText();
-		fileName += "."+this.leFichier.getFileFormat().retFormat().toLowerCase();
-		ConvCommandGen conv = new ConvCommandGen(fileName,this.leFichier.retFilename(),dir);
+		fileName += "."+this.file.get_format().retFormat().toLowerCase();
+		ConvCommandGen conv = new ConvCommandGen(fileName,this.file.get_filepath(),dir);
 		if (conv.SaveNoConvert()) this.toDestroy();  
 	}
 
@@ -245,7 +244,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	{
 		if (this.cmd != null) this.cmd.stopProcess();
 		this.timerRefresh.stop();
-		this.leFichier.deleteFile();
+		this.file.cancel();		
 		this.alive = false;
 		this.parentList.bigRefresh();		
 	}
@@ -254,36 +253,37 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	
 	public void refreshDown()
 	{
-
-		if (this.leFichier.is_Full())
+		if (this.file.is_cancelled()) this.toDestroy();
+		else
+		if (this.file.is_complete())
 		{
 			this.timerRefresh.stop();			
-			File f = new File(this.leFichier.retFilename());
-			if (f.exists()) this.setFinished(); 
-				else this.toDestroy();			
+			this.setFinished(); 		
 		}
 		else
 		{
-
-			this.pbProgress.setMaximum(this.leFichier.getCap_FileSize());
-			this.pbProgress.setValue(this.leFichier.getCap_Size());	
-			String nfoSize = Commun.sizeConvert(this.leFichier.getCap_Size()) + " / " +  Commun.sizeConvert(this.leFichier.getCap_FileSize());
-			String speed = Commun.sizeConvert(this.leFichier.getCap_Size() - this.sizePrec) + "/s";
-			this.sizePrec = this.leFichier.getCap_Size();		
+			long totalSize = this.file.get_content_length();
+			long curSize = this.file.get_current_length();
+			
+			this.pbProgress.setMaximum((int) totalSize);
+			this.pbProgress.setValue((int) curSize);	
+			String nfoSize = Commun.sizeConvert((int) curSize) + " / " +  Commun.sizeConvert((int) totalSize);
+			String speed = Commun.sizeConvert((int) (curSize - this.sizePrec)) + "/s";
+			this.sizePrec = (int) curSize;		
 			this.lblState.setText(nfoSize + " (at " + speed+").");
 			
 			if ((this.edtTitle.getText().equals(MainForm.lang.lang_table[29])) && (!this.edtTitle.hasFocus())
-				&& (this.leFichier.getFileFormat().retFormat().equals("MP3")))
+				&& (this.file.get_format().retFormat().equals("MP3")))
 			{
-				String title = this.leFichier.findID3();
+				String title = this.file.find_ID3();
 				if (title.equals(" - ")) this.edtTitle.setText(MainForm.lang.lang_table[29]);
 				else this.edtTitle.setText(title);
 			}
 			
-			if ((MainForm.opts.autoPlay) && (!this.wasAutoPlayed) && (this.leFichier.getCap_Size()>400000))
+			if ((MainForm.opts.autoPlay) && (!this.wasAutoPlayed) && (curSize>400000))
 			{
 				this.wasAutoPlayed = true;
-				this.leFichier.playFile();
+				this.file.play();
 				
 			}
 			
@@ -305,12 +305,12 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		
 		this.isWaitingFor = false;
 		this.icoState.editImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/"+"download_done.png")));
-		this.lblState.setText(MainForm.lang.lang_table[30]+" ("+Commun.sizeConvert(this.leFichier.getCap_FileSize())+").");
+		this.lblState.setText(MainForm.lang.lang_table[30]+" ("+Commun.sizeConvert(this.file.get_content_length())+").");
 		this.pbProgress.setVisible(false);
 		this.pbProgress.setSize(new Dimension(617,24));
 		this.btnSave.setVisible(true);
 		this.btnPlay.setVisible(true);
-		if (this.leFichier.getFileFormat().retFormat().equals("MP3")) this.btnTags.setVisible(true);
+		if (this.file.get_format().retFormat().equals("MP3")) this.btnTags.setVisible(true);
 		this.btnCopy.setVisible(false);
 		this.btnPrev.setVisible(false);
 		this.btnConvert.setVisible(true);
@@ -447,7 +447,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.lblState.setText(MainForm.lang.lang_table[34]);
 		this.lblState.setFont(new java.awt.Font("Default_tm", 0, 11));
 		
-		this.pbProgress.setMaximum(this.leFichier.getCap_FileSize());
+		this.pbProgress.setMaximum((int) this.file.get_content_length());
 		this.pbProgress.setValue(0);
 
 		
@@ -461,7 +461,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		if (CaptureSystem.custTitle.equals(""))	this.edtTitle.setText(MainForm.lang.lang_table[29]);
 		else 
 		{
-			if (this.leFichier.getFileFormat().retFormat().equals("FLV")) 
+			if (this.file.get_format().retFormat().equals("FLV")) 
 			{
 				this.edtTitle.setText(CaptureSystem.custTitle);			
 				CaptureSystem.custTitle = "";
@@ -552,7 +552,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	public boolean isChecked() {return this.chkSel.isSelected();}
 	public void checkIt() {this.chkSel.setSelected(true);}
 	public void unCheckIt() {this.chkSel.setSelected(false);}
-	public CapturedFile getFichier() {return this.leFichier;}
+	public StreamFile getFile() {return this.file;}
 	public int getHauteur(){return this.currentHeight;}
 	public boolean isAlive(){return this.alive;}
 	public boolean isFullReady() {return this.isFullReady;}

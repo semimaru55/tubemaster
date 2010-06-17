@@ -34,7 +34,7 @@ public class TCPMap
 	public void addSeq(long seq, int size)
 	{
 		int pos = this.tabseq.indexOf(seq);
-		if (pos > -1) //Test existance. Pas de doublons dans la map.
+		if (pos > -1) //Test existence. Pas de doublons dans la map.
 		{
 			this.tabseq.remove(pos);
 			this.tabsize.remove(pos);
