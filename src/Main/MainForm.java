@@ -84,7 +84,7 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	
 	public static NetworkInterface[] interfaces;
 	
-	public static String tm_version = "1.7";
+	public static String tm_version = "1.7 BETA";
 	
 	
 	

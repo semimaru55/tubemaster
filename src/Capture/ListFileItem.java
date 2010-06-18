@@ -550,8 +550,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	}
 	
 	public boolean isChecked() {return this.chkSel.isSelected();}
-	public void checkIt() {this.chkSel.setSelected(true);}
-	public void unCheckIt() {this.chkSel.setSelected(false);}
+	public void setChecked(boolean b) {this.chkSel.setSelected(b);}
 	public StreamFile getFile() {return this.file;}
 	public int getHauteur(){return this.currentHeight;}
 	public boolean isAlive(){return this.alive;}

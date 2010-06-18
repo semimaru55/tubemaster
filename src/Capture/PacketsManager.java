@@ -130,15 +130,18 @@ public class PacketsManager implements Runnable
 			StreamFile new_stream = new StreamFile(format, p, size, "");
 			
 			/* Search for datas in cache */
-			int len = this.packetCache.size();
-			for (int i=0;i<len;i++)
+			for (int i=0;i<this.packetCache.size();i++)
+			{
 				if (p.getAck()==this.packetCache.get(i).getAck())
+				{
 					new_stream.add_datas(this.packetCache.get(i));
+					this.packetCache.remove(i);
+					i--;				
+				}
+			}
 			
 			/* Add to the list */
 			this.fileList.ajoutItem(new ListFileItem(this.fileList,new_stream,url));	
-			
-			this.packetCache.clear();
 		}
 	}
 	
@@ -157,7 +160,11 @@ public class PacketsManager implements Runnable
 				if (p.getAck() == this.packetCache.get(i).getAck())
 				{					
 					size = this.packetCache.get(i).search_content_length();
-					if (size > -1) break;					
+					if (size > -1) 
+					{
+						this.packetCache.remove(i);
+						break;					
+					}
 				}	
 			}		
 		}
@@ -180,7 +187,11 @@ public class PacketsManager implements Runnable
 				if (p.getPorts() == this.packetCache.get(i).getPorts())
 				{					
 					url = this.packetCache.get(i).search_url();
-					if (url.equals("http:///") == false) break;					
+					if (url.equals("http:///") == false) 
+					{
+						this.packetCache.remove(i);
+						break;					
+					}
 				}	
 			}		
 		}

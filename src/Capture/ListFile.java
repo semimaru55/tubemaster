@@ -53,10 +53,10 @@ public class ListFile extends JPanel
 	private static final long serialVersionUID = 1L;
 	
 	
-	private static final int LIST_WIDTH = 698;					//Largeur de la liste.
-	private static final int LIST_HEIGHT = 403;					//Hauteur de la liste.	
-	
-	private JPanel laListe = new JPanel()						//Panel de la liste.
+	private static final int LIST_WIDTH = 698;
+	private static final int LIST_HEIGHT = 403;					
+
+	private JPanel laListe = new JPanel()						
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -80,8 +80,6 @@ public class ListFile extends JPanel
 	};
 
 	private JScrollPane leScroll = new JScrollPane(laListe);	//Scroll de la liste.
-	
-
 	
 	
 	//=====================================================================================================
@@ -146,16 +144,18 @@ public class ListFile extends JPanel
 	
 	//=====================================================================================================
 	
+	
+	
 	public void checkAll()
 	{
 		for (int i=this.laListe.getComponentCount()-1; i>=0;i--)
-			((ListFileItem)this.laListe.getComponent(i)).checkIt();		
+			((ListFileItem)this.laListe.getComponent(i)).setChecked(true);		
 	}
 	
 	public void unCheckAll()
 	{
 		for (int i=this.laListe.getComponentCount()-1; i>=0;i--)
-			((ListFileItem)this.laListe.getComponent(i)).unCheckIt();		
+			((ListFileItem)this.laListe.getComponent(i)).setChecked(false);		
 	}
 	
 	public void clearAll()
