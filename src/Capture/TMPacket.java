@@ -106,6 +106,49 @@ public class TMPacket
 				this.contains("GET /"));
 	}
 	
+	
+	public boolean searchRTMP_Phase1()
+	{
+		return (this.contains((char)5+"tcUrl"));
+	}
+	
+	public boolean searchRTMP_Phase2()
+	{
+		return (this.contains((char)4+"play"));
+	}
+	
+	
+	//=====================================================================================================	
+	
+	public String extractRTMPParameter(String key)
+	{
+		String ret = "";
+		int pos = Commun.arrayPos(this.byteArray, key.getBytes(),1);
+		
+		while (this.byteArray[pos] != 2) 
+		{	
+			pos++;
+			if (pos >= this.byteArray.length) return "";	
+		}
+		
+		pos += 3;		
+		int end = pos + ((this.byteArray[pos-1]&0xff)+((this.byteArray[pos-2]&0xff)*256));
+			
+		for (int i=pos;i<end;i++)
+		{
+			int b = this.byteArray[i] & 0xff;	
+			boolean valid_char		= (b > 31) && (b < 126);
+			boolean not_zero_before = (this.byteArray[i-1] != 0);
+			boolean not_zero_after	= true;
+			if (((i+1)<end)) if (this.byteArray[i+1] == 0) not_zero_after = false;
+			
+			if (valid_char && not_zero_after && not_zero_before) ret += (char) b;
+			else end++;	
+		}
+
+		return ret;
+	}
+		
 	//=====================================================================================================	
 	
 	public void removeHTTPHeader()

@@ -65,28 +65,27 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	private static final long serialVersionUID = 1L;
 	
 	
-	private static final int ITEM_WIDTH = 668;				//Largeur de l'element.
-	private static final int ITEM_HEIGHT = 60;				//Hauteur de l'element.
-	private int currentHeight = ITEM_HEIGHT;				//Hauteur actuelle.
-	private ListFile parentList;							//La liste parente.
-	private boolean alive = true;							//Element a supprimer ou non.
-	private StreamFile file;								//Fichier de cet element.	
-	private Timer timerRefresh = new Timer(1000,this);		//Timer de rafraichissement du download.
-	private int sizePrec = 0;								//Taille precedente pour le calcul du speed.
-	private CommandRunner cmd = null;						//Execution de conversion.
-	private boolean isFullReady = false;					//Si l'item est idle.
-	private boolean isWaitingFor = false;					//Si l'item est en attente de conversion.
-	private boolean autoConverted = false;					//A deja ete auto converted une fois.
+	private static final int ITEM_WIDTH = 668;				
+	private static final int ITEM_HEIGHT = 60;				
+	private int currentHeight = ITEM_HEIGHT;				
+	private ListFile parentList;							
+	private boolean alive = true;							
+	private StreamFile file;									
+	private Timer timerRefresh = new Timer(1000,this);		
+	private CommandRunner cmd = null;						
+	private boolean isFullReady = false;					
+	private boolean isWaitingFor = false;					
+	private boolean autoConverted = false;					
 	
 
-	private Icon icone;										//Icone du format.
-	private Icon icoState;									//Icone de l'etat du download.
-	private ItemReducer imgReduce = new ItemReducer(this);	//Systeme de reduction.
-	private ItemCloser imgClose = new ItemCloser(this);		//Systeme de fermeture.
-	private JProgressBar pbProgress = new JProgressBar();	//Barre de progression.
-	private JTextField edtTitle = new JTextField();			//Zone de texte du titre.
-	private JLabel lblState = new JLabel();					//Label de l'etat du download.
-	private JCheckBox chkSel = new JCheckBox();				//Checkbox de s�lection.
+	private Icon icone;										
+	private Icon icoState;
+	private ItemReducer imgReduce = new ItemReducer(this);	
+	private ItemCloser imgClose = new ItemCloser(this);		
+	private JProgressBar pbProgress = new JProgressBar();
+	private JTextField edtTitle = new JTextField();		
+	private JLabel lblState = new JLabel();				
+	private JCheckBox chkSel = new JCheckBox();				
 	
 	private TMButton btnCopy = new TMButton(this,6,1,"","copy.png",0,0,0);
 	private TMButton btnStop = new TMButton(this,7,2,"","stopconv.png",0,0,0);
@@ -96,12 +95,21 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	private TMButton btnTags = new TMButton(this,5,2,"Tags","id3.png",26,2,34);
 	private TMButton btnPrev = new TMButton(this,6,2,"","preview.png",0,0,0);
 	
-	private ConvertMenu menuConvert = new ConvertMenu(this);		//Menu de conversion.
+	private ConvertMenu menuConvert = new ConvertMenu(this);		
 	
 	private boolean wasDragged = false;
 	private boolean wasAutoPlayed = false;
 	
 	private String url;
+	
+	private int		real_speed 			= 0;
+	private int 	prev_speed 			= 0;
+	private float[] tab_real_speed	 	= new float[5];
+	private int 	speed_index 		= 0;
+	
+	private Timer 	timerTimeout 		= this.init_timer();
+	private int 	timeout 			= Integer.parseInt(MainForm.opts.timeout);
+	private String 	protocol			= "Unknown";
 
 	
 	
@@ -109,7 +117,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	
 	//=====================================================================================================
 	
-	public ListFileItem(ListFile parentList, StreamFile file, String url)
+	public ListFileItem(ListFile parentList, StreamFile file, String url, String protocol)
 	{
 		
 		super();
@@ -123,9 +131,11 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.file = file;
 		this.url = url;
 		this.icone = new Icon(this.file.get_format().retLogo(),false);
-		
-		
+		this.protocol = protocol;
+
 		this.placeComposants();
+
+		if (this.timeout > 0) this.timerTimeout.start();
 	
 	}
 
@@ -141,8 +151,18 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	
 	//=====================================================================================================
 	
-	
-	
+	private Timer init_timer()
+	{
+		ActionListener act = new ActionListener()
+		{
+			public void actionPerformed (ActionEvent event)
+			{
+				if (!protocol.equals("RTMP")) timeout--;
+				if (timeout == 0) toDestroy();  
+			}
+		};
+		return new Timer (1000, act);
+	}
 	
 	//=====================================================================================================
 	
@@ -244,6 +264,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	{
 		if (this.cmd != null) this.cmd.stopProcess();
 		this.timerRefresh.stop();
+		this.timerTimeout.stop();
 		this.file.cancel();		
 		this.alive = false;
 		this.parentList.bigRefresh();		
@@ -257,7 +278,8 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		else
 		if (this.file.is_complete())
 		{
-			this.timerRefresh.stop();			
+			this.timerRefresh.stop();
+			this.timerTimeout.stop();
 			this.setFinished(); 		
 		}
 		else
@@ -268,8 +290,14 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 			this.pbProgress.setMaximum((int) totalSize);
 			this.pbProgress.setValue((int) curSize);	
 			String nfoSize = Commun.sizeConvert((int) curSize) + " / " +  Commun.sizeConvert((int) totalSize);
-			String speed = Commun.sizeConvert((int) (curSize - this.sizePrec)) + "/s";
-			this.sizePrec = (int) curSize;		
+			
+			this.real_speed = (int) (curSize - this.prev_speed);
+			
+			float avg_speed = this.get_average_speed();	
+			if (avg_speed > 0) this.timeout = Integer.parseInt(MainForm.opts.timeout);
+			
+			String speed = Commun.sizeConvert(Math.round(avg_speed)) + "/s";
+			this.prev_speed = (int) curSize;		
 			this.lblState.setText(nfoSize + " (at " + speed+").");
 			
 			if ((this.edtTitle.getText().equals(MainForm.lang.lang_table[29])) && (!this.edtTitle.hasFocus())
@@ -293,6 +321,17 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	
 	//=====================================================================================================
 	
+	private float get_average_speed()
+	{
+		float average_speed = 0;
+		this.tab_real_speed[this.speed_index] = this.real_speed;  	
+		for (int i=0; i<this.tab_real_speed.length; i++) average_speed += this.tab_real_speed[i];  		
+		average_speed = (average_speed / this.tab_real_speed.length);
+		this.speed_index = (this.speed_index + 1) % (this.tab_real_speed.length-1);  	
+		return average_speed;
+	}
+	
+	//=====================================================================================================
 	
 	public void setFinished()
 	{
@@ -307,7 +346,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.icoState.editImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/"+"download_done.png")));
 		this.lblState.setText(MainForm.lang.lang_table[30]+" ("+Commun.sizeConvert(this.file.get_content_length())+").");
 		this.pbProgress.setVisible(false);
-		this.pbProgress.setSize(new Dimension(617,24));
+		this.pbProgress.setBounds(7,28,617,24);
 		this.btnSave.setVisible(true);
 		this.btnPlay.setVisible(true);
 		if (this.file.get_format().retFormat().equals("MP3")) this.btnTags.setVisible(true);
@@ -449,7 +488,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		
 		this.pbProgress.setMaximum((int) this.file.get_content_length());
 		this.pbProgress.setValue(0);
-
+		
 		
 		this.timerRefresh.start();
 		this.timerRefresh.setRepeats(true);
@@ -549,16 +588,16 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		if (!this.isWaitingFor) this.imgReduce.maximize();
 	}
 	
-	public boolean isChecked() {return this.chkSel.isSelected();}
-	public void setChecked(boolean b) {this.chkSel.setSelected(b);}
-	public StreamFile getFile() {return this.file;}
-	public int getHauteur(){return this.currentHeight;}
-	public boolean isAlive(){return this.alive;}
-	public boolean isFullReady() {return this.isFullReady;}
-	public CommandRunner getCommandRunner() {return this.cmd;}
-	public void setTitle(String title) {this.edtTitle.setText(title);}
-	public void setDragged(boolean drag) {this.wasDragged = drag;}
-	public boolean getDragged() {return this.wasDragged;}
+	public boolean isChecked() 					{ return this.chkSel.isSelected(); }
+	public void setChecked(boolean b) 			{ this.chkSel.setSelected(b); }
+	public StreamFile getFile() 				{ return this.file; }
+	public int getHauteur()						{ return this.currentHeight; }
+	public boolean isAlive()					{ return this.alive; }
+	public boolean isFullReady() 				{ return this.isFullReady; }
+	public CommandRunner getCommandRunner() 	{ return this.cmd; }
+	public void setTitle(String title) 			{ this.edtTitle.setText(title); }
+	public void setDragged(boolean drag) 		{ this.wasDragged = drag; }
+	public boolean getDragged() 				{ return this.wasDragged; }
 
 	//=====================================================================================================
 

@@ -76,7 +76,7 @@ public class Header extends JPanel implements ActionListener
 		this.pan3 = pan3;
 		
 		this.lblVersion.setFont(new java.awt.Font("Dialog", 2, 11));
-		this.lblVersion.setText("Version "+MainForm.tm_version);
+		this.lblVersion.setText("Version "+MainForm.tm_version+" - OpenSource");
 		this.lblVersion.setForeground(Color.LIGHT_GRAY);
 		
 		this.tab1.setLocation(190,79);

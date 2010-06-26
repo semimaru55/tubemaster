@@ -54,6 +54,7 @@ public class MP3Wrzuta
 
 				URL go = new URL("http://www.wrzuta.pl/szukaj/audio/"+this.query+"/"+page);
 				URLConnection yc = go.openConnection();
+				yc.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; fr; rv:1.9.2) Gecko/20100115 Firefox/3.6");
 							
 				BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
 				String inputLine;
@@ -74,8 +75,9 @@ public class MP3Wrzuta
 					{
 						total = total.substring(total.indexOf("file_mini_user"));
 						String url = Commun.parse(total, "<a href=\"", "\">");
-						url = url.replace("/audio/", "/sr/f/");
+						url = url.replace("/audio/", "/xml/plik/");
 						url = url.substring(0, url.lastIndexOf('/'));
+						url += "/wrzuta.pl/sa/224006";
 						
 						String titre = "";
 						try{titre = Commun.parse(total, "alt=\"", "\" ");}

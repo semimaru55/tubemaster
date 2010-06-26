@@ -1,12 +1,9 @@
 package Capture;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.util.Date;
 
-import javax.swing.Timer;
 
 import org.blinkenlights.jid3.ID3Exception;
 import org.blinkenlights.jid3.ID3Tag;
@@ -17,7 +14,6 @@ import org.blinkenlights.jid3.v2.ID3V2_3_0Tag;
 
 import Conversion.CommandRunner;
 import Main.Commun;
-import Main.MainForm;
 
 public class StreamFile 
 {
@@ -27,8 +23,6 @@ public class StreamFile
 	private long 				current_length;
 	private long 				first_sequence;
 	private long 				current_sequence;
-	private Timer 				timer;
-	private int 				timeout;
 	private TCPMap 				tcp_map;
 	private File				file;
 	private boolean				complete;
@@ -43,16 +37,12 @@ public class StreamFile
 		this.content_length 	= content_length;
 		this.current_length		= 0;
 		this.current_sequence	= -1;
-		this.timeout			= Integer.parseInt(MainForm.opts.timeout);
 		this.complete 			= false;
 		this.cancelled			= false;
 		this.tcp_map			= new TCPMap();
-		this.timer				= this.init_timer();
 		this.filepath			= filepath;
 		this.format				= format;
 
-		if (this.timeout > 0) this.timer.start();
-		
 		this.create_file();
 		
 		if (p != null)
@@ -98,7 +88,6 @@ public class StreamFile
 	
 	public void add_datas(TMPacket p)
 	{
-		this.timeout = Integer.parseInt(MainForm.opts.timeout);
 		this.ack_number = p.getAck();
 		
 		if (this.complete == false)
@@ -147,7 +136,7 @@ public class StreamFile
 	
 	//=====================================================================================================
 	
-	private void finnish()
+	public void finnish()
 	{
 		this.complete = true;
 		this.close();	
@@ -166,25 +155,9 @@ public class StreamFile
 	
 	public void close()
 	{
-		this.timer.stop();
 		this.tcp_map.clearMap();
 		this.ack_number = -1;	
 		try {if (this.writer != null) this.writer.close();} catch (Exception e) {Commun.logError(e);}
-	}
-	
-	//=====================================================================================================
-
-	private Timer init_timer()
-	{
-		ActionListener act = new ActionListener()
-		{
-			public void actionPerformed (ActionEvent event)
-			{
-				timeout--;
-				if (timeout == 0) cancel();	  
-			}
-		};
-		return new Timer (1000, act);
 	}
 	
 	//=====================================================================================================
@@ -237,13 +210,18 @@ public class StreamFile
 	
 	//=====================================================================================================
 	
-	public long 		get_ack_number()		{ return this.ack_number; }
-	public FileFormat 	get_format() 			{ return this.format; }
-	public String 		get_filepath() 			{ return this.filepath; }
-	public boolean 		is_complete() 			{ return this.complete; }
-	public long 		get_content_length() 	{ return this.content_length; }
-	public long 		get_current_length() 	{ return this.current_length; }
-	public boolean		is_cancelled()			{ return this.cancelled; }
+	public long 		get_ack_number()			{ return this.ack_number; }
+	public FileFormat 	get_format() 				{ return this.format; }
+	public String 		get_filepath() 				{ return this.filepath; }
+	public boolean 		is_complete() 				{ return this.complete; }
+	public boolean		is_cancelled()				{ return this.cancelled; }
+	public long 		get_content_length() 		{ return this.content_length; }
+	public long 		get_current_length() 		{ return this.current_length; }
+	public void 		add_rtmp_datas(long l) 	
+	{ 
+		this.current_length = l;
+		this.content_length = this.current_length + 1000000;
+	}
 		
 	//=====================================================================================================
 }

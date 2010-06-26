@@ -33,7 +33,7 @@ import java.util.Calendar;
 public class Commun 
 {
 
-		public static void logError(Throwable trace)
+		public synchronized static void logError(Throwable trace)
 		{
 			try
 			{

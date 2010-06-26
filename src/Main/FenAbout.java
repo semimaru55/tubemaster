@@ -191,6 +191,7 @@ public class FenAbout extends JFrame implements ActionListener
 		"- Keita Fujii : JPcap library.\n" +
 		"- FFMpeg Project : FFMpeg & FFPlay tools.\n" +
 		"- Iconspedia.com : Some nice icons.\n" +
+		"- Smaxe Ltd : RTMP Protocol Support.\n" + 
 		"- Paul Grebenc : JID3 Library.\n" + 
 		"- Other Contributions (Donators, Bug reporters ...).\n" + 
 		"- Worm00 : Graphic and Code contribution.\n" + 

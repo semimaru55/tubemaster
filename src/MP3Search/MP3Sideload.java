@@ -54,6 +54,8 @@ public class MP3Sideload
 				
 				URL go = new URL("http://www.sideload.com/cb/search/?keywords="+this.query+"&pg="+page);
 				URLConnection yc = go.openConnection();
+				yc.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; fr; rv:1.9.2) Gecko/20100115 Firefox/3.6");
+				
 				BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
 				String inputLine;
 				String total = "";

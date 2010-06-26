@@ -35,6 +35,10 @@ public class PacketsManager implements Runnable
 	private ArrayList<TMPacket> 	packetCache;						
 	private StreamsFilter 			streamsFilter;
 	private boolean 				isActive;
+		
+	//RTMP Protocol
+	private String 					rtmp_app;
+	private String 					rtmp_stream;
 
 
 	public PacketsManager(ListFile fileList) 
@@ -43,6 +47,8 @@ public class PacketsManager implements Runnable
 		this.packetCache 	= new ArrayList<TMPacket>();
 		this.streamsFilter	= new StreamsFilter();
 		this.isActive 		= true;
+		this.rtmp_app 		= "";
+		this.rtmp_stream	= "";
 	}
 	
 	//=====================================================================================================
@@ -62,11 +68,22 @@ public class PacketsManager implements Runnable
 
 				if ((!found) && (this.streamsFilter.isNotFiltered(p.getAck())))
 				{	
-						 if (p.searchFLV()) this.new_stream("FLV", p);
+					//HTTP Protocol
+					if (p.searchFLV()) this.new_stream("FLV", p);
 					else if (p.searchMP3()) this.new_stream("MP3", p);
 					else if (p.searchMP4()) this.new_stream("MP4", p);
 					else if (p.searchMOV()) this.new_stream("MOV", p);
-										 
+						
+					//RTMP Protocol
+					else if (p.searchRTMP_Phase1()) this.rtmp_app = p.extractRTMPParameter(((char)5+"tcUrl"));
+					else if ((!this.rtmp_app.equals("")) && (this.rtmp_stream.equals("")) && (p.searchRTMP_Phase2()))
+					{
+						this.rtmp_stream = p.extractRTMPParameter(((char)4+"play"));
+						this.new_rtmp();
+					}
+		
+						
+					//Useless Packets
 					else if (p.searchFileHeader()) this.addToCache(p); 	/* Cache Packets with Headers */
 					else this.streamsFilter.addToFilter(p.getAck());	/* Useless Stream, Set Filter */ 		
 				}
@@ -141,7 +158,7 @@ public class PacketsManager implements Runnable
 			}
 			
 			/* Add to the list */
-			this.fileList.ajoutItem(new ListFileItem(this.fileList,new_stream,url));	
+			this.fileList.ajoutItem(new ListFileItem(this.fileList,new_stream,url,"HTTP"));	
 		}
 	}
 	
@@ -196,6 +213,22 @@ public class PacketsManager implements Runnable
 			}		
 		}
 		return url;
+	}
+	
+	//=====================================================================================================	
+	
+	public void new_rtmp()
+	{
+		
+		if ((!this.rtmp_app.equals("")) && (!this.rtmp_stream.equals("")))
+		{
+			RTMPDownload rtmpdown = new RTMPDownload(this.rtmp_app, this.rtmp_stream);
+			rtmpdown.start();
+			this.fileList.ajoutItem(new ListFileItem(this.fileList,rtmpdown.get_stream_file(),this.rtmp_app+"/"+this.rtmp_stream,"RTMP"));	
+		}
+		
+		this.rtmp_app = "";
+		this.rtmp_stream = "";
 	}
 	
 	//=====================================================================================================	

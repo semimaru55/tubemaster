@@ -52,14 +52,14 @@ public class XMLVideoWebSearch implements Runnable
 		
 		try
 		{
-			URL google = new URL(this.addr);
-			URLConnection yc = google.openConnection();
-			BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
+			URL addr = new URL(this.addr);
+			URLConnection yc = addr.openConnection();
+			BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));;
+
 			String inputLine;
 
 			while ((inputLine = in.readLine()) != null)
 			{
-
 				while (inputLine.indexOf("</Video>")!=-1)
 				{
 					String vid = new String(Commun.parse(inputLine, "<Video>", "</Video>").getBytes(),"UTF-8");
@@ -96,7 +96,7 @@ public class XMLVideoWebSearch implements Runnable
 			}
 			in.close();
 		} 
-		catch (Exception e) {}
+		catch (Exception e) {Commun.logError(e);}
 		
 		this.lblLoad.setVisible(false);
 	}

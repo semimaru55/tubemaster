@@ -271,7 +271,7 @@ public class ListFile extends JPanel
          {
         	 
         	StreamFile stream_file = new StreamFile(new FileFormat(extension),null,file.length(),file.getAbsolutePath());
-         	ListFileItem item = new ListFileItem(this,stream_file,"");
+         	ListFileItem item = new ListFileItem(this,stream_file,"", "NONE");
          	item.setDragged(true);
          	item.setTitle(file.getName().substring(0, file.getName().lastIndexOf(".")));
          	this.ajoutItem(item);

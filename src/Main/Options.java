@@ -147,9 +147,9 @@ public class Options
 	   	    if (total.indexOf("<autoPlay>")>-1) 
 	   	    	this.autoPlay = this.strToBool(this.parse(total, "<autoPlay>", "</autoPlay>")); 
 	   	    if (total.indexOf("<timeout>")>-1) 
-	   	    	this.timeout =this.parse(total, "<timeout>", "</timeout>");
+	   	    	this.timeout = this.parse(total, "<timeout>", "</timeout>");
 	   	 if (total.indexOf("<minimal>")>-1) 
-	   	    	this.minimal =this.parse(total, "<minimal>", "</minimal>");
+	   	    	this.minimal = this.parse(total, "<minimal>", "</minimal>");
 	   	 
 	      } catch(Exception e) {Commun.logError(e);}	
 	}

@@ -27,7 +27,12 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -40,6 +45,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import Graphique.TMButton;
+import Main.Commun;
 import Main.MainForm;
 
 
@@ -171,12 +177,41 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 				String url = (String) this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 2);
 				String title = (String) this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 0);
 				
+				if (url.contains("wrzuta.pl")) 
+				{
+					url = this.get_wrzuta_url(url);
+					if (url.contains("CDATA")) url = Commun.parse(url, "<![CDATA[", "]]>");	
+				}
+
 				String rep = MainForm.opts.defRep; 
 				if (rep.equals("")) rep = this.dirChooser();
 				if (!rep.equals("")) MainForm.mp3down.ajoutItem(new ListMP3Item(url,title+".mp3",rep));
 			}
 		}
 	}
+	
+	
+	private String get_wrzuta_url(String xml)
+	{
+		try
+		{
+			URL go = new URL(xml);
+			URLConnection yc = go.openConnection();
+			yc.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; fr; rv:1.9.2) Gecko/20100115 Firefox/3.6");
+						
+			BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
+			String inputLine;
+			String total = "";
+			
+			while ((inputLine = in.readLine()) != null) total += inputLine;	
+			
+			return Commun.parse(total, "<fileId>", "</fileId>");
+		
+		} catch (Exception e) {return "";}
+		
+	}
+	
+	
 
 	public void doSearch()
 	{		
