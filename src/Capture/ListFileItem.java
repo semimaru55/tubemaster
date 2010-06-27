@@ -55,7 +55,6 @@ import Graphique.TMButton;
 import Main.Commun;
 import Main.FenID3;
 import Main.MainForm;
-import Main.TextTransfer;
 import java.awt.TrayIcon;
 
 
@@ -66,7 +65,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	
 	
 	private static final int ITEM_WIDTH = 668;				
-	private static final int ITEM_HEIGHT = 60;				
+	private static final int ITEM_HEIGHT = 75;				
 	private int currentHeight = ITEM_HEIGHT;				
 	private ListFile parentList;							
 	private boolean alive = true;							
@@ -87,13 +86,14 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	private JLabel lblState = new JLabel();				
 	private JCheckBox chkSel = new JCheckBox();				
 	
-	private TMButton btnCopy = new TMButton(this,6,1,"","copy.png",0,0,0);
 	private TMButton btnStop = new TMButton(this,7,2,"","stopconv.png",0,0,0);
 	private TMButton btnSave = new TMButton(this,6,4,MainForm.lang.lang_table[26],"save_as.png",26,2,89);				
 	private TMButton btnConvert = new TMButton(this,6,4,MainForm.lang.lang_table[27],"convert.png",26,2,89);
-	private TMButton btnPlay = new TMButton(this,6,4,MainForm.lang.lang_table[28],"play.png",26,2,89);
-	private TMButton btnTags = new TMButton(this,5,2,"Tags","id3.png",26,2,34);
+	private TMButton btnPlay = new TMButton(this,6,4,MainForm.lang.lang_table[28],"preview.png",26,2,89);
+	private TMButton btnTags = new TMButton(this,5,2,"MP3 Tags","id3.png",26,2,89);
 	private TMButton btnPrev = new TMButton(this,6,2,"","preview.png",0,0,0);
+	
+	private JTextField edtUrl = new JTextField();
 	
 	private ConvertMenu menuConvert = new ConvertMenu(this);		
 	
@@ -109,15 +109,12 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	
 	private Timer 	timerTimeout 		= this.init_timer();
 	private int 	timeout 			= Integer.parseInt(MainForm.opts.timeout);
-	private String 	protocol			= "Unknown";
-
-	
 	
 	
 	
 	//=====================================================================================================
 	
-	public ListFileItem(ListFile parentList, StreamFile file, String url, String protocol)
+	public ListFileItem(ListFile parentList, StreamFile file, String url)
 	{
 		
 		super();
@@ -131,7 +128,6 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.file = file;
 		this.url = url;
 		this.icone = new Icon(this.file.get_format().retLogo(),false);
-		this.protocol = protocol;
 
 		this.placeComposants();
 
@@ -157,7 +153,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		{
 			public void actionPerformed (ActionEvent event)
 			{
-				if (!protocol.equals("RTMP")) timeout--;
+				timeout--;
 				if (timeout == 0) toDestroy();  
 			}
 		};
@@ -188,8 +184,6 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 					JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)	
 					this.cmd.stopProcess();
 		}	
-		else
-		if (e.getSource().equals(this.btnCopy)) new TextTransfer().setClipboardContents(this.url);
 		else
 		if (e.getSource().equals(this.timerRefresh)) this.refreshDown();		
 		else
@@ -350,7 +344,6 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.btnSave.setVisible(true);
 		this.btnPlay.setVisible(true);
 		if (this.file.get_format().retFormat().equals("MP3")) this.btnTags.setVisible(true);
-		this.btnCopy.setVisible(false);
 		this.btnPrev.setVisible(false);
 		this.btnConvert.setVisible(true);
 		this.btnStop.setVisible(false);
@@ -463,23 +456,27 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.icoState.setBounds(3,3,18,18);
 		this.imgReduce.setBounds(629,5,14,14);
 		this.imgClose.setBounds(648,5,14,14);
-		this.pbProgress.setBounds(7,28,577,24);
+		this.pbProgress.setBounds(7,28,617,24);
+		this.edtUrl.setBounds(7,54,655,18);
 		this.edtTitle.setBounds(68,3,310,19);
 		this.lblState.setBounds(384,2,220,20);
-		this.btnSave.setBounds(108,26,120,27);
-		this.btnConvert.setBounds(270,26,120,27);
-		this.btnPlay.setBounds(430,26,120,27);
 		this.btnStop.setBounds(629,28,33,23);
-		this.btnCopy.setBounds(590,28,33,23);
 		this.chkSel.setBounds(607,2,20,20);
-		this.btnTags.setBounds(596,26,65,27);
 		this.btnPrev.setBounds(629,28,33,23);
+		
+		
+		int decal = 0;
+		if (this.file.get_format().retFormat().equals("MP3")) decal = 75;
+		
+		this.btnSave.setBounds(108-decal,26,120,27);
+		this.btnConvert.setBounds(270-decal,26,120,27);
+		this.btnPlay.setBounds(432-decal,26,120,27);
+		this.btnTags.setBounds(594-decal,26,120,27);
+		
 	
 		this.chkSel.setOpaque(false);
 		this.chkSel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		
-		this.btnCopy.setToolTipText(MainForm.lang.lang_table[32]);
-		
+				
 		this.btnStop.setVisible(false);
 		this.btnStop.setToolTipText(MainForm.lang.lang_table[33]);
 		
@@ -496,6 +493,14 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.edtTitle.addFocusListener(this);
 		this.edtTitle.addKeyListener(this);
 		this.edtTitle.setOpaque(false);
+		
+		this.edtUrl.setEditable(false);
+		this.edtUrl.setText(this.url);
+		this.edtUrl.setFont(new java.awt.Font("Default_tm", 0, 10));
+		this.edtUrl.setOpaque(false);
+		this.edtUrl.setBorder(null);
+		this.edtUrl.setForeground(Color.gray);
+		this.edtUrl.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		
 		if (CaptureSystem.custTitle.equals(""))	this.edtTitle.setText(MainForm.lang.lang_table[29]);
 		else 
@@ -530,13 +535,13 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.add(this.imgReduce);
 		this.add(this.imgClose);
 		this.add(this.pbProgress);
+		this.add(this.edtUrl);
 		this.add(this.edtTitle);
 		this.add(this.lblState);
 		this.add(this.btnSave);
 		this.add(this.btnPlay);
 		this.add(this.btnConvert);
 		this.add(this.btnStop);
-		this.add(this.btnCopy);
 		this.add(this.chkSel);
 		this.add(this.btnTags);
 		this.add(this.btnPrev);

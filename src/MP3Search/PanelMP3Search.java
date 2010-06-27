@@ -180,7 +180,7 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 				if (url.contains("wrzuta.pl")) 
 				{
 					url = this.get_wrzuta_url(url);
-					if (url.contains("CDATA")) url = Commun.parse(url, "<![CDATA[", "]]>");	
+					if (url.contains("CDATA")) url = Commun.parse(url, "<![CDATA[", "]]>");
 				}
 
 				String rep = MainForm.opts.defRep; 

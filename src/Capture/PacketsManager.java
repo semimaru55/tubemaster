@@ -158,7 +158,7 @@ public class PacketsManager implements Runnable
 			}
 			
 			/* Add to the list */
-			this.fileList.ajoutItem(new ListFileItem(this.fileList,new_stream,url,"HTTP"));	
+			this.fileList.ajoutItem(new ListFileItem(this.fileList,new_stream,url));	
 		}
 	}
 	
@@ -224,7 +224,7 @@ public class PacketsManager implements Runnable
 		{
 			RTMPDownload rtmpdown = new RTMPDownload(this.rtmp_app, this.rtmp_stream);
 			rtmpdown.start();
-			this.fileList.ajoutItem(new ListFileItem(this.fileList,rtmpdown.get_stream_file(),this.rtmp_app+"/"+this.rtmp_stream,"RTMP"));	
+			this.fileList.ajoutItem(new ListFileItem(this.fileList,rtmpdown.get_stream_file(),this.rtmp_app+"/"+this.rtmp_stream));	
 		}
 		
 		this.rtmp_app = "";

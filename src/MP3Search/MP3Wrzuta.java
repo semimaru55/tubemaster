@@ -77,7 +77,6 @@ public class MP3Wrzuta
 						String url = Commun.parse(total, "<a href=\"", "\">");
 						url = url.replace("/audio/", "/xml/plik/");
 						url = url.substring(0, url.lastIndexOf('/'));
-						url += "/wrzuta.pl/sa/224006";
 						
 						String titre = "";
 						try{titre = Commun.parse(total, "alt=\"", "\" ");}

@@ -122,6 +122,7 @@ public class TMPacket
 	
 	public String extractRTMPParameter(String key)
 	{
+		
 		String ret = "";
 		int pos = Commun.arrayPos(this.byteArray, key.getBytes(),1);
 		
