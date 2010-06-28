@@ -63,20 +63,12 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 {
 	private static final long serialVersionUID = 1L;
 	
+	private static final int ITEM_WIDTH 	= 668;				
+	private static final int ITEM_HEIGHT 	= 75;
 	
-	private static final int ITEM_WIDTH = 668;				
-	private static final int ITEM_HEIGHT = 75;				
-	private int currentHeight = ITEM_HEIGHT;				
-	private ListFile parentList;							
-	private boolean alive = true;							
-	private StreamFile file;									
-	private Timer timerRefresh = new Timer(1000,this);		
-	private CommandRunner cmd = null;						
-	private boolean isFullReady = false;					
-	private boolean isWaitingFor = false;					
-	private boolean autoConverted = false;					
 	
-
+	private int currentHeight = ITEM_HEIGHT;
+	private ListFile parentList;
 	private Icon icone;										
 	private Icon icoState;
 	private ItemReducer imgReduce = new ItemReducer(this);	
@@ -85,7 +77,6 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	private JTextField edtTitle = new JTextField();		
 	private JLabel lblState = new JLabel();				
 	private JCheckBox chkSel = new JCheckBox();				
-	
 	private TMButton btnStop = new TMButton(this,7,2,"","stopconv.png",0,0,0);
 	private TMButton btnSave = new TMButton(this,6,4,MainForm.lang.lang_table[26],"save_as.png",26,2,89);				
 	private TMButton btnConvert = new TMButton(this,6,4,MainForm.lang.lang_table[27],"convert.png",26,2,89);
@@ -95,8 +86,18 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	
 	private JTextField edtUrl = new JTextField();
 	
-	private ConvertMenu menuConvert = new ConvertMenu(this);		
+	private ConvertMenu menuConvert = new ConvertMenu(this);	
 	
+	
+	
+	private boolean alive = true;							
+	private StreamFile file;									
+	private Timer timerRefresh = new Timer(1000,this);		
+	private CommandRunner cmd = null;						
+	private boolean isFullReady = false;					
+	private boolean isWaitingFor = false;					
+	private boolean autoConverted = false;					
+
 	private boolean wasDragged = false;
 	private boolean wasAutoPlayed = false;
 	
@@ -131,7 +132,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 
 		this.placeComposants();
 
-		if (this.timeout > 0) this.timerTimeout.start();
+		this.timerTimeout.start();
 	
 	}
 
@@ -153,7 +154,8 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		{
 			public void actionPerformed (ActionEvent event)
 			{
-				timeout--;
+				if (timeout > 0) timeout--;
+				else
 				if (timeout == 0) toDestroy();  
 			}
 		};
@@ -169,11 +171,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.parentList.bigRefresh();
 	}
 	
-	//=====================================================================================================
-	
 
-	
-	
 	//=====================================================================================================
 	
 	public void actionPerformed(ActionEvent e) 
@@ -287,12 +285,19 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 			
 			this.real_speed = (int) (curSize - this.prev_speed);
 			
-			float avg_speed = this.get_average_speed();	
-			if (avg_speed > 0) this.timeout = Integer.parseInt(MainForm.opts.timeout);
 			
-			String speed = Commun.sizeConvert(Math.round(avg_speed)) + "/s";
+			String speed = "";
+			float avg_speed = this.get_average_speed();	
+			if ((avg_speed > 0) || (this.timeout == -1))
+			{
+				this.timeout = Integer.parseInt(MainForm.opts.timeout);
+				speed = "at " + Commun.sizeConvert(Math.round(avg_speed)) + "/s";
+			}
+			else speed = "Timeout = " + this.timeout + "s";
+			
+
 			this.prev_speed = (int) curSize;		
-			this.lblState.setText(nfoSize + " (at " + speed+").");
+			this.lblState.setText(nfoSize + " (" + speed + ").");
 			
 			if ((this.edtTitle.getText().equals(MainForm.lang.lang_table[29])) && (!this.edtTitle.hasFocus())
 				&& (this.file.get_format().retFormat().equals("MP3")))

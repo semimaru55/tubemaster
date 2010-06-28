@@ -61,7 +61,7 @@ public class ListFile extends JPanel
 		private static final long serialVersionUID = 1L;
 
 		private Image img = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/"+"how.png"));
-		
+		private Image imgLoad = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/"+"load.png"));
 		
 		
 		public void paintComponent(Graphics g)
@@ -72,7 +72,8 @@ public class ListFile extends JPanel
 			{
 				g.drawImage(this.img, 60, 45, this);
 				g.setColor(Color.gray.darker().darker());
-				g.drawString(MainForm.lang.lang_table[57], 3, 392);
+				g.drawImage(this.imgLoad, 4, 378, this);
+				g.drawString(MainForm.lang.lang_table[57], 23, 390);
 				
 			}
 		}

@@ -36,13 +36,7 @@ public class ConvItemManager implements Runnable
 	
 	
 	
-	public ConvItemManager()
-	{
-		
-	}
-	
-	
-	
+	public ConvItemManager() {}
 	
 	
 	public void run() 
@@ -64,7 +58,7 @@ public class ConvItemManager implements Runnable
 			}
 			
 			
-			if (this.lesItems.size()>0)
+			if (this.lesItems.size() > 0)
 			{
 				if (this.lesItems.get(0) != null)
 				{
