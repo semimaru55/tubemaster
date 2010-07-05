@@ -68,10 +68,10 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	public static Languages lang = new Languages();
 	
 	
-	private JPanel panFen = new JPanel(); 										//Panel de la fenetre.
-	private PanelCapture  panCap = new PanelCapture();							//Panel de capture
-	private PanelVideoSearch panSVideo = new PanelVideoSearch();				//Panel de recherche video
-	private PanelMP3Search panSMP3 = new PanelMP3Search();						//Panel de recherche mp3
+	private JPanel panFen = new JPanel(); 										
+	private PanelCapture  panCap = new PanelCapture();							
+	private PanelVideoSearch panSVideo = new PanelVideoSearch();				
+	private PanelMP3Search panSMP3 = new PanelMP3Search();						
 	
 
 	private Header header = new Header(panCap,this.panSVideo,this.panSMP3);
@@ -134,7 +134,6 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 		this.header.setLocation(0,0);
 		this.panFen.add(this.header);
 
-	
 	}
 	
 	//=====================================================================================================
@@ -307,5 +306,8 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 
 		}
 	}
+	
+	public JFrame get_frame() { return this; }
+	
 
 }

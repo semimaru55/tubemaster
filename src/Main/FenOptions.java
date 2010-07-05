@@ -295,7 +295,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.edtMP3Dir.setBounds(10,43,393,21);
 		this.edtMP3Dir.setFont(new java.awt.Font("Default_tm", 0, 10));
 		this.edtMP3Dir.setEditable(false);
-		this.edtMP3Dir.setText("MP3 | " + MainForm.opts.repMP3);
+		this.edtMP3Dir.setText("MP3 & M4A | " + MainForm.opts.repMP3);
 		
 		this.edtMP4Dir.setBounds(10,67,393,21);
 		this.edtMP4Dir.setFont(new java.awt.Font("Default_tm", 0, 10));
@@ -499,7 +499,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 			String rep = this.fileChooser();
 			if (!rep.equals(""))
 			{
-				this.edtMP3Dir.setText("MP3 | " + rep); MainForm.opts.repMP3 = rep;								
+				this.edtMP3Dir.setText("MP3 & M4A | " + rep); MainForm.opts.repMP3 = rep;								
 			}			
 		}
 		else

@@ -51,16 +51,14 @@ public class ConvItemManager implements Runnable
 					try 
 					{
 						f.mkdir();
-					} catch (Exception e) {Commun.logError(e);}
-				
-				
-				
+						
+					} catch (Exception e) {Commun.logError(e);}	
 			}
 			
 			
 			if (this.lesItems.size() > 0)
 			{
-				if (this.lesItems.get(0) != null)
+				if ((this.lesItems.get(0) != null) && this.lesItems.get(0).isAlive())
 				{
 					CountDownLatch sema = new CountDownLatch(1);
 					CommandRunner cmd = this.lesItems.get(0).getCommandRunner();
@@ -78,7 +76,7 @@ public class ConvItemManager implements Runnable
 					else
 					this.lesItems.get(0).setFinished();
 					
-				}
+				} 
 				this.lesItems.remove(0);	
 			}
 					

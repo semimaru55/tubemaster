@@ -19,6 +19,7 @@
 
 package Conversion;
 
+import java.awt.Component;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -28,14 +29,16 @@ import Main.MainForm;
 
 public class ConvCommandGen
 {
-	private String outTitle;
-	private String inFile;
-	private String choosenDir = "";
+	private String 		outTitle;
+	private String 		inFile;
+	private String 		choosenDir = "";
+	private Component 	parent;
 	
 
-	public ConvCommandGen(String outTitle, String inFile, String choosenDir)
+	public ConvCommandGen(String outTitle, String inFile, String choosenDir, Component parent)
 	{
-		this.outTitle = outTitle.replaceAll("[\\\\/:*?\"<>|]", "_"); 
+		this.outTitle = outTitle.replaceAll("[\\\\/:*?\"<>|]", "_");
+		this.parent = parent;
 					
 		this.inFile = inFile;		
 		if (choosenDir.equals("")) this.choosenDir = this.dirChooser();
@@ -49,7 +52,7 @@ public class ConvCommandGen
 		String ret = "";
 		JFileChooser fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		int returnVal = fc.showSaveDialog(null);
+		int returnVal = fc.showSaveDialog(this.parent);
 		if (returnVal == JFileChooser.APPROVE_OPTION) 
 		{
             File file = fc.getSelectedFile();
@@ -89,12 +92,11 @@ public class ConvCommandGen
 			
 	}
 	
-	public String ConvertToPreset(String preset)
+	public String ConvertToPreset(Preset p)
 	{
 		String command = "";
-		Preset p = MainForm.convPresets.getPreset(preset);
 		String params = p.getParams();
-		String fileOut = this.outTitle+"."+p.getExtension();
+		String fileOut = this.outTitle;
 		if (!this.choosenDir.equals(""))
 		{
 			fileOut = this.choosenDir + File.separator + fileOut;

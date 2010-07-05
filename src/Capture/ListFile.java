@@ -81,8 +81,7 @@ public class ListFile extends JPanel
 	};
 
 	private JScrollPane leScroll = new JScrollPane(laListe);	//Scroll de la liste.
-	
-	
+		
 	//=====================================================================================================
 	
 	public ListFile()
@@ -109,9 +108,6 @@ public class ListFile extends JPanel
 
 	}
 	
-	//=====================================================================================================
-	
-
 	//=====================================================================================================
 	
 	public void bigRefresh()
@@ -145,8 +141,6 @@ public class ListFile extends JPanel
 	
 	//=====================================================================================================
 	
-	
-	
 	public void checkAll()
 	{
 		for (int i=this.laListe.getComponentCount()-1; i>=0;i--)
@@ -177,6 +171,8 @@ public class ListFile extends JPanel
 			((ListFileItem)this.laListe.getComponent(i)).maximizeFromAll();		
 	}
 	
+	//=====================================================================================================
+	
 	public void saveAll(String dir)
 	{		
 		for (int i=this.laListe.getComponentCount()-1; i>=0;i--)
@@ -186,26 +182,11 @@ public class ListFile extends JPanel
 			{
 				if (dir.equals("")) dir = this.dirChooser();
 				if (!dir.equals("")) item.runConversionSave(dir);
-			}
-				
-		}
-					
+			}		
+		}				
 	}
 	
-	public void convertAllToPreset(String dir, String preset)
-	{
-		for (int i=0; i<this.laListe.getComponentCount();i++)
-		{
-			ListFileItem item = ((ListFileItem)this.laListe.getComponent(i));
-			if ((item.isFullReady()) && (item.isChecked()))
-			{
-				if (dir.equals("")) dir = this.dirChooser();
-				if (!dir.equals("")) item.runConversionPreset(preset, dir);
-			}
-				
-		}
-					
-	}
+	//=====================================================================================================
 	
 	public void extractAllMP3(String dir)
 	{
@@ -221,6 +202,23 @@ public class ListFile extends JPanel
 		}				
 	}
 	
+	//=====================================================================================================
+	
+	public void convertAllToPreset(String dir, String preset)
+	{
+		for (int i=0; i<this.laListe.getComponentCount();i++)
+		{
+			ListFileItem item = ((ListFileItem)this.laListe.getComponent(i));
+			if ((item.isFullReady()) && (item.isChecked()))
+			{
+				if (dir.equals("")) dir = this.dirChooser();
+				if (!dir.equals("")) item.runConversionPreset(dir, preset);
+			}			
+		}				
+	}
+	
+	//=====================================================================================================
+	
 	public void convertAllClassic(String dir, String preset)
 	{
 		for (int i=0; i<this.laListe.getComponentCount();i++)
@@ -234,8 +232,6 @@ public class ListFile extends JPanel
 				
 		}				
 	}
-	
-	
 	
 	//=====================================================================================================
 	
@@ -258,7 +254,6 @@ public class ListFile extends JPanel
 
 	//=====================================================================================================
 	
-	
 	public void fileDragged(File file)
 	{
 		 String extension;
@@ -268,6 +263,7 @@ public class ListFile extends JPanel
          if ((extension.equals("FLV")) || 
              (extension.equals("MP3")) || 
              (extension.equals("MP4")) ||
+             (extension.equals("M4A")) ||
              (extension.equals("MOV")))
          {
         	 
@@ -280,7 +276,8 @@ public class ListFile extends JPanel
          }
 		
 	}
-	
+
+	//====================================================================================================
 
 	private class MyTransferHandler extends TransferHandler 
 	{
@@ -341,6 +338,4 @@ public class ListFile extends JPanel
 	       } catch (Exception e) {}
 	       return null;
 	   }
-	
-
 }

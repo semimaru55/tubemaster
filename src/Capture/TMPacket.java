@@ -19,6 +19,7 @@
 
 package Capture;
 
+
 import jpcap.packet.Packet;
 import jpcap.packet.TCPPacket;
 
@@ -92,6 +93,12 @@ public class TMPacket
 				this.contains("isomavc1"));
 	}
 	
+	public boolean searchM4A()
+	{
+		return (this.contains("Content-Type: audio/mp4") ||
+				this.contains("ftypm4a"));
+	}
+	
 	
 	public boolean searchMOV()
 	{
@@ -109,7 +116,7 @@ public class TMPacket
 	
 	public boolean searchRTMP_Phase1()
 	{
-		return (this.contains((char)5+"tcUrl"));
+		return (this.contains((char)7+"connect"+(char)0+(char)0x3f));
 	}
 	
 	public boolean searchRTMP_Phase2()
@@ -119,13 +126,33 @@ public class TMPacket
 	
 	
 	//=====================================================================================================	
-	
+		
 	public String extractRTMPParameter(String key)
 	{
-		
+
 		String ret = "";
 		int pos = Commun.arrayPos(this.byteArray, key.getBytes(),1);
 		
+		//Intelligent auto-correction
+		byte[] new_array = new byte[this.byteArray.length];
+		int j = 0;
+		for (int i=1;i<this.byteArray.length-1;i++)
+		{
+			int b = this.byteArray[i] & 0xff;
+			int before = this.byteArray[i-1] & 0xff;
+			int after = this.byteArray[i+1] & 0xff;
+			boolean asup = (b > 126) && (before>31) && (before<123) && (after>31) && (after<123);
+			if (!asup) 
+			{
+				new_array[j] = this.byteArray[i];
+				j++;
+			}
+
+		}
+		
+		this.byteArray = new_array;
+		pos = Commun.arrayPos(this.byteArray, key.getBytes(),1);
+
 		while (this.byteArray[pos] != 2) 
 		{	
 			pos++;

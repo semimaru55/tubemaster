@@ -72,6 +72,7 @@ public class PacketsManager implements Runnable
 					if (p.searchFLV()) this.new_stream("FLV", p);
 					else if (p.searchMP3()) this.new_stream("MP3", p);
 					else if (p.searchMP4()) this.new_stream("MP4", p);
+					else if (p.searchM4A()) this.new_stream("M4A", p);
 					else if (p.searchMOV()) this.new_stream("MOV", p);
 						
 					//RTMP Protocol

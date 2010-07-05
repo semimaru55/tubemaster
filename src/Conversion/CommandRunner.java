@@ -123,7 +123,7 @@ public class CommandRunner implements Runnable
 	public void stopProcess()
 	{
 		this.stopped = true;
-		this.process.destroy();	
+		if (this.process != null) this.process.destroy();	
 	}
 	
 	public void setSemaphore(CountDownLatch sema)
@@ -143,7 +143,7 @@ public class CommandRunner implements Runnable
 	        super(name);
 	        input_ = input;
 
-	    }
+	   }
 
 	    public void run() 
 	    {

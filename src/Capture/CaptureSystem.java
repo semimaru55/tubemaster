@@ -59,7 +59,7 @@ public class CaptureSystem
 		Thread threadMan = new Thread(this.pMan);
 		threadMan.start();
 
-		if (MainForm.interfaces.length==0)
+		if (MainForm.interfaces.length == 0)
 		 {
 			 JOptionPane.showMessageDialog(null,  "You must run TubeMaster++ as Administrator ! \n" +
 				   		"- Windows : Right click on the icon > Properties > Compatibility > Run As Administrator.\n"+

@@ -52,7 +52,7 @@ public class FileFormat
 	public String retPlayer() 
 	{
 		if (this.format.equals("FLV")) return MainForm.opts.repFLV;
-		else if (this.format.equals("MP3")) return MainForm.opts.repMP3;
+		else if ((this.format.equals("MP3")) || (this.format.equals("M4A"))) return MainForm.opts.repMP3;
 		else if (this.format.equals("MP4")) return MainForm.opts.repMP4;
 		else if (this.format.equals("MOV")) return MainForm.opts.repMOV;
 		else return "";		

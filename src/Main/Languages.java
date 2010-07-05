@@ -24,16 +24,18 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
+import javax.swing.JOptionPane;
+
 public class Languages 
 {
-	private File f = new File("lang/"+MainForm.opts.langFile);
+	private File f = new File("lang/"+MainForm.opts.langFile);;
 	
 	public String[] lang_table = new String[81]; 
 	
 	
 	public Languages()
 	{
-		
+	
 		 try
 	      {
 		    String ligne;
@@ -47,7 +49,11 @@ public class Languages
 	   	    	this.lang_table[i] = Commun.parse(total,"<"+i+">","</"+i+">");
 	   	    			
 	   	    	
-	      } catch(Exception e) {Commun.logError(e);}
+	      } catch(Exception e) 
+	      {
+	    	  JOptionPane.showMessageDialog(null,e.getLocalizedMessage()+"\n(You must have the adminitrator's rights !)","Error",JOptionPane.ERROR_MESSAGE);
+	    	  System.exit(0);	    	  
+	      }
 		
 		
 		
