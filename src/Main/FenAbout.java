@@ -193,6 +193,7 @@ public class FenAbout extends JFrame implements ActionListener
 		"- Iconspedia.com : Some nice icons.\n" +
 		"- Smaxe Ltd : RTMP Protocol Support.\n" + 
 		"- Paul Grebenc : JID3 Library.\n" + 
+		"- WinFF Project : Conversion presets.\n" +
 		"- Other Contributions (Donators, Bug reporters ...).\n" + 
 		"- Worm00 : Graphic and Code contribution.\n" + 
 		"- Cocodidou : Unix version (help, tests).\n" +
