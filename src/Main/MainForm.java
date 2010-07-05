@@ -197,10 +197,7 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 			this.setVisible(false);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.exit_properly();
-		} else this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		
-
-		
+		} else this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);	
 	}
 	public void windowDeactivated(WindowEvent arg0) {}
 	public void windowDeiconified(WindowEvent arg0) {}
