@@ -318,9 +318,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 			{
 				this.wasAutoPlayed = true;
 				this.file.play();	
-			}
-			
-			
+			}	
 		}	
 	}
 	
