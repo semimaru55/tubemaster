@@ -23,7 +23,6 @@ package Main;
 
 import java.awt.AWTException;
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
@@ -34,7 +33,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -241,20 +239,8 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	    	
 	    }
 	    catch (Error e)
-	    {
-    	
-		    if (JOptionPane.showConfirmDialog(null, 
-		    		MainForm.lang.lang_table[44]+"\n"+MainForm.lang.lang_table[45] 
-	    			, MainForm.lang.lang_table[46],
-	    			JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
-	    	{
-	    		try
-	    		{
-	    			Desktop.getDesktop().browse(new URI("http://www.tubemaster.net"));
-	    		} catch (Exception e2) {System.exit(0);}
-	    		 
-	    		 
-	    	}
+	    {	    	
+		    JOptionPane.showMessageDialog(null,"Error : "+e.getLocalizedMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 	    	System.exit(0);  	
 	    }
 

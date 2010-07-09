@@ -67,6 +67,21 @@ public class Commun
 			} catch (Exception e) {e.printStackTrace();}	
 		}
 				
+		
+		public synchronized static void logDebugLine(String trace)
+		{
+			try
+			{
+				File f = new File ("Debug.log");
+				FileOutputStream os = new FileOutputStream(f,true);
+				os.write(trace.getBytes());
+				os.write("\n".getBytes());
+				os.close();	
+				
+			} catch (Exception e) {e.printStackTrace();}	
+		}
+		
+		
 		public static int arrayPos(byte[] arr, byte[] tof, int itera)
 		{
 			int position = -1;

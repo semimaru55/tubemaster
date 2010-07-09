@@ -44,6 +44,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.TransferHandler;
 import javax.swing.border.Border;
 
+import Main.Commun;
 import Main.MainForm;
 
 
@@ -283,13 +284,14 @@ public class ListFile extends JPanel
 	{
 	    private static final long serialVersionUID = 1L;
 
-	    public boolean canImport(JComponent cp, DataFlavor[] df) {
-	        for (int i = 0; i < df.length; i++) {
-	        	if ((df[i].equals(DataFlavor.javaFileListFlavor)) 
-	    	        	|| df[i].equals(DataFlavor.stringFlavor))
-	        	{
-	            return true;
-	          }
+	    public boolean canImport(JComponent cp, DataFlavor[] df) 
+	    {
+	        for (int i=0; i<df.length; i++) 
+	        {
+	        	if ((df[i].equals(DataFlavor.javaFileListFlavor)) || df[i].equals(DataFlavor.stringFlavor))
+	        	{	
+	        		return true;
+	        	}
 	        }
 	        return false;
 	      }
@@ -305,7 +307,7 @@ public class ListFile extends JPanel
 	          }
 	          return true;
 	        }
-	        catch (Exception e) {}
+	        catch (Exception e) {Commun.logError(e);}
 	      return false;
 	    }  
 	  }
@@ -314,7 +316,6 @@ public class ListFile extends JPanel
 		@SuppressWarnings("unchecked")
 		private static List<File> getFilesFromTransferable(Transferable t) 
 		{
-
 	       try 
 	       {
 	           if (t.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) 
@@ -335,7 +336,7 @@ public class ListFile extends JPanel
 	               }
 	               return files;
 	           }
-	       } catch (Exception e) {}
+	       } catch (Exception e) {Commun.logError(e);}
 	       return null;
 	   }
 }
