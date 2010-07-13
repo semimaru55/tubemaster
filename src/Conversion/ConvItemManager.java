@@ -70,6 +70,7 @@ public class ConvItemManager implements Runnable
 					try 
 					{
 						sema.await();
+						
 					} catch (InterruptedException e) {Commun.logError(e);}
 					
 					if (MainForm.opts.delConv) this.lesItems.get(0).toDestroy();

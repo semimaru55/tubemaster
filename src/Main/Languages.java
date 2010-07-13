@@ -28,7 +28,7 @@ import javax.swing.JOptionPane;
 
 public class Languages 
 {
-	private File f = new File("lang/"+MainForm.opts.langFile);;
+	private File f = new File(System.getProperty("user.dir")+File.separator+"lang"+File.separator+MainForm.opts.langFile);
 	
 	public String[] lang_table = new String[81]; 
 	

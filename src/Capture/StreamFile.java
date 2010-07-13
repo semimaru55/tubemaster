@@ -66,7 +66,7 @@ public class StreamFile
 				new File("temp").mkdir();
 				long idFile = (new Date()).getTime();
 				long random = (long) (Math.random()*100000);
-				this.filepath = "temp"+File.separator+"tm++_capture_"+idFile+random+"."+this.format.retFormat().toLowerCase();
+				this.filepath = System.getProperty("user.dir") + File.separator + "temp" + File.separator + "tm++_capture_"+idFile+random+"."+this.format.retFormat().toLowerCase();
 			
 				/* Create file on the drive */
 				this.file = new File(this.filepath);

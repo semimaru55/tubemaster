@@ -239,7 +239,8 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	    	
 	    }
 	    catch (Error e)
-	    {	    	
+	    {	  
+	    	Commun.logError(e);
 		    JOptionPane.showMessageDialog(null,"Error : "+e.getLocalizedMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 	    	System.exit(0);  	
 	    }

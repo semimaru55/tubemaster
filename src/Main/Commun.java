@@ -40,15 +40,14 @@ public class Commun
 				StringWriter sw = new StringWriter();
 				trace.printStackTrace(new PrintWriter(sw));
 				String stacktrace = sw.toString();
-				//trace.printStackTrace();
+			
 				
-				
-				File f = new File ("Errors.log");
+				File f = new File (System.getProperty("user.dir") + File.separator + "Errors.log");
 				
 				FileOutputStream os = new FileOutputStream(f,true);
 				
 				Calendar laDate = Calendar.getInstance();
-				String d = "-> at "+laDate.get(Calendar.HOUR)+":"
+				String d = "-> Date "+laDate.get(Calendar.HOUR_OF_DAY)+":"
 								   +laDate.get(Calendar.MINUTE)+":"
 								   +laDate.get(Calendar.SECOND)+" - "
 								   +laDate.get(Calendar.DAY_OF_MONTH)+"/"
@@ -72,7 +71,7 @@ public class Commun
 		{
 			try
 			{
-				File f = new File ("Debug.log");
+				File f = new File (System.getProperty("user.dir") + File.separator + "Debug.log");
 				FileOutputStream os = new FileOutputStream(f,true);
 				os.write(trace.getBytes());
 				os.write("\n".getBytes());
