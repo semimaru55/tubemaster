@@ -29,10 +29,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import Main.Commun;
 import Main.FenAbout;
 import Main.FenOptions;
@@ -59,17 +57,16 @@ public class Header extends JPanel implements ActionListener
 	
 	private Image fond = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/"+"Header.png"));
 	
-	
 	private FenOptions opts = new FenOptions();
+
 	
-	
-	public Header(JPanel pan1,JPanel pan2,JPanel pan3)
+	public Header(JPanel pan1 ,JPanel pan2, JPanel pan3)
 	{
 		super();
 		this.setLayout(null);
-		this.setSize(new Dimension(705,110));
+		this.setPreferredSize(new Dimension(705,110));
 		this.setDoubleBuffered(true);
-		this.setBackground(Color.black);
+		this.setBackground(Color.decode("#676767"));
 
 		this.pan1 = pan1;
 		this.pan2 = pan2;
@@ -103,7 +100,7 @@ public class Header extends JPanel implements ActionListener
 		this.add(this.btnOptions);
 		this.add(this.btnAbout);	
 		this.add(this.btnDonate);
-		
+
 	}
 	
 	

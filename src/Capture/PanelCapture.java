@@ -21,6 +21,7 @@ package Capture;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -40,7 +41,7 @@ import Main.MainForm;
 
 public class PanelCapture extends JPanel implements ActionListener
 {
-	private ListFile laListe = new ListFile();						   //Liste des fichiers captures.
+	private ListFile laListe = new ListFile();
 	private CaptureSystem capture;
 	
 	private static final long serialVersionUID = 1L;
@@ -57,6 +58,7 @@ public class PanelCapture extends JPanel implements ActionListener
 	private TMButton btnClearAll = new TMButton(this,8,12,"","close.png",0,0,0);
 	private TMButton btnReduceAll = new TMButton(this,8,12,"","reduce.png",0,0,0);
 	private ConvertMenu convMenu = new ConvertMenu(this);
+	private CaptureLeds capLeds = new CaptureLeds(this);
 	
 	
 	
@@ -65,10 +67,10 @@ public class PanelCapture extends JPanel implements ActionListener
 	{
 		super();
 		this.setLayout(null);
-		this.setBounds(2,114,700,445);
+		this.setPreferredSize(new Dimension(700,493));
 		this.setBackground(Color.decode("#676767"));
 
-		//Démarrage auto de la capture ou pas.
+
 		if (MainForm.opts.autoCapture)
 		{
 			this.btnCapture = new TMButton(this,7,4,MainForm.lang.lang_table[6],"stop_cap.png",41,9,140);
@@ -80,14 +82,16 @@ public class PanelCapture extends JPanel implements ActionListener
 			this.capAlive = false;
 		}
 
+
+		this.laListe.setLocation(4, 77);
+		this.btnReduceAll.setBounds(634,35,30,40);
+		this.btnClearAll.setBounds(670,35,30,40);
+		this.btnCapture.setBounds(6,35,185,40);
+		this.btnConvertAll.setBounds(397,35,194,40);
+		this.btnSaveAll.setBounds(197,35,194,40);
+		this.btnCheckAll.setBounds(598,35,30,40);
+		this.capLeds.setLocation(6, 5);
 		
-		this.laListe.setLocation(1, 43);
-		this.btnReduceAll.setBounds(630,0,30,40);
-		this.btnClearAll.setBounds(665,0,30,40);
-		this.btnCapture.setBounds(4,0,185,40);
-		this.btnConvertAll.setBounds(395,0,194,40);
-		this.btnSaveAll.setBounds(195,0,194,40);
-		this.btnCheckAll.setBounds(595,0,30,40);
 		
 		this.add(this.laListe);
 		this.add(this.btnCapture);
@@ -96,6 +100,7 @@ public class PanelCapture extends JPanel implements ActionListener
 		this.add(this.btnSaveAll);
 		this.add(this.btnConvertAll);
 		this.add(this.btnCheckAll);
+		this.add(this.capLeds);
 		
 	}
 
@@ -261,5 +266,6 @@ public class PanelCapture extends JPanel implements ActionListener
 		}
 	}
 	
+	public CaptureSystem getCaptureSystem() { return this.capture; }
 	
 }

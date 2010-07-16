@@ -20,6 +20,7 @@
 package VideoSearch;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -76,7 +77,7 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 	{
 		super();
 		this.setLayout(null);
-		this.setBounds(2,110,700,441);
+		this.setPreferredSize(new Dimension(700,493));
 		this.setBackground(Color.decode("#676767"));
 		this.setVisible(false);
 	
@@ -94,7 +95,7 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 		this.comboSites.setMaximumRowCount(20);
 		
 		
-		this.vidPres.setBounds(8,354,686,81);
+		this.vidPres.setBounds(8,404,688,81);
 		this.vidPres.setVisible(false);
 		
 		this.lblLoad.setBounds(410,17,32,32);
@@ -143,7 +144,7 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 			
 		}
 
-		this.paneList.setBounds(8,53,685,385);
+		this.paneList.setBounds(8,53,688,431);
 		
 		
 	}
@@ -164,7 +165,7 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 	public void doSearch()
 	{
 		this.vidPres.setVisible(false);
-		this.paneList.setSize(685,385);
+		this.paneList.setSize(688,431);
 		
 		String query = this.edtSearch.getText().replaceAll(" ", "+").replaceAll("&", "%26");
 
@@ -229,7 +230,7 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 	{
 		if (e.getButton()==MouseEvent.BUTTON1)
 		{
-			this.paneList.setSize(685,294);
+			this.paneList.setSize(688,343);
 			this.vidPres.setVisible(true);
 			this.vidPres.refresh(this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 5).toString(), 					//Le titre
 								 "Description : "+this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 4).toString(), //La description

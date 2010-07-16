@@ -35,8 +35,8 @@ import jpcap.NetworkInterface;
 
 public class EcouteInterface implements Runnable
 {
-	private JpcapCaptor jpcap;									//Nouveau Capteur de paquets.
-	private NetworkInterface interf;									//Interface a ecouter.
+	private JpcapCaptor jpcap;									
+	private NetworkInterface interf;								
 	private CountDownLatch semaClose = new CountDownLatch(1);
 	private CountDownLatch semaStart = new CountDownLatch(1);
 	
@@ -48,11 +48,6 @@ public class EcouteInterface implements Runnable
 		this.interf = interf;	
 		this.semaStart = semaStart;	
 	}
-	
-	//=====================================================================================================
-
-	
-	
 	
 	//=====================================================================================================
 	
@@ -97,6 +92,32 @@ public class EcouteInterface implements Runnable
 				
 			} catch (InterruptedException e) {Commun.logError(e);}
 		}
-
 	}
+	
+	//=====================================================================================================
+	
+	public long getNbCapturedPackets()
+	{
+		long nb = 0;
+		if (this.jpcap != null)
+		{
+			this.jpcap.updateStat();
+			nb = this.jpcap.received_packets;
+		}	
+		return nb;	
+	}
+	
+	public long getNbDroppedPackets()
+	{
+		long nb = 0;
+		if (this.jpcap != null)
+		{
+			nb = this.jpcap.dropped_packets;
+		}	
+		return nb;	
+	}
+	
+	//=====================================================================================================
+	
+	
 }

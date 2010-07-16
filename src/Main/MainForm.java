@@ -33,23 +33,16 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
-
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-
 import jpcap.JpcapCaptor;
 import jpcap.NetworkInterface;
-
-
-
-
 import VideoSearch.PanelVideoSearch;
-
 import Capture.PanelCapture;
-
 import Conversion.ConvItemManager;
 import Conversion.ConversionPresets;
 import Graphique.Header;
@@ -62,43 +55,33 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 {
 	private static final long serialVersionUID = 1L;
 	
-	public static Options opts = new Options();
-	public static Languages lang = new Languages();
+	private JPanel 						panFen 		= new JPanel(); 	
+	private PanelCapture 				panCap 		= new PanelCapture();							
+	private PanelVideoSearch 			panSVideo 	= new PanelVideoSearch();				
+	private PanelMP3Search 				panSMP3		= new PanelMP3Search();	
+	private Header 						header 		= new Header(this.panCap,this.panSVideo,this.panSMP3);
 	
-	
-	private JPanel panFen = new JPanel(); 										
-	private PanelCapture  panCap = new PanelCapture();							
-	private PanelVideoSearch panSVideo = new PanelVideoSearch();				
-	private PanelMP3Search panSMP3 = new PanelMP3Search();						
+	public static Options 				opts 		= new Options();
+	public static Languages 			lang 		= new Languages();
+	public static ConversionPresets 	convPresets = new ConversionPresets();
+	public static ConvItemManager 		convManager = new ConvItemManager();
+	public static MP3Downloader 		mp3down		= new MP3Downloader();;
+	public static TrayIcon 				trayIcon 	= null;
+	public static NetworkInterface[] 	interfaces	= null;
+	public static String 				tm_version 	= "1.9";
 	
 
-	private Header header = new Header(panCap,this.panSVideo,this.panSMP3);
-
-	public static ConversionPresets convPresets = new ConversionPresets();
-	public static ConvItemManager convManager = new ConvItemManager();
-	public static MP3Downloader mp3down;
-	
-	public static TrayIcon trayIcon = null;
-	
-	public static NetworkInterface[] interfaces;
-	
-	public static String tm_version = "1.8";
-	
-	
-	
 	//=====================================================================================================
 
 	public MainForm() throws IOException
 	{
 		super();
-		this.panFen.setLayout(null);
+		this.panFen.setLayout(new BoxLayout(this.panFen, BoxLayout.Y_AXIS));
+		this.setContentPane(this.panFen);
 		this.panFen.setBackground(Color.decode("#676767"));
 		this.setTitle("TubeMaster++ | GgSofts");
-		this.setSize(710, 594);
-		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-		this.setContentPane(this.panFen);
 		this.addWindowListener(this);
 
 		Thread threadManager = new Thread(MainForm.convManager);
@@ -112,8 +95,9 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 		}
 		
 		this.placeComposants();
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
-				
+		
 	}
 
 	
@@ -123,15 +107,14 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	{
 		ImageIcon monIcon = new ImageIcon(getClass().getResource("images/icon.jpg"));
 		this.setIconImage(monIcon.getImage());
-		
-		this.panFen.add(panCap);
+
+		this.panFen.add(this.header);
+		this.panFen.add(this.panCap);
 		this.panFen.add(this.panSVideo);
 		this.panFen.add(this.panSMP3);
-
-
-		this.header.setLocation(0,0);
-		this.panFen.add(this.header);
-
+		//this.panFen.add(this.status);
+		
+		this.pack();
 	}
 	
 	//=====================================================================================================
@@ -235,21 +218,22 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 		
 		try 
 	    {
-	    	interfaces = JpcapCaptor.getDeviceList();
-	    	
+	    	interfaces = JpcapCaptor.getDeviceList();	
 	    }
 	    catch (Error e)
 	    {	  
-	    	Commun.logError(e);
-		    JOptionPane.showMessageDialog(null,"Error : "+e.getLocalizedMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		    JOptionPane.showMessageDialog(null,"Error : "+e.getMessage()+"\n\n"+
+		    		"To correct this problem, be sure to : \n"+
+		    		" - Run TubeMaster++ as Administrator.\n"+
+		    		" - Uninstall x64 Java Runtime (JRE) and install ONLY x32 edition.\n"+
+		    		" - The file Jpcap.dll is present in the TubeMaster++ installation directory.\n"
+		    		,"TubeMaster++ Error",JOptionPane.ERROR_MESSAGE);
 	    	System.exit(0);  	
 	    }
 
 	   try
-	   { 
-		   
-		   new MainForm();
-		   mp3down = new MP3Downloader();
+	   { 		   
+		   new MainForm();   
 	   }
 	   catch (Exception e) {Commun.logError(e);};	
 	}
@@ -290,8 +274,10 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 
 		}
 	}
-	
+
 	public JFrame get_frame() { return this; }
+	
+	
 	
 
 }

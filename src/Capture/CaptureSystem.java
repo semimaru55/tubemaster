@@ -96,6 +96,21 @@ public class CaptureSystem
 		this.tabEcoute.clear();
 	}
 	
+	//=====================================================================================================
+	
+	public long getNbCapturedPackets()
+	{
+		long nb = 0;
+		for (int i=0;i<this.tabEcoute.size();i++) nb += this.tabEcoute.get(i).getNbCapturedPackets();
+		return nb;
+	}
+	
+	public long getNbDroppedPackets()
+	{
+		long nb = 0;
+		for (int i=0;i<this.tabEcoute.size();i++) nb += this.tabEcoute.get(i).getNbDroppedPackets();
+		return nb;
+	}
 	
 	
 }

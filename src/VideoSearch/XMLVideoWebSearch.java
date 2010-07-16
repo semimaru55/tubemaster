@@ -54,7 +54,7 @@ public class XMLVideoWebSearch implements Runnable
 		{
 			URL addr = new URL(this.addr);
 			URLConnection yc = addr.openConnection();
-			BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));;
+			BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
 
 			String inputLine;
 

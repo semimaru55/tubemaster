@@ -20,6 +20,7 @@
 package MP3Search;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -80,7 +81,7 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 	{
 		super();
 		this.setLayout(null);
-		this.setBounds(2,110,700,441);
+		this.setPreferredSize(new Dimension(700,493));
 		this.setBackground(Color.decode("#676767"));
 		this.setVisible(false);
 	
@@ -95,9 +96,6 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 		
 		this.btnDown.setBounds(533,8,160,40);
 		this.btnDown.setVisible(false);
-		
-		//this.btnPlay.setBounds(485,8,42,40);
-		//this.btnPlay.setVisible(false);
 	
 		
 		this.lblLoad.setBounds(250,17,32,32);
@@ -112,7 +110,6 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 		this.add(this.edtSearch);
 		this.add(this.btnSearch);
 		this.add(this.btnDown);
-		//this.add(this.btnPlay);
 		this.add(this.lblLoad);
 		
 	}
@@ -153,7 +150,7 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 			
 		}
 
-		this.paneList.setBounds(8,53,685,390);	
+		this.paneList.setBounds(8,53,688,431);	
 	}
 	
 

@@ -105,3 +105,9 @@
 	<78>Lecteurs Multimédia</78>
 	<79>Taille Minimale de Capture</79>
 	<80>octets</80>
+	
+//Added 1.9 Version
+	<81>Attente de données. Vérifiez que vous êtes connectés au réseau. Votre carte n'est peut être pas compatible avec TubeMaster++.</81>
+	<82>TubeMaster++ fonctionne correctement et est capable de capturer des données.</82>
+	<83>Attention ! Perte de données détectée. Essayez de limiter l'usage du processeur et le débit de votre connexion.</83>
+	<84>La capture est désactivée. Vous devez l'activer pour capturer des fichiers.</84>

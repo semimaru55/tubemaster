@@ -30,7 +30,7 @@ public class Languages
 {
 	private File f = new File(System.getProperty("user.dir")+File.separator+"lang"+File.separator+MainForm.opts.langFile);
 	
-	public String[] lang_table = new String[81]; 
+	public String[] lang_table = new String[85]; 
 	
 	
 	public Languages()

@@ -55,7 +55,7 @@ public class ListFile extends JPanel
 	
 	
 	private static final int LIST_WIDTH = 698;
-	private static final int LIST_HEIGHT = 403;					
+	private static final int LIST_HEIGHT = 413;					
 
 	private JPanel laListe = new JPanel()						
 	{
@@ -73,8 +73,8 @@ public class ListFile extends JPanel
 			{
 				g.drawImage(this.img, 60, 45, this);
 				g.setColor(Color.gray.darker().darker());
-				g.drawImage(this.imgLoad, 4, 378, this);
-				g.drawString(MainForm.lang.lang_table[57], 23, 390);
+				g.drawImage(this.imgLoad, 4, 388, this);
+				g.drawString(MainForm.lang.lang_table[57], 23, 400);
 				
 			}
 		}

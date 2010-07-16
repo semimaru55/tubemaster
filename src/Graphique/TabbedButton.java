@@ -118,9 +118,7 @@ public class TabbedButton extends JPanel implements MouseListener
 		else
 		if(!this.active)
 			g.drawImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/"+"tab_MOut.png")), 1, 1, this);
-		
-		
-			
+
 	}
 
 	//=====================================================================================================
