@@ -219,7 +219,9 @@ public class FenAbout extends JFrame implements ActionListener
 		"- Arjan Lindeboom : Dutch Translation.\n" + 
 		"- Markus Grasel & Fabian K. : German Translation.\n" +
 		"- Nicolas Claverie : Japanese Translation.\n" +
-		"- Ihor Polishchuk (Amigor) : Ukrainian Translation";
+		"- Ihor Polishchuk (Amigor) : Ukrainian Translation.\n" +
+		"- Junio Soares Nascimento : Português (Brasil) Translation.\n" +
+		"- Peter Korman : Czech & Slovak Translations.\n";
 	}
 	
 	public String getGNULicense()

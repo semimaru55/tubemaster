@@ -78,36 +78,36 @@
 	<57>Tip : Môžeš použiť Drag-And-Drop na externé súbory (MP3,MP4,FLV,MOV,M4A).</57>
 
 //ID3 Editor
-	<58>Song Title</58>
-	<59>Artist Name</59>
-	<60>Album Title</60>
-	<61>Year</61>
-	<62>Track Number</62>
-	<63>Genre</63>
-	<64>Cancel</64>
-	<65>Apply</65>
+	<58>Názov skladby</58>
+	<59>Interpret</59>
+	<60>Názov albumu</60>
+	<61>Rok</61>
+	<62>Číslo skladby</62>
+	<63>Žáner</63>
+	<64>Zrušiť</64>
+	<65>Použiť</65>
 
 //Added 1.6 Version
-	<66>Source</66>	
-	<67>Default Multimedia Players</67>
-	<68>Automatically start playing files during capture. (Minimum : 400 KB)</68>
+	<66>Zdroj</66>	
+	<67>Predvolený prehrávač video súborov</67>
+	<68>Automaticky spustiť prehrávanie súboru v priebehu zachytávania. (Minimum : 400 KB)</68>
 	
 //Added 1.7 Version	
 	<69>MP3 Bitrate</69>
-	<70>Capture Timeout (Seconds)</70>
-	<71>to disable</71>
-	<72>Player Error</72>
-	<73>Multimedia player not found. You can fix it in the option window.</73>
-	<74>The FFMPeg converter terminated with following errors :</74>
-	<75>General</75>
-	<76>Capture</76>
-	<77>Save/Conversion</77>
-	<78>Multimedia Players</78>
-	<79>Capture Minimal Size</79>
+	<70>Zachytávať s oneskorením (Sekúnd)</70>
+	<71>pre zakázanie</71>
+	<72>Chyba prehrávača</72>
+	<73>Nenašiel som prehrávač video súborov. Zvoľte predvolený prehrávač v nastaveniach programu.</73>
+	<74>FFMPeg konvertor bol ukončený s následujúcimi chybami :</74>
+	<75>Obecné</75>
+	<76>Zachytávať</76>
+	<77>Uložiť/Skonvertovať</77>
+	<78>Prehrávače videa</78>
+	<79>Zachytávať minimálne</79>
 	<80>bytes</80>
 	
 //Added 1.9 Version
-	<81>Waiting for data. Check that you are connected to the network. Maybe your network device is not compatible with TubeMaster++.</81>
-	<82>TubeMaster++ is operating properly and is able to capture packets.</82>
-	<83>Warning ! Data loss detected. Try to limit processor and bandwidth usage.</83>
-	<84>The capture is disabled. You must enable it in order to catch files.</84>
+	<81>Čakám na dáta. Skontrolujte, či ste pripojení k sieti. Vaše sieťové zariadenie možno nie je kompatibilné s TubeMaster++.</81>
+	<82>TubeMaster++ pracuje správne a je schopný zachytávať packety.</82>
+	<83>Upozornenie ! Bola zistená strata dát. Skúste obmedziť využitie procesoru a siete.</83>
+	<84>Zachytávanie je zakázané. Aby ste boli schopní zachytávať súbory, musíte ho povoliť.</84>

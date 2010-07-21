@@ -46,11 +46,11 @@ public class CaptureLeds extends JPanel implements ActionListener
 		super();
 		this.setLayout(null);
 		this.setSize(new Dimension(694,26));
-		this.setBackground(Color.decode("#9D9D9D"));
-		this.setBorder(BorderFactory.createLineBorder(Color.darkGray));
+		this.setBackground(Color.decode("#676767"));
+		this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
 		
-		this.lblState.setBounds(28, 4, 662, 20);
-		this.lblState.setForeground(Color.gray.darker().darker());
+		this.lblState.setBounds(28, 2, 662, 20);
+		this.lblState.setForeground(Color.white.darker());
 		this.add(this.lblState);
 			
 		this.panelCap = panelCap;
@@ -66,19 +66,19 @@ public class CaptureLeds extends JPanel implements ActionListener
 		switch (this.currentState)
 		{
 		case BAD :
-			g.drawImage(this.imgRed, 7, 5, this);
+			g.drawImage(this.imgRed, 7, 4, this);
 			this.lblState.setText(MainForm.lang.lang_table[81]);
 			break;
 		case GOOD :
-			g.drawImage(this.imgGreen, 7, 5, this);
+			g.drawImage(this.imgGreen, 7, 4, this);
 			this.lblState.setText(MainForm.lang.lang_table[82]);
 			break;
 		case WARN :
-			g.drawImage(this.imgYellow, 7, 5, this);
+			g.drawImage(this.imgYellow, 7, 4, this);
 			this.lblState.setText(MainForm.lang.lang_table[83]);
 			break;		
 		case DISABLED :
-			g.drawImage(this.imgGray, 7, 5, this);
+			g.drawImage(this.imgGray, 7, 4, this);
 			this.lblState.setText(MainForm.lang.lang_table[84]);
 			break;
 		}
