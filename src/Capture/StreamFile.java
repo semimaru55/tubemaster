@@ -14,6 +14,7 @@ import org.blinkenlights.jid3.v2.ID3V2_3_0Tag;
 
 import Conversion.CommandRunner;
 import Main.Commun;
+import Main.MainForm;
 
 public class StreamFile 
 {
@@ -66,7 +67,7 @@ public class StreamFile
 				new File("temp").mkdir();
 				long idFile = (new Date()).getTime();
 				long random = (long) (Math.random()*100000);
-				this.filepath = System.getProperty("user.dir") + File.separator + "temp" + File.separator + "tm++_capture_"+idFile+random+"."+this.format.retFormat().toLowerCase();
+				this.filepath = MainForm.tm_path + File.separator + "temp" + File.separator + "tm++_capture_"+idFile+random+"."+this.format.retFormat().toLowerCase();
 			
 				/* Create file on the drive */
 				this.file = new File(this.filepath);

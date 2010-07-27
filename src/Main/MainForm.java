@@ -54,21 +54,22 @@ import MP3Search.MP3Downloader;
 public class MainForm extends JFrame implements WindowListener, MouseListener, ActionListener
 {
 	private static final long serialVersionUID = 1L;
+		
+	public static Options 				opts;
+	public static Languages 			lang;
+	public static ConversionPresets 	convPresets;
+	public static ConvItemManager 		convManager;
+	public static MP3Downloader 		mp3down;
+	public static TrayIcon 				trayIcon;
+	public static NetworkInterface[] 	interfaces;
+	public static String 				tm_version;
+	public static String				tm_path;
 	
-	private JPanel 						panFen 		= new JPanel(); 	
-	private PanelCapture 				panCap 		= new PanelCapture();							
-	private PanelVideoSearch 			panSVideo 	= new PanelVideoSearch();				
-	private PanelMP3Search 				panSMP3		= new PanelMP3Search();	
-	private Header 						header 		= new Header(this.panCap,this.panSVideo,this.panSMP3);
-	
-	public static Options 				opts 		= new Options();
-	public static Languages 			lang 		= new Languages();
-	public static ConversionPresets 	convPresets = new ConversionPresets();
-	public static ConvItemManager 		convManager = new ConvItemManager();
-	public static MP3Downloader 		mp3down		= new MP3Downloader();;
-	public static TrayIcon 				trayIcon 	= null;
-	public static NetworkInterface[] 	interfaces	= null;
-	public static String 				tm_version 	= "1.9";
+	private JPanel 						panFen; 	
+	private PanelCapture 				panCap;							
+	private PanelVideoSearch 			panSVideo;				
+	private PanelMP3Search 				panSMP3;	
+	private Header 						header;
 	
 
 	//=====================================================================================================
@@ -76,31 +77,100 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	public MainForm() throws IOException
 	{
 		super();
-		this.panFen.setLayout(new BoxLayout(this.panFen, BoxLayout.Y_AXIS));
-		this.setContentPane(this.panFen);
-		this.panFen.setBackground(Color.decode("#676767"));
 		this.setTitle("TubeMaster++ | GgSofts");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.addWindowListener(this);
 
-		Thread threadManager = new Thread(MainForm.convManager);
-		threadManager.start();
+		this.initComposants();
+		this.placeComposants();
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);	
 		
-		
+
 		if (opts.autoUpdate)
 		{
 			Thread threadManager2 = new Thread(new Updater());
 			threadManager2.start();	
 		}
 		
-		this.placeComposants();
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
+	}
+	
+	//=====================================================================================================
+
+	public void initComposants()
+	{
+		tm_version = "1.9";
+		tm_path = System.getProperty("user.dir");
 		
+		
+		File test_file = new File(tm_path+File.separator+"lang");
+		if (!test_file.exists())
+		{
+			JOptionPane.showMessageDialog(null,"Error : TubeMaster++ was launched from : \""+tm_path+"\"\n\n"+
+    		"If this is not the TubeMaster++ installation folder, you have to\n"+
+    		"run directly the \"tm++.exe\" file and make yourself a shortcut."
+    		,"TubeMaster++ Error",JOptionPane.ERROR_MESSAGE);
+			System.exit(0);  	
+		}
+		
+
+		try { interfaces = JpcapCaptor.getDeviceList();	}
+	    catch (Error e)
+	    {	  
+		    JOptionPane.showMessageDialog(null,"Error : "+e.getMessage()+"\n\n"+
+		    		"To correct this problem, be sure to : \n"+
+		    		" - Run TubeMaster++ as Administrator.\n"+
+		    		" - TubeMaster++ was launch from the installation folder.\n"+
+		    		" - Uninstall x64 Java Runtime (JRE) and install ONLY x32 edition.\n"+
+		    		" - The file Jpcap.dll is present in the TubeMaster++ installation directory.\n"
+		    		,"TubeMaster++ Error",JOptionPane.ERROR_MESSAGE);
+	    	System.exit(0);  	
+	    }
+
+
+		opts 			= new Options();
+		lang 			= new Languages();
+		convPresets 	= new ConversionPresets();
+		convManager 	= new ConvItemManager();
+		mp3down			= new MP3Downloader();
+		panCap 			= new PanelCapture();
+		panSVideo 		= new PanelVideoSearch();
+		panSMP3			= new PanelMP3Search();
+		header 			= new Header(panCap,panSVideo,panSMP3);
+		
+		panFen 	= new JPanel();
+		panFen.setLayout(new BoxLayout(this.panFen, BoxLayout.Y_AXIS));
+		this.setContentPane(panFen);
+		panFen.setBackground(Color.decode("#676767"));
+		
+		
+		Thread threadManager = new Thread(MainForm.convManager);
+		threadManager.start();
+	
+	}
+	
+	//=====================================================================================================
+	
+	public static void main(String[] args) throws IOException
+	{
+
+		String os = System.getProperty("os.name");
+		System.out.println("TubeMaster++ detected operating system : "+os);
+		
+		if (os.startsWith("Windows"))
+			try {UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());} catch (Exception e) {} //Windows
+		else	
+			try {UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");} catch (Exception e) {} //Linux 
+		
+
+	   try
+	   { 		   
+		   new MainForm();   
+	   }
+	   catch (Exception e) {Commun.logError(e);};	
 	}
 
-	
 	//=====================================================================================================
 	
 	public void placeComposants()
@@ -112,7 +182,6 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 		this.panFen.add(this.panCap);
 		this.panFen.add(this.panSVideo);
 		this.panFen.add(this.panSMP3);
-		//this.panFen.add(this.status);
 		
 		this.pack();
 	}
@@ -136,7 +205,7 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
         return dir.delete();
     } 
 	
-	
+	//=====================================================================================================
 	
 	private void exit_properly()
 	{
@@ -148,18 +217,12 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 		File f = new File ("Errors.log");
 		if ((f.exists()) && (f.length() > 1000000)) f.delete();
 	}
-	
-	
+		
 	
 	//=====================================================================================================
 	
-
 	public void windowActivated(WindowEvent arg0) {}
 	public void windowClosed(WindowEvent arg0) {}
-	
-
-	
-	
 	public void windowClosing(WindowEvent e) 
 	{
 		boolean vaFermer = true;
@@ -205,40 +268,6 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 
 	//=====================================================================================================
 	
-	
-	public static void main(String[] args) throws IOException
-	{
-		String os = System.getProperty("os.name");
-		System.out.println("TubeMaster++ detected operating system : "+os);
-		
-		if (os.startsWith("Windows"))
-			try {UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());} catch (Exception e) {} //Windows
-		else	
-			try {UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");} catch (Exception e) {} //Linux 
-		
-		try 
-	    {
-	    	interfaces = JpcapCaptor.getDeviceList();	
-	    }
-	    catch (Error e)
-	    {	  
-		    JOptionPane.showMessageDialog(null,"Error : "+e.getMessage()+"\n\n"+
-		    		"To correct this problem, be sure to : \n"+
-		    		" - Run TubeMaster++ as Administrator.\n"+
-		    		" - Uninstall x64 Java Runtime (JRE) and install ONLY x32 edition.\n"+
-		    		" - The file Jpcap.dll is present in the TubeMaster++ installation directory.\n"
-		    		,"TubeMaster++ Error",JOptionPane.ERROR_MESSAGE);
-	    	System.exit(0);  	
-	    }
-
-	   try
-	   { 		   
-		   new MainForm();   
-	   }
-	   catch (Exception e) {Commun.logError(e);};	
-	}
-
-
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getActionCommand().equals("START_STOP_TRAY"))
@@ -256,7 +285,8 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 		}	
 	}
 
-
+	//=====================================================================================================
+	
 	public void mouseClicked(MouseEvent arg0) {}
 	public void mouseEntered(MouseEvent arg0) {}
 	public void mouseExited(MouseEvent arg0) {}
@@ -275,6 +305,8 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 		}
 	}
 
+	//=====================================================================================================
+	
 	public JFrame get_frame() { return this; }
 	
 	

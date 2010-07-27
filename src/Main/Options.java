@@ -34,7 +34,7 @@ import java.io.PrintWriter;
 public class Options 
 {
 	//Fichier de stockage des options.
-	File f = new File(System.getProperty("user.dir") + File.separator + "options.xml");
+	File f = new File(MainForm.tm_path + File.separator + "options.xml");
 	
 	//Liste des parametres
 		public boolean autoCapture = true;						//Demarrage automatique de la capture.

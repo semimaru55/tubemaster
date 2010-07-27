@@ -27,8 +27,6 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 
 
-//METTRE ICI LES FONCTIONS COMMUNES.
-
 
 public class Commun 
 {
@@ -42,7 +40,7 @@ public class Commun
 				String stacktrace = sw.toString();
 			
 				
-				File f = new File (System.getProperty("user.dir") + File.separator + "Errors.log");
+				File f = new File (MainForm.tm_path + File.separator + "Errors.log");
 				
 				FileOutputStream os = new FileOutputStream(f,true);
 				
@@ -71,7 +69,7 @@ public class Commun
 		{
 			try
 			{
-				File f = new File (System.getProperty("user.dir") + File.separator + "Debug.log");
+				File f = new File (MainForm.tm_path + File.separator + "Debug.log");
 				FileOutputStream os = new FileOutputStream(f,true);
 				os.write(trace.getBytes());
 				os.write("\n".getBytes());
@@ -127,7 +125,6 @@ public class Commun
 			
 			return nfoSize;		
 		}
-		
-	
+
 
 }
