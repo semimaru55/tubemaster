@@ -51,6 +51,7 @@ public class CaptureLeds extends JPanel implements ActionListener
 		
 		this.lblState.setBounds(28, 2, 662, 20);
 		this.lblState.setForeground(Color.white.darker());
+		this.lblState.setFont(new java.awt.Font("Default_tm", 0, 11));
 		this.add(this.lblState);
 			
 		this.panelCap = panelCap;
@@ -87,6 +88,7 @@ public class CaptureLeds extends JPanel implements ActionListener
 
 	public void actionPerformed(ActionEvent e) 
 	{
+
 		CaptureSystem cap = this.panelCap.getCaptureSystem();
 		if (cap != null)
 		{

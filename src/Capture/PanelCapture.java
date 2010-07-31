@@ -26,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
@@ -245,7 +246,7 @@ public class PanelCapture extends JPanel implements ActionListener
 		t.start();
 		try 
 		{
-			sema.await();
+			sema.await(5,TimeUnit.SECONDS);
 		} catch (InterruptedException e) {Commun.logError(e);}	
 	}
 	

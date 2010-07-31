@@ -23,8 +23,11 @@ package Capture;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JOptionPane;
+
+import jpcap.NetworkInterface;
 
 
 import Main.Commun;
@@ -71,18 +74,34 @@ public class CaptureSystem
 		
 		for (int i=0;i<MainForm.interfaces.length;i++)
 		{
-			CountDownLatch sema = new CountDownLatch(1);
-			this.ecoutInter = new EcouteInterface(laListe,MainForm.interfaces[i],sema);
-			this.tabEcoute.add(this.ecoutInter);
-			Thread threadManager = new Thread(this.ecoutInter);
-			threadManager.start();
-			try 
+			if (!this.forbiddenInterface(MainForm.interfaces[i]))
 			{
-				sema.await();
-			} catch (InterruptedException e) {Commun.logError(e);}
-			
+				CountDownLatch sema = new CountDownLatch(1);
+				this.ecoutInter = new EcouteInterface(laListe,MainForm.interfaces[i],sema);
+				this.tabEcoute.add(this.ecoutInter);
+				Thread threadManager = new Thread(this.ecoutInter);
+				threadManager.start();
+				try 
+				{
+					sema.await(2, TimeUnit.SECONDS);
+					
+				} catch (InterruptedException e) {Commun.logError(e);}		
+			}
 		}
 	}
+	
+	//Check for known bugs on these network interfaces.
+	private boolean forbiddenInterface(NetworkInterface interf)
+	{
+		boolean ret = false;
+		if (interf.description != null)
+		{
+			//Ubuntu problematic interface.
+			if (interf.description.startsWith("USB bus number")) ret = true;
+		}
+		return ret;
+	}
+	
 	
 	//=====================================================================================================
 	
@@ -101,14 +120,20 @@ public class CaptureSystem
 	public long getNbCapturedPackets()
 	{
 		long nb = 0;
-		for (int i=0;i<this.tabEcoute.size();i++) nb += this.tabEcoute.get(i).getNbCapturedPackets();
+		for (int i=0;i<this.tabEcoute.size();i++) 
+		{
+			nb += this.tabEcoute.get(i).getNbCapturedPackets();
+		}
 		return nb;
 	}
 	
 	public long getNbDroppedPackets()
 	{
 		long nb = 0;
-		for (int i=0;i<this.tabEcoute.size();i++) nb += this.tabEcoute.get(i).getNbDroppedPackets();
+		for (int i=0;i<this.tabEcoute.size();i++) 
+		{
+			nb += this.tabEcoute.get(i).getNbDroppedPackets();
+		}
 		return nb;
 	}
 	
