@@ -412,7 +412,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		{
 			this.edtTitle.setOpaque(true);
 			this.edtTitle.setBorder(BorderFactory.createLineBorder(Color.black));
-			this.edtTitle.setFont(new Font("Default_tm", 0, 12));
+			this.edtTitle.setFont(new Font("Tahoma", 0, 12));
 			this.edtTitle.selectAll();
 		}
 	
@@ -426,7 +426,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		{
 			this.edtTitle.setOpaque(false);
 			this.edtTitle.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.lightGray));
-			this.edtTitle.setFont(new Font("Default_tm", Font.BOLD, 12));
+			this.edtTitle.setFont(new Font("Tahoma", Font.BOLD, 12));
 
 		}	
 	}
@@ -482,7 +482,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.btnStop.setToolTipText(MainForm.lang.lang_table[33]);
 		
 		this.lblState.setText(MainForm.lang.lang_table[34]);
-		this.lblState.setFont(new java.awt.Font("Default_tm", 0, 11));
+		this.lblState.setFont(new java.awt.Font("Tahoma", 0, 11));
 		
 		this.pbProgress.setMaximum((int) this.file.get_content_length());
 		this.pbProgress.setValue(0);
@@ -497,7 +497,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		
 		this.edtUrl.setEditable(false);
 		this.edtUrl.setText(this.url);
-		this.edtUrl.setFont(new java.awt.Font("Default_tm", 0, 10));
+		this.edtUrl.setFont(new java.awt.Font("Tahoma", 0, 10));
 		this.edtUrl.setOpaque(false);
 		this.edtUrl.setBorder(null);
 		this.edtUrl.setForeground(Color.gray);
@@ -517,7 +517,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 
 		this.edtTitle.setFocusable(false);
 		this.edtTitle.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.lightGray));
-		this.edtTitle.setFont(new Font("Default_tm", Font.BOLD, 12));
+		this.edtTitle.setFont(new Font("Tahoma", Font.BOLD, 12));
 		this.edtTitle.addMouseListener(this);
 		
 		this.btnSave.setVisible(false);

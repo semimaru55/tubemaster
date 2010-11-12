@@ -19,8 +19,6 @@
 
 package Main;
 
-
-
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.SystemTray;
@@ -100,7 +98,7 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 
 	public void initComposants()
 	{
-		tm_version = "1.9";
+		tm_version = "2.0";
 		tm_path = System.getProperty("user.dir");
 		
 		

@@ -88,7 +88,7 @@ public class TMButton extends JPanel implements MouseListener
 		this.lblCaption.setForeground(Color.white);
 		this.lblCaption.setBounds(lblX,lblY,lblW,20);
 		this.lblCaption.setHorizontalAlignment(JLabel.CENTER);
-		this.lblCaption.setFont(new java.awt.Font("Default_tm", 0, 12));
+		this.lblCaption.setFont(new java.awt.Font("Tahoma", 0, 12));
 		//this.lblCaption.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		this.add(this.lblCaption);

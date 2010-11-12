@@ -101,16 +101,16 @@ public class ListMP3Item extends JPanel
 		this.dessin.setBackground(Color.white);
 		
 		this.lblTitle.setForeground(Color.black);
-		this.lblTitle.setFont(new Font("Default_tm", Font.BOLD, 13));
+		this.lblTitle.setFont(new Font("Tahoma", Font.BOLD, 13));
 		this.lblTitle.setText(this.filetitle);
 				
 		this.lblDir.setForeground(Color.black);
-		this.lblDir.setFont(new Font("Default_tm", 0, 11));
+		this.lblDir.setFont(new Font("Tahoma", 0, 11));
 		this.lblDir.setText(this.filedir);
 
 
 		this.lblStatus.setForeground(Color.black);
-		this.lblStatus.setFont(new Font("Default_tm", Font.BOLD, 10));
+		this.lblStatus.setFont(new Font("Tahoma", Font.BOLD, 10));
 		this.lblStatus.setText(MainForm.lang.lang_table[52]+" ...");
 		
 

@@ -91,21 +91,21 @@ public class FenAbout extends JFrame implements ActionListener
 		
 		
 		this.lblTitle.setText("TubeMaster++");
-		this.lblTitle.setFont(new java.awt.Font("Default_tm", 0, 18));
+		this.lblTitle.setFont(new java.awt.Font("Tahoma", 0, 18));
 		this.lblTitle.setBounds(105,25,150,20);
 
 		this.lblVersion.setText("Version "+MainForm.tm_version);
-		this.lblVersion.setFont(new java.awt.Font("Default_tm", 0, 11));
+		this.lblVersion.setFont(new java.awt.Font("Tahoma", 0, 11));
 		this.lblVersion.setBounds(107,47,310,20);
 		
 		this.lblCopy.setText("(c) GgSofts 2009-2010 | admin@tubemaster.net");
-		this.lblCopy.setFont(new java.awt.Font("Default_tm", 0, 11));
+		this.lblCopy.setFont(new java.awt.Font("Tahoma", 0, 11));
 		this.lblCopy.setBounds(107,66,310,20);
 
 		
 		
 		this.lblGreets.setText("Contributors :");
-		this.lblGreets.setFont(new java.awt.Font("Default_tm", 0, 11));
+		this.lblGreets.setFont(new java.awt.Font("Tahoma", 0, 11));
 		this.lblGreets.setBounds(15,99,315,20);
 
 		this.areaGreets.setText(this.getContributors());
@@ -116,7 +116,7 @@ public class FenAbout extends JFrame implements ActionListener
 		
 		this.areaGreets.setOpaque(false);
 		this.areaGreets.setCaretPosition(0);
-		this.areaGreets.setFont(new java.awt.Font("Default_tm", 0, 10));
+		this.areaGreets.setFont(new java.awt.Font("Tahoma", 0, 10));
 		this.areaGreets.setEditable(false);
 		this.areaGreets.setLineWrap(true);
 		this.areaGreets.setWrapStyleWord(true);
@@ -221,7 +221,8 @@ public class FenAbout extends JFrame implements ActionListener
 		"- Nicolas Claverie : Japanese Translation.\n" +
 		"- Ihor Polishchuk (Amigor) : Ukrainian Translation.\n" +
 		"- Junio Soares Nascimento : Português (Brasil) Translation.\n" +
-		"- Peter Korman : Czech & Slovak Translations.\n";
+		"- Peter Korman : Czech & Slovak Translations.\n" +
+		"- Pentti Virmavaara : Finnish Translation.";
 	}
 	
 	public String getGNULicense()

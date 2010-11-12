@@ -81,7 +81,7 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 		this.setBackground(Color.decode("#676767"));
 		this.setVisible(false);
 	
-		this.lblTitle.setFont(new java.awt.Font("Default_tm", 0, 11));
+		this.lblTitle.setFont(new java.awt.Font("Tahoma", 0, 11));
 		this.lblTitle.setBounds(8,2,200,20);
 		this.lblTitle.setForeground(Color.white);
 		
@@ -90,7 +90,7 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 		
 		this.btnSearch.setBounds(215,20,30,26);
 		
-		this.comboSites.setFont(new java.awt.Font("Default_tm", 0, 11));
+		this.comboSites.setFont(new java.awt.Font("Tahoma", 0, 11));
 		this.comboSites.setBounds(252,22,150,22);
 		this.comboSites.setMaximumRowCount(20);
 		
