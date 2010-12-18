@@ -182,7 +182,7 @@ public class ListFile extends JPanel
 			if ((item.isFullReady()) && (item.isChecked()))
 			{
 				if (dir.equals("")) dir = this.dirChooser();
-				if (!dir.equals("")) item.runConversionSave(dir);
+				if (!dir.equals("")) item.runConversionSave(dir,false,"");
 			}		
 		}				
 	}

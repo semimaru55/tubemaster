@@ -21,8 +21,13 @@ package Conversion;
 
 import java.awt.Component;
 import java.io.File;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+
+import Graphique.TMButton;
+import Main.FileCopier;
 import Main.MainForm;
 
 
@@ -61,7 +66,7 @@ public class ConvCommandGen
 		return ret;		
 	}
 	
-	public boolean SaveNoConvert()
+	public boolean SaveNoConvert(boolean copy, JProgressBar pb, TMButton btn)
 	{	
 		if (!this.choosenDir.equals("")) 
 		{
@@ -72,10 +77,15 @@ public class ConvCommandGen
 				JOptionPane.showMessageDialog(null, MainForm.lang.lang_table[41], MainForm.lang.lang_table[40],1);
 				return false;
 			}
-				else
+			else
 			{
 				File f_in = new File(this.inFile);
-				return f_in.renameTo(f_out);
+				if (copy)
+				{
+					new FileCopier(f_in, f_out, pb, btn).start();
+					return true;
+				}
+				else return f_in.renameTo(f_out);
 			}	
 		}
 		else return false;

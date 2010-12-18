@@ -69,6 +69,8 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	private PanelMP3Search 				panSMP3;	
 	private Header 						header;
 	
+	private static boolean				start_min = false;			
+	
 
 	//=====================================================================================================
 
@@ -83,8 +85,10 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 		this.initComposants();
 		this.placeComposants();
 		this.setLocationRelativeTo(null);
-		this.setVisible(true);	
+	
+		this.setVisible(true);
 		
+		if (start_min) this.setState(ICONIFIED);
 
 		if (opts.autoUpdate)
 		{
@@ -152,6 +156,12 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	
 	public static void main(String[] args) throws IOException
 	{
+
+		for(int i=0;i<args.length;i++)
+		{
+			if (args[i].equals("-min")) start_min = true;
+		}
+		
 
 		String os = System.getProperty("os.name");
 		System.out.println("TubeMaster++ detected operating system : "+os);

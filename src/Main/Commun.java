@@ -27,7 +27,6 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 
 
-
 public class Commun 
 {
 
@@ -125,6 +124,6 @@ public class Commun
 			
 			return nfoSize;		
 		}
-
+		
 
 }

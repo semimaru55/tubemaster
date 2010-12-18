@@ -94,6 +94,7 @@ public class PanelCapture extends JPanel implements ActionListener
 		this.capLeds.setLocation(6, 5);
 		
 		
+		
 		this.add(this.laListe);
 		this.add(this.btnCapture);
 		this.add(this.btnReduceAll);

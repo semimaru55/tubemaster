@@ -90,6 +90,8 @@ public class MP3Wrzuta
 						titre = URLDecoder.decode(titre, "UTF-8"); 
 						url = URLDecoder.decode(url, "UTF-8");
 						
+						url += "/wrzuta.pl/undefined";
+						
 						newRow.add(titre);
 						newRow.add("Wrzuta.pl");
 						newRow.add(url);

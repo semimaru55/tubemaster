@@ -58,6 +58,7 @@ import Main.FenID3;
 import Main.MainForm;
 import java.awt.TrayIcon;
 import java.io.File;
+import java.util.Calendar;
 
 
 
@@ -76,6 +77,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	private ItemReducer imgReduce = new ItemReducer(this);	
 	private ItemCloser imgClose = new ItemCloser(this);		
 	private JProgressBar pbProgress = new JProgressBar();
+	private JProgressBar pbTemp = new JProgressBar();
 	private JTextField edtTitle = new JTextField();		
 	private JLabel lblState = new JLabel();				
 	private JCheckBox chkSel = new JCheckBox();				
@@ -84,7 +86,8 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	private TMButton btnConvert = new TMButton(this,6,4,MainForm.lang.lang_table[27],"convert.png",26,2,89);
 	private TMButton btnPlay = new TMButton(this,6,4,MainForm.lang.lang_table[28],"preview.png",26,2,89);
 	private TMButton btnTags = new TMButton(this,5,2,"MP3 Tags","id3.png",26,2,89);
-	private TMButton btnPrev = new TMButton(this,6,2,"","preview.png",0,0,0);
+	private TMButton btnPrev = new TMButton(this,7,2,"","preview.png",0,0,0);
+	private TMButton btnSaveTemp = new TMButton(this,8,3,"","save_as.png",0,0,0);
 	private JTextField edtUrl = new JTextField();
 	private ConvertMenu menuConvert = new ConvertMenu(this);	
 	
@@ -175,7 +178,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		else
 		if (e.getSource().equals(this.timerRefresh)) this.refreshDown();		
 		else
-		if (e.getSource().equals(this.btnSave)) this.runConversionSave(MainForm.opts.defRep);	
+		if (e.getSource().equals(this.btnSave)) this.runConversionSave(MainForm.opts.defRep,false,"");	
 		else
 		if (e.getSource().equals(this.btnConvert))
 			this.menuConvert.show(this.btnConvert,this.btnConvert.getLastX(),this.btnConvert.getLastY());					
@@ -193,19 +196,38 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		if (e.getSource().equals(this.btnTags)) new FenID3(this.file.get_filepath(),this.edtTitle,this.btnTags);	
 		else
 		if (e.getSource().equals(this.btnPrev)) this.file.play();
+		else
+		if (e.getSource().equals(this.btnSaveTemp))
+		{
+			
+			if (this.edtTitle.getText().equals(MainForm.lang.lang_table[29]))
+			{
+				CaptureSystem.unNamedId++;
+				this.edtTitle.setText("Untitled_"+CaptureSystem.unNamedId);
+			}
+			
+			Calendar laDate = Calendar.getInstance();
+			String d = "_"+laDate.get(Calendar.HOUR_OF_DAY)+"."
+							   +laDate.get(Calendar.MINUTE)+"."
+							   +laDate.get(Calendar.SECOND)+"-"
+							   +laDate.get(Calendar.DAY_OF_MONTH)+"."
+							   +(laDate.get(Calendar.MONTH)+1)+"."
+							   +laDate.get(Calendar.YEAR);
+			runConversionSave(MainForm.opts.defRep, true, d);
+		}
 	}
 	
 	//=====================================================================================================
 	
-	public void runConversionSave(String dir)
+	public void runConversionSave(String dir, boolean isTempSave, String salt)
 	{
-		String fileName = this.edtTitle.getText();		
+		String fileName = this.edtTitle.getText()+salt;		
 		File f = new File(dir + File.separator + fileName + this.extension);
 		if (f.exists()) fileName += " - New";
 		fileName += this.extension;
 		
 		ConvCommandGen conv = new ConvCommandGen(fileName,this.file.get_filepath(),dir,this);
-		if (conv.SaveNoConvert()) this.toDestroy();  
+		if ((conv.SaveNoConvert(isTempSave, this.pbTemp, this.btnSaveTemp) && (!isTempSave))) this.toDestroy();  
 	}
 
 	public void runConversionExtractMP3(String dir)
@@ -354,11 +376,13 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.btnPlay.setVisible(true);
 		if (this.file.get_format().retFormat().equals("MP3")) this.btnTags.setVisible(true);
 		this.btnPrev.setVisible(false);
+		this.btnSaveTemp.setVisible(false);
 		this.btnConvert.setVisible(true);
 		this.btnStop.setVisible(false);
 		this.isFullReady = true;
 		this.chkSel.setVisible(true);
 		this.imgReduce.setVisible(true);
+		this.pbTemp.setVisible(false);
 	
 		
 		if ((MainForm.opts.autoConv) && (!this.autoConverted) && (!this.wasDragged))
@@ -369,12 +393,12 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 			
 			if (classic.isClassic()) this.runConversionClassic(MainForm.opts.defRep,preset);
 			else			
-			if (preset.equals("Save Original File")) this.runConversionSave(MainForm.opts.defRep);
+			if (preset.equals("Save Original File")) this.runConversionSave(MainForm.opts.defRep,false,"");
 			else
 			if (preset.equals("Extract MP3 (Experts Only!)")) this.runConversionExtractMP3(MainForm.opts.defRep);	
 			else
 				this.runConversionPreset(preset,MainForm.opts.defRep);	
-		}	
+		}
 	}
 	
 	public void setConverting()
@@ -457,13 +481,17 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.icoState.setBounds(3,3,18,18);
 		this.imgReduce.setBounds(629,5,14,14);
 		this.imgClose.setBounds(648,5,14,14);
-		this.pbProgress.setBounds(7,28,617,24);
+		this.pbProgress.setBounds(7,28,579,24);
 		this.edtUrl.setBounds(7,54,655,18);
 		this.edtTitle.setBounds(68,3,310,19);
 		this.lblState.setBounds(384,2,220,20);
 		this.btnStop.setBounds(629,28,33,23);
 		this.chkSel.setBounds(607,2,20,20);
 		this.btnPrev.setBounds(629,28,33,23);
+		this.btnSaveTemp.setBounds(592,28,33,23);
+		this.pbTemp.setBounds(7,54,655,18);
+		
+		this.pbTemp.setVisible(false);
 		
 		
 		int decal = 0;
@@ -546,6 +574,8 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.add(this.chkSel);
 		this.add(this.btnTags);
 		this.add(this.btnPrev);
+		this.add(this.btnSaveTemp);
+		this.add(this.pbTemp);
 
 		if (MainForm.trayIcon != null) MainForm.trayIcon.displayMessage("TubeMaster++", MainForm.lang.lang_table[35], TrayIcon.MessageType.INFO);
 
