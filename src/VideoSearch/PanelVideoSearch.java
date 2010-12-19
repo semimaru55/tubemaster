@@ -29,6 +29,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -44,6 +46,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import Graphique.TMButton;
+import Main.Commun;
 import Main.MainForm;
 
 
@@ -156,51 +159,75 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 		if (e.getSource().equals(this.btnSearch))
 		{
 			for(int i=this.tabModele.getRowCount()-1;i>=0;i--) this.tabModele.removeRow(i);
-			this.doSearch();
+			new DoSearch().start();
 		}
 	
 	}
 
 	
-	public void doSearch()
+	private class DoSearch extends Thread
 	{
-		this.vidPres.setVisible(false);
-		this.paneList.setSize(688,431);
-		
-		String query = this.edtSearch.getText().replaceAll(" ", "+").replaceAll("&", "%26");
-
-		
-		String channel = "";
-		if (!((String)this.comboSites.getSelectedItem()).equals(MainForm.lang.lang_table[11]))
-				channel = "%20channel:\"" +(String)this.comboSites.getSelectedItem()+'"';
-		
-		
-		String[] appids = {"ddd6c322b47839290","1a1cdc10a489172a5",
-						   "f750b2bce21b3b645","eb2878d5ba2559a30",
-						   "c6d253dfddb9ecdf7","22314468a76c407b9",
-						   "ae6a7e306503e03bb","d2c23d487bd7ff733",
-						   "52241d91273dd8a76","257cca8378384e02f",
-						   "0fd85d09cabc261c8","490aacc5dca94eb5f"};
-		
-		
-		
-		Random randomGenerator = new Random();
 	
-		int nbr = 200;
-		int found=0;
-		while(found<nbr)
+		public void run()
 		{
-			int ran = randomGenerator.nextInt(12);		
-			XMLVideoWebSearch search = new XMLVideoWebSearch("http://xml.truveo.com/apiv3?appid="+appids[ran]+"&method=truveo.videos.getVideos&query="+query+channel+"&results=50&start="+found+"&formats=flash&showAdult=1",this.tabModele,this.lblLoad);
-			Thread threadManager = new Thread(search);
-			threadManager.start();
-			found += 50;
-		}
-
-		
-	}
+			edtSearch.setEnabled(false);
+			btnSearch.setEnabled(false);
+			vidPres.setVisible(false);
+			paneList.setSize(688,431);
+			
+			String query = edtSearch.getText().replaceAll(" ", "+").replaceAll("&", "%26");
 	
+			
+			String channel = "";
+			if (!((String)comboSites.getSelectedItem()).equals(MainForm.lang.lang_table[11]))
+					channel = "%20channel:\"" +(String)comboSites.getSelectedItem()+'"';
+			
+			
+			String[] appids = {"ddd6c322b47839290","1a1cdc10a489172a5",
+							   "f750b2bce21b3b645","eb2878d5ba2559a30",
+							   "c6d253dfddb9ecdf7","22314468a76c407b9",
+							   "ae6a7e306503e03bb","d2c23d487bd7ff733",
+							   "52241d91273dd8a76","257cca8378384e02f",
+							   "0fd85d09cabc261c8","490aacc5dca94eb5f"};
+			
+			
+			int sec_count = 0;		
+			
+			Random randomGenerator = new Random();
+			int nbr = 200;
+			int found=0;
+			while(found<nbr)
+			{
+				CountDownLatch sema = new CountDownLatch(1);
+				int ran = randomGenerator.nextInt(12);	
+				XMLVideoWebSearch search = new XMLVideoWebSearch("http://xml.truveo.com/apiv3?appid="+appids[ran]+"&method=truveo.videos.getVideos&query="+query+channel+"&results=50&start="+found+"&formats=flash&showAdult=1",tabModele,lblLoad,sema);
+				Thread threadManager = new Thread(search);
+				threadManager.start();
+				found += 50;
+	
+				try 
+				{
+					sema.await(2, TimeUnit.SECONDS);
+				} catch (InterruptedException e) {Commun.logError(e);}
+				
+				//Check 403 error.
+				if (search.is_error()) 
+				{
+					found -= 50;
+					sec_count++;
+				}
+				
+				if (sec_count > 10) break;
+				
+			}
+	
+			btnSearch.setEnabled(true);
+			edtSearch.setEnabled(true);
+		}
+	}
 
+	
+	
 	public void keyPressed(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) 
 	{
@@ -210,7 +237,7 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 			if (e.getKeyCode()==10) 
 			{
 				for(int i=this.tabModele.getRowCount()-1;i>=0;i--) this.tabModele.removeRow(i);
-				this.doSearch();			
+				new DoSearch().start();			
 			}
 		}
 		
