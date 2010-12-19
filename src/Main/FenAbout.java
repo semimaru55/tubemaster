@@ -98,7 +98,7 @@ public class FenAbout extends JFrame implements ActionListener
 		this.lblVersion.setFont(new java.awt.Font("Tahoma", 0, 11));
 		this.lblVersion.setBounds(107,47,310,20);
 		
-		this.lblCopy.setText("(c) GgSofts 2009-2010 | admin@tubemaster.net");
+		this.lblCopy.setText("(c) GgSofts 2007-2011 | admin@tubemaster.net");
 		this.lblCopy.setFont(new java.awt.Font("Tahoma", 0, 11));
 		this.lblCopy.setBounds(107,66,310,20);
 
