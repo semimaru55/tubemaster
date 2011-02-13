@@ -134,7 +134,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.setIconImage(monIcon.getImage());
 			
 //Checkboxes-------------------------------------		
-		this.chkAutoCapture.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.chkAutoCapture.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.chkAutoCapture.setBounds(5,5,455,20);
 		this.chkAutoCapture.setText(MainForm.lang.lang_table[19]);
 		this.chkAutoCapture.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -143,7 +143,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.chkAutoCapture.setSelected(MainForm.opts.autoCapture);
 		this.chkAutoCapture.addActionListener(this);
 		
-		this.chkUpdate.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.chkUpdate.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.chkUpdate.setBounds(5,25,455,20);
 		this.chkUpdate.setText(MainForm.lang.lang_table[20]);
 		this.chkUpdate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -152,7 +152,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.chkUpdate.setSelected(MainForm.opts.autoUpdate);
 		this.chkUpdate.addActionListener(this);
 		
-		this.chkTray.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.chkTray.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.chkTray.setBounds(5,45,455,20);
 		this.chkTray.setText(MainForm.lang.lang_table[21]);
 		this.chkTray.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -161,7 +161,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.chkTray.setSelected(MainForm.opts.trayIcon);
 		this.chkTray.addActionListener(this);
 		
-		this.chkDelConv.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.chkDelConv.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.chkDelConv.setBounds(5,65,455,20);
 		this.chkDelConv.setText(MainForm.lang.lang_table[22]);
 		this.chkDelConv.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -170,7 +170,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.chkDelConv.setSelected(MainForm.opts.delConv);
 		this.chkDelConv.addActionListener(this);
 		
-		this.chkCloseBox.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.chkCloseBox.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.chkCloseBox.setBounds(5,85,455,20);
 		this.chkCloseBox.setText(MainForm.lang.lang_table[55]);
 		this.chkCloseBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -180,17 +180,17 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.chkCloseBox.addActionListener(this);
 
 //Language-----------------------------------------------------
-		this.grpLang.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.grpLang.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.grpLang.setBounds(5,110,455,50);
 		this.grpLang.setOpaque(false);
 		this.grpLang.setForeground(Color.white);
 		TitledBorder b1 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table[23]+" ");
 		b1.setTitleColor(Color.white);
-		b1.setTitleFont(new java.awt.Font("Tahoma", 0, 11));
+		b1.setTitleFont(new java.awt.Font("Dialog", 0, 11));
 		this.grpLang.setBorder(b1);
 		this.grpLang.setLayout(null);
 		this.cmbLang.setBounds(10,19,160,20);		
-		this.cmbLang.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.cmbLang.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.cmbLang.setSelectedItem(MainForm.opts.langFile);
 		this.cmbLang.addActionListener(this);
 		this.cmbLang.setMaximumRowCount(20);
@@ -200,17 +200,17 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.grpLang.add(this.btnLang);
 
 //Default Output Folder-------------------------------
-		this.grpDefRep.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.grpDefRep.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.grpDefRep.setBounds(5,5,455,100);
 		this.grpDefRep.setOpaque(false);
 		this.grpDefRep.setForeground(Color.white);
 		TitledBorder b2 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table[24]+" ");
 		b2.setTitleColor(Color.white);
-		b2.setTitleFont(new java.awt.Font("Tahoma", 0, 11));
+		b2.setTitleFont(new java.awt.Font("Dialog", 0, 11));
 		this.grpDefRep.setBorder(b2);
 		this.grpDefRep.setLayout(null);
 		this.edtDefRep.setBounds(10,19,393,21);
-		this.edtDefRep.setFont(new java.awt.Font("Tahoma", 0, 10));
+		this.edtDefRep.setFont(new java.awt.Font("Dialog", 0, 10));
 		this.edtDefRep.setEditable(false);
 		this.edtDefRep.setText(MainForm.opts.defRep);
 		this.btnDefRep.setBounds(410,19,35,21);
@@ -221,7 +221,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.grpDefRep.add(this.cmbAutoConv);
 
 //Auto Conversion -----------------------------------
-		this.chkAutoConv.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.chkAutoConv.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.chkAutoConv.setBounds(5,45,455,20);
 		this.chkAutoConv.setText(MainForm.lang.lang_table[25]);
 		this.chkAutoConv.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -254,56 +254,56 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 				this.cmbAutoConv.addItem(MainForm.convPresets.getItemsFromCat(cat).get(j));	
 		}
 		
-		this.cmbAutoConv.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.cmbAutoConv.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.cmbAutoConv.addActionListener(this);
 		this.cmbAutoConv.setSelectedItem(MainForm.opts.autoConvPreset);
 
 //MP3 Bitrate ------------------------------------
-		this.grpBitrate.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.grpBitrate.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.grpBitrate.setBounds(5,110,160,55);
 		this.grpBitrate.setOpaque(false);
 		this.grpBitrate.setForeground(Color.white);
 		TitledBorder b3 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table[69]+" (Kbps) ");
 		b3.setTitleColor(Color.white);
-		b3.setTitleFont(new java.awt.Font("Tahoma", 0, 11));
+		b3.setTitleFont(new java.awt.Font("Dialog", 0, 11));
 		this.grpBitrate.setBorder(b3);
 		this.grpBitrate.setLayout(null);
 		
-		this.cmbBitrate.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.cmbBitrate.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.cmbBitrate.addActionListener(this);
 		this.cmbBitrate.setBounds(19,20,120,20);
 		this.grpBitrate.add(this.cmbBitrate);
 		this.cmbBitrate.setSelectedItem(MainForm.opts.bitrate);
 		
 //Players ---------------------------------------
-		this.grpPlayers.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.grpPlayers.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.grpPlayers.setBounds(5,5,455,142);
 		this.grpPlayers.setOpaque(false);
 		this.grpPlayers.setForeground(Color.white);
 		TitledBorder b4 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table[67]+" ");
 		b4.setTitleColor(Color.white);
-		b4.setTitleFont(new java.awt.Font("Tahoma", 0, 11));
+		b4.setTitleFont(new java.awt.Font("Dialog", 0, 11));
 		this.grpPlayers.setBorder(b4);
 		this.grpPlayers.setLayout(null);
 		
 		
 		this.edtFLVDir.setBounds(10,19,393,21);
-		this.edtFLVDir.setFont(new java.awt.Font("Tahoma", 0, 10));
+		this.edtFLVDir.setFont(new java.awt.Font("Dialog", 0, 10));
 		this.edtFLVDir.setEditable(false);
 		this.edtFLVDir.setText("FLV | " + MainForm.opts.repFLV);
 		
 		this.edtMP3Dir.setBounds(10,43,393,21);
-		this.edtMP3Dir.setFont(new java.awt.Font("Tahoma", 0, 10));
+		this.edtMP3Dir.setFont(new java.awt.Font("Dialog", 0, 10));
 		this.edtMP3Dir.setEditable(false);
 		this.edtMP3Dir.setText("MP3 & M4A | " + MainForm.opts.repMP3);
 		
 		this.edtMP4Dir.setBounds(10,67,393,21);
-		this.edtMP4Dir.setFont(new java.awt.Font("Tahoma", 0, 10));
+		this.edtMP4Dir.setFont(new java.awt.Font("Dialog", 0, 10));
 		this.edtMP4Dir.setEditable(false);
 		this.edtMP4Dir.setText("MP4 | " + MainForm.opts.repMP4);
 		
 		this.edtMOVDir.setBounds(10,91,393,21);
-		this.edtMOVDir.setFont(new java.awt.Font("Tahoma", 0, 10));
+		this.edtMOVDir.setFont(new java.awt.Font("Dialog", 0, 10));
 		this.edtMOVDir.setEditable(false);
 		this.edtMOVDir.setText("MOV | " + MainForm.opts.repMOV);
 				
@@ -312,7 +312,7 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		this.btnMP4.setBounds(410,67,35,21);
 		this.btnMOV.setBounds(410,91,35,21);
 		
-		this.chkAutoStartPlay.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.chkAutoStartPlay.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.chkAutoStartPlay.setBounds(6,115,455,20);
 		this.chkAutoStartPlay.setText(MainForm.lang.lang_table[68]);
 		this.chkAutoStartPlay.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -334,18 +334,18 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 
 //Timeout ----------------------
 		
-		this.grpTimeout.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.grpTimeout.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.grpTimeout.setBounds(5,5,210,55);
 		this.grpTimeout.setOpaque(false);
 		this.grpTimeout.setForeground(Color.white);
 		TitledBorder b5 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table[70]+" ");
 		b5.setTitleColor(Color.white);
-		b5.setTitleFont(new java.awt.Font("Tahoma", 0, 11));
+		b5.setTitleFont(new java.awt.Font("Dialog", 0, 11));
 		this.grpTimeout.setBorder(b5);
 		this.grpTimeout.setLayout(null);
 		
 		this.edtTimeout.setBounds(19,20,70,20);
-		this.edtTimeout.setFont(new java.awt.Font("Tahoma", 0, 10));
+		this.edtTimeout.setFont(new java.awt.Font("Dialog", 0, 10));
 		
 		this.sec.setBounds(95,20,100,20);
 		this.sec.setForeground(Color.white);
@@ -355,18 +355,18 @@ public class FenOptions extends JDialog implements ActionListener, WindowListene
 		
 //Minimal size ----------------------
 		
-		this.grpMinimal.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.grpMinimal.setFont(new java.awt.Font("Dialog", 0, 11));
 		this.grpMinimal.setBounds(220,5,230,55);
 		this.grpMinimal.setOpaque(false);
 		this.grpMinimal.setForeground(Color.white);
 		TitledBorder b6 = BorderFactory.createTitledBorder(" "+MainForm.lang.lang_table[79]+" ");
 		b6.setTitleColor(Color.white);
-		b6.setTitleFont(new java.awt.Font("Tahoma", 0, 11));
+		b6.setTitleFont(new java.awt.Font("Dialog", 0, 11));
 		this.grpMinimal.setBorder(b6);
 		this.grpMinimal.setLayout(null);
 		
 		this.edtMinimal.setBounds(19,20,100,20);
-		this.edtMinimal.setFont(new java.awt.Font("Tahoma", 0, 10));
+		this.edtMinimal.setFont(new java.awt.Font("Dialog", 0, 10));
 	
 		
 		this.bytes.setBounds(125,20,100,20);

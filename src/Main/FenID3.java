@@ -266,47 +266,47 @@ public class FenID3 extends JFrame implements ActionListener, WindowListener
 		this.lblTitle.setForeground(Color.white);
 		this.lblTitle.setBounds(15,10,250,20);
 		this.lblTitle.setHorizontalAlignment(JLabel.LEFT);
-		this.lblTitle.setFont(new java.awt.Font("Tahoma", 0, 12));			
+		this.lblTitle.setFont(new java.awt.Font("Dialog", 0, 12));			
 		this.edtTitle.setBounds(15,29,250,21);
-		this.edtTitle.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.edtTitle.setFont(new java.awt.Font("Dialog", 0, 11));
 		
 		this.lblArtist.setText(MainForm.lang.lang_table[59]);
 		this.lblArtist.setForeground(Color.white);
 		this.lblArtist.setBounds(15,59,250,20);
 		this.lblArtist.setHorizontalAlignment(JLabel.LEFT);
-		this.lblArtist.setFont(new java.awt.Font("Tahoma", 0, 12));			
+		this.lblArtist.setFont(new java.awt.Font("Dialog", 0, 12));			
 		this.edtArtist.setBounds(15,78,250,21);
-		this.edtArtist.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.edtArtist.setFont(new java.awt.Font("Dialog", 0, 11));
 		
 		this.lblAlbum.setText(MainForm.lang.lang_table[60]);
 		this.lblAlbum.setForeground(Color.white);
 		this.lblAlbum.setBounds(15,108,250,20);
 		this.lblAlbum.setHorizontalAlignment(JLabel.LEFT);
-		this.lblAlbum.setFont(new java.awt.Font("Tahoma", 0, 12));			
+		this.lblAlbum.setFont(new java.awt.Font("Dialog", 0, 12));			
 		this.edtAlbum.setBounds(15,127,250,21);
-		this.edtAlbum.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.edtAlbum.setFont(new java.awt.Font("Dialog", 0, 11));
 		
 		this.lblYear.setText(MainForm.lang.lang_table[61]);
 		this.lblYear.setForeground(Color.white);
 		this.lblYear.setBounds(15,157,95,20);
 		this.lblYear.setHorizontalAlignment(JLabel.LEFT);
-		this.lblYear.setFont(new java.awt.Font("Tahoma", 0, 12));			
+		this.lblYear.setFont(new java.awt.Font("Dialog", 0, 12));			
 		this.edtYear.setBounds(15,176,95,21);
-		this.edtYear.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.edtYear.setFont(new java.awt.Font("Dialog", 0, 11));
 		
 		this.lblTrack.setText(MainForm.lang.lang_table[62]);
 		this.lblTrack.setForeground(Color.white);
 		this.lblTrack.setBounds(120,157,145,20);
 		this.lblTrack.setHorizontalAlignment(JLabel.LEFT);
-		this.lblTrack.setFont(new java.awt.Font("Tahoma", 0, 12));			
+		this.lblTrack.setFont(new java.awt.Font("Dialog", 0, 12));			
 		this.edtTrack.setBounds(120,176,145,21);
-		this.edtTrack.setFont(new java.awt.Font("Tahoma", 0, 11));
+		this.edtTrack.setFont(new java.awt.Font("Dialog", 0, 11));
 		
 		this.lblGenre.setText(MainForm.lang.lang_table[63]);
 		this.lblGenre.setForeground(Color.white);
 		this.lblGenre.setBounds(15,206,250,20);
 		this.lblGenre.setHorizontalAlignment(JLabel.LEFT);
-		this.lblGenre.setFont(new java.awt.Font("Tahoma", 0, 12));
+		this.lblGenre.setFont(new java.awt.Font("Dialog", 0, 12));
 		
 		Vector<String> genres = new Vector<String>();
 		try

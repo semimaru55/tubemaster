@@ -172,6 +172,7 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 			try {UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");} catch (Exception e) {} //Linux 
 		
 
+			
 	   try
 	   { 		   
 		   new MainForm();   

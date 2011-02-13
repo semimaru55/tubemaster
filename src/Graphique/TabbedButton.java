@@ -55,7 +55,7 @@ public class TabbedButton extends JPanel implements MouseListener
 		this.addMouseListener(this);
 		
 		this.lblTitle = new JLabel(title);
-		this.lblTitle.setFont(new java.awt.Font("Tahoma", 0, 12));
+		this.lblTitle.setFont(new java.awt.Font("Dialog", 0, 12));
 		this.lblTitle.setForeground(Color.decode("#85878C"));
 		this.lblTitle.setBounds(2,3,130,27);
 		this.lblTitle.setHorizontalAlignment(JLabel.CENTER);
