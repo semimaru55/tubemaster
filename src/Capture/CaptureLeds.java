@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import Capture.CaptureSystem;
 import Capture.PanelCapture;
+import Main.Commun;
 import Main.MainForm;
 
 public class CaptureLeds extends JPanel implements ActionListener
@@ -51,7 +52,7 @@ public class CaptureLeds extends JPanel implements ActionListener
 		
 		this.lblState.setBounds(28, 2, 662, 20);
 		this.lblState.setForeground(Color.white.darker());
-		this.lblState.setFont(new java.awt.Font("Dialog", 0, 11));
+		this.lblState.setFont(Commun.tm_font11);
 		this.add(this.lblState);
 			
 		this.panelCap = panelCap;

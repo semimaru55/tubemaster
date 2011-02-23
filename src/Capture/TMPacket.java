@@ -164,14 +164,17 @@ public class TMPacket
 			
 		for (int i=pos;i<end;i++)
 		{
-			int b = this.byteArray[i] & 0xff;	
-			boolean valid_char		= (b > 31) && (b < 126);
-			boolean not_zero_before = (this.byteArray[i-1] != 0);
-			boolean not_zero_after	= true;
-			if (((i+1)<end)) if (this.byteArray[i+1] == 0) not_zero_after = false;
-			
-			if (valid_char && not_zero_after && not_zero_before) ret += (char) b;
-			else end++;	
+			if (i < this.byteArray.length-1)
+			{
+				int b = this.byteArray[i] & 0xff;	
+				boolean valid_char		= (b > 31) && (b < 126);
+				boolean not_zero_before = (this.byteArray[i-1] != 0);
+				boolean not_zero_after	= true;
+				if (((i+1)<end)) if (this.byteArray[i+1] == 0) not_zero_after = false;
+				
+				if (valid_char && not_zero_after && not_zero_before) ret += (char) b;
+				else end++;	
+			}
 		}
 
 		return ret;

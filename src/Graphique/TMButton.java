@@ -36,6 +36,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Main.Commun;
+
 
 
 public class TMButton extends JPanel implements MouseListener
@@ -88,7 +90,7 @@ public class TMButton extends JPanel implements MouseListener
 		this.lblCaption.setForeground(Color.white);
 		this.lblCaption.setBounds(lblX,lblY,lblW,20);
 		this.lblCaption.setHorizontalAlignment(JLabel.CENTER);
-		this.lblCaption.setFont(new java.awt.Font("Dialog", 0, 12));
+		this.lblCaption.setFont(Commun.tm_font12);
 		//this.lblCaption.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		this.add(this.lblCaption);

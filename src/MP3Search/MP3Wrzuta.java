@@ -68,12 +68,12 @@ public class MP3Wrzuta
 				}
 
 	
-				if (total.indexOf("file_mini_user")>-1)
+				if (total.indexOf("file audio")>-1)
 				{
 
-					while (total.indexOf("file_mini_user")>-1)
+					while (total.indexOf("file audio")>-1)
 					{
-						total = total.substring(total.indexOf("file_mini_user"));
+						total = total.substring(total.indexOf("file audio"));
 						String url = Commun.parse(total, "<a href=\"", "\">");
 						url = url.replace("/audio/", "/xml/plik/");
 						url = url.substring(0, url.lastIndexOf('/'));
@@ -90,7 +90,7 @@ public class MP3Wrzuta
 						titre = URLDecoder.decode(titre, "UTF-8"); 
 						url = URLDecoder.decode(url, "UTF-8");
 						
-						url += "/wrzuta.pl/undefined";
+						url += "/wrzuta.pl/sa/10000";
 						
 						newRow.add(titre);
 						newRow.add("Wrzuta.pl");

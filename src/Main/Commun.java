@@ -19,6 +19,7 @@
 
 package Main;
 
+import java.awt.Font;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -29,7 +30,15 @@ import java.util.Calendar;
 
 public class Commun 
 {
-
+		public static Font tm_font10 = new java.awt.Font("Dialog", 0, 10);
+		public static Font tm_font10b = new java.awt.Font("Dialog", Font.BOLD, 10);
+		public static Font tm_font11 = new java.awt.Font("Dialog", 0, 11);
+		public static Font tm_font11i = new java.awt.Font("Dialog", Font.ITALIC, 11);
+		public static Font tm_font12 = new java.awt.Font("Dialog", 0, 12);
+		public static Font tm_font12b = new java.awt.Font("Dialog", Font.BOLD, 12);
+		public static Font tm_font13b = new java.awt.Font("Dialog", Font.BOLD, 13);
+		public static Font tm_font18 = new java.awt.Font("Dialog", 0, 18);
+	
 		public synchronized static void logError(Throwable trace)
 		{
 			try

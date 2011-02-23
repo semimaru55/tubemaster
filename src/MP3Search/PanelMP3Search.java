@@ -85,7 +85,7 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 		this.setBackground(Color.decode("#676767"));
 		this.setVisible(false);
 	
-		this.lblTitle.setFont(new java.awt.Font("Dialog", 0, 11));
+		this.lblTitle.setFont(Commun.tm_font11);
 		this.lblTitle.setBounds(8,2,200,20);
 		this.lblTitle.setForeground(Color.white);
 		

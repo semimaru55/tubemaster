@@ -21,7 +21,6 @@ package MP3Search;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -34,6 +33,7 @@ import javax.swing.JProgressBar;
 
 
 import Graphique.ItemMP3Closer;
+import Main.Commun;
 import Main.MainForm;
 
 
@@ -101,16 +101,16 @@ public class ListMP3Item extends JPanel
 		this.dessin.setBackground(Color.white);
 		
 		this.lblTitle.setForeground(Color.black);
-		this.lblTitle.setFont(new Font("Dialog", Font.BOLD, 13));
+		this.lblTitle.setFont(Commun.tm_font13b);
 		this.lblTitle.setText(this.filetitle);
 				
 		this.lblDir.setForeground(Color.black);
-		this.lblDir.setFont(new Font("Dialog", 0, 11));
+		this.lblDir.setFont(Commun.tm_font11);
 		this.lblDir.setText(this.filedir);
 
 
 		this.lblStatus.setForeground(Color.black);
-		this.lblStatus.setFont(new Font("Dialog", Font.BOLD, 10));
+		this.lblStatus.setFont(Commun.tm_font10b);
 		this.lblStatus.setText(MainForm.lang.lang_table[52]+" ...");
 		
 

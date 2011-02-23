@@ -32,6 +32,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Main.Commun;
+
 
 
 public class TabbedButton extends JPanel implements MouseListener
@@ -55,7 +57,7 @@ public class TabbedButton extends JPanel implements MouseListener
 		this.addMouseListener(this);
 		
 		this.lblTitle = new JLabel(title);
-		this.lblTitle.setFont(new java.awt.Font("Dialog", 0, 12));
+		this.lblTitle.setFont(Commun.tm_font12);
 		this.lblTitle.setForeground(Color.decode("#85878C"));
 		this.lblTitle.setBounds(2,3,130,27);
 		this.lblTitle.setHorizontalAlignment(JLabel.CENTER);
