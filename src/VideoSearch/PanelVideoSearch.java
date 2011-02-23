@@ -29,6 +29,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -121,6 +122,7 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 	
 	public void installGrid()
 	{
+		
 		this.tabModele.setColumnIdentifiers(enteteTableau);
 		this.gridResults = new JTable(this.tabModele)
 		{
@@ -130,7 +132,9 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 	            return false;
 	        }
 	    };
-
+	    
+	    this.gridResults.setAutoCreateRowSorter(true);
+	    this.gridResults.getTableHeader().setReorderingAllowed(false);
 		this.gridResults.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.gridResults.addMouseListener(this);
 		this.paneList = new JScrollPane(this.gridResults);	
@@ -155,7 +159,7 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 
 	public void actionPerformed(ActionEvent e) 
 	{
-		
+		System.out.println(e.getSource());
 		if (e.getSource().equals(this.btnSearch))
 		{
 			for(int i=this.tabModele.getRowCount()-1;i>=0;i--) this.tabModele.removeRow(i);
@@ -266,8 +270,7 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 		}
 		
 	}
-	
-	
+
 
 	
 }

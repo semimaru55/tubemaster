@@ -127,6 +127,7 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 	        }
 	    };
 
+	    this.gridResults.setAutoCreateRowSorter(true);
 	    this.gridResults.getTableHeader().setReorderingAllowed(false);
 		this.gridResults.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.gridResults.addFocusListener(this);
