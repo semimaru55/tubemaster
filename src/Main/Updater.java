@@ -40,7 +40,7 @@ public class Updater implements Runnable
 		try
 		{
 		
-			URL link = new URL("http://tubemaster.free.fr/tm_version.php");
+			URL link = new URL("http://www.tubemaster.net/tm_version.php");
 			HttpURLConnection yc = (HttpURLConnection) link.openConnection();
 			BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
 			String inputLine;
