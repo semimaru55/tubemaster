@@ -31,13 +31,14 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import jpcap.JpcapCaptor;
+
 import jpcap.NetworkInterface;
 import VideoSearch.PanelVideoSearch;
 import Capture.PanelCapture;
@@ -117,20 +118,30 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 		}
 		
 
-		try { interfaces = JpcapCaptor.getDeviceList();	}
+		try { interfaces = jpcap.JpcapCaptor.getDeviceList(); }
 	    catch (Error e)
 	    {	  
-		    JOptionPane.showMessageDialog(null,"Error : "+e.getMessage()+"\n\n"+
-		    		"To correct this problem, be sure to : \n"+
-		    		" - Run TubeMaster++ as Administrator.\n"+
-		    		" - TubeMaster++ was launch from the installation folder.\n"+
-		    		" - Uninstall x64 Java Runtime (JRE) and install ONLY x32 edition.\n"+
-		    		" - The file Jpcap.dll is present in the TubeMaster++ installation directory.\n"
-		    		,"TubeMaster++ Error",JOptionPane.ERROR_MESSAGE);
-	    	System.exit(0);  	
+	    	if ((e.getMessage().contains("Jpcap.dll")) && (e.getMessage().contains("64")))
+	    	{
+	    		JOptionPane.showMessageDialog(null,"Error : "+e.getMessage()+"\n\n"+
+			    		"To correct this problem, you must re-install TubeMaster++ by selecting the correct \nedition of your Java Runtime Environment (x32 or x64) !"
+			    		,"TubeMaster++ Error",JOptionPane.ERROR_MESSAGE);
+	    		System.exit(0);
+	    	}
+	    	else
+	    	{
+			    JOptionPane.showMessageDialog(null,"Error : "+e.getMessage()+"\n\n"+
+			    		"To correct this problem, be sure to : \n"+
+			    		" - Run TubeMaster++ as Administrator.\n"+
+			    		" - TubeMaster++ was launch from the installation folder.\n"+
+			    		" - The file Jpcap.dll is present in the TubeMaster++ installation directory.\n"
+			    		,"TubeMaster++ Error",JOptionPane.ERROR_MESSAGE);
+		    	System.exit(0);  
+	    	}
 	    }
-
-
+	    
+	    
+	    
 		opts 			= new Options();
 		lang 			= new Languages();
 		convPresets 	= new ConversionPresets();
