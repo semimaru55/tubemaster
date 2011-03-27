@@ -100,6 +100,56 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	}
 	
 	//=====================================================================================================
+	
+	public void check_jre_arch()
+	{
+		boolean good = false;
+		int count = 0;
+		
+		while (!good)
+		{
+			try 
+			{ 
+				System.loadLibrary("jpcap");
+				good = true;
+			}
+		    catch (Error e)
+		    {	  
+		    	if ((e.getMessage().contains("Jpcap.dll")) && (e.getMessage().contains("64")) && (count < 2))
+		    	{
+		    		File f32 = new File(tm_path+File.separator+"Jpcap_x32.dll");
+		    		File f64 = new File(tm_path+File.separator+"Jpcap_x64.dll");
+		    		File fJP = new File(tm_path+File.separator+"Jpcap.dll");
+		    		
+		    		if (f32.exists() && fJP.exists())
+		    		{
+		    			fJP.renameTo(f64);
+		    			f32.renameTo(new File(tm_path+File.separator+"Jpcap.dll"));
+		    		}
+		    		else
+		    		if (f64.exists() && fJP.exists())
+		    		{
+		    			fJP.renameTo(f32);
+		    			f64.renameTo(new File(tm_path+File.separator+"Jpcap.dll"));
+		    		}
+		    	}
+		    	else
+		    	{
+				    JOptionPane.showMessageDialog(null,"Error : "+e.getMessage()+"\n\n"+
+				    		"Be sure to : \n"+
+				    		" - Run TubeMaster++ as Administrator.\n"+
+				    		" - TubeMaster++ was launch from the installation folder.\n"+
+				    		" - The file Jpcap.dll is present in the TubeMaster++ installation directory.\n"
+				    		,"TubeMaster++ Error",JOptionPane.ERROR_MESSAGE);
+			    	System.exit(0);  
+		    	}
+		    }
+		    
+		    count++;
+		}	
+	}
+	
+	//=====================================================================================================
 
 	public void initComposants()
 	{
@@ -117,7 +167,9 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 			System.exit(0);  	
 		}
 		
-
+		//Windows check JRE x32|x64;
+		this.check_jre_arch();
+		
 		try { interfaces = jpcap.JpcapCaptor.getDeviceList(); }
 	    catch (Error e)
 	    {	  
