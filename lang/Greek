@@ -111,3 +111,7 @@
 	<82>TubeMaster++ is operating properly and is able to capture packets.</82>
 	<83>Warning ! Data loss detected. Try to limit processor and bandwidth usage.</83>
 	<84>The capture is disabled. You must enable it in order to catch files.</84>
+	
+//Added 2.4 Version
+	<85>Copy</85>
+	<86>Paste</86>

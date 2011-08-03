@@ -38,6 +38,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.Timer;
@@ -89,7 +90,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 	private TMButton btnSaveTemp = new TMButton(this,8,3,"","save_as.png",0,0,0);
 	private JTextField edtUrl = new JTextField();
 	private ConvertMenu menuConvert = new ConvertMenu(this);	
-	
+
 	
 	private boolean 		alive = true;							
 	private StreamFile 		file;									
@@ -127,7 +128,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		this.extension = "." + this.file.get_format().retFormat().toLowerCase();
 		this.icone = new Icon(this.file.get_format().retLogo(),false);
 		this.placeComposants();
-		this.timerTimeout.start();	
+		this.timerTimeout.start();		
 	}
 
 	//=====================================================================================================
@@ -449,8 +450,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		{
 			this.edtTitle.setOpaque(false);
 			this.edtTitle.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.lightGray));
-			this.edtTitle.setFont(Commun.tm_font12);
-
+			this.edtTitle.setFont(Commun.tm_font12b);
 		}	
 	}
 
@@ -540,12 +540,27 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 			}
 		}
 		
-
-
 		this.edtTitle.setFocusable(false);
 		this.edtTitle.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.lightGray));
 		this.edtTitle.setFont(Commun.tm_font12b);
 		this.edtTitle.addMouseListener(this);
+		
+		JPopupMenu rightMenu = new JPopupMenu();
+		rightMenu.add(MainForm.lang.lang_table[85]).addActionListener(new ActionListener() 
+		{
+		         public void actionPerformed(ActionEvent e) 
+		         {
+		        	 edtTitle.copy();
+		         }
+		      });
+		rightMenu.add(MainForm.lang.lang_table[86]).addActionListener(new ActionListener() 
+		{
+		         public void actionPerformed(ActionEvent e) 
+		         {
+		        	 edtTitle.paste();
+		         }
+		 });
+		this.edtTitle.setComponentPopupMenu(rightMenu);
 		
 		this.btnSave.setVisible(false);
 

@@ -223,9 +223,6 @@ public class PacketsManager implements Runnable
 		
 		if ((!this.rtmp_app.equals("")) && (!this.rtmp_stream.equals("")))
 		{
-			
-			System.out.println(this.rtmp_app+"/"+this.rtmp_stream);
-			
 			RTMPDownload rtmpdown = new RTMPDownload(this.rtmp_app, this.rtmp_stream);
 			rtmpdown.start();
 			this.fileList.ajoutItem(new ListFileItem(this.fileList,rtmpdown.get_stream_file(),this.rtmp_app+"/"+this.rtmp_stream));	

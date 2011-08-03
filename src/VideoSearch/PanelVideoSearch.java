@@ -38,6 +38,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -91,6 +92,23 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 		
 		this.edtSearch.setBounds(8,21,200,24);
 		this.edtSearch.addKeyListener(this);
+		
+		JPopupMenu rightMenu = new JPopupMenu();
+		rightMenu.add(MainForm.lang.lang_table[85]).addActionListener(new ActionListener() 
+		{
+		         public void actionPerformed(ActionEvent e) 
+		         {
+		        	 edtSearch.copy();
+		         }
+		      });
+		rightMenu.add(MainForm.lang.lang_table[86]).addActionListener(new ActionListener() 
+		{
+		         public void actionPerformed(ActionEvent e) 
+		         {
+		        	 edtSearch.paste();
+		         }
+		 });
+		this.edtSearch.setComponentPopupMenu(rightMenu);
 		
 		this.btnSearch.setBounds(215,20,30,26);
 		
@@ -187,14 +205,8 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 					channel = "%20channel:\"" +(String)comboSites.getSelectedItem()+'"';
 			
 			
-			String[] appids = {"ddd6c322b47839290","1a1cdc10a489172a5",
-							   "f750b2bce21b3b645","eb2878d5ba2559a30",
-							   "c6d253dfddb9ecdf7","22314468a76c407b9",
-							   "ae6a7e306503e03bb","d2c23d487bd7ff733",
-							   "52241d91273dd8a76","257cca8378384e02f",
-							   "0fd85d09cabc261c8","490aacc5dca94eb5f"};
-			
-			
+			String[] appids = {"1x1jhj64466mi12ia","3oinhkvvvpzw3v5qb"};
+
 			int sec_count = 0;		
 			
 			Random randomGenerator = new Random();
@@ -203,7 +215,8 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 			while(found<nbr)
 			{
 				CountDownLatch sema = new CountDownLatch(1);
-				int ran = randomGenerator.nextInt(12);	
+				int ran = randomGenerator.nextInt(appids.length);	
+					
 				XMLVideoWebSearch search = new XMLVideoWebSearch("http://xml.truveo.com/apiv3?appid="+appids[ran]+"&method=truveo.videos.getVideos&query="+query+channel+"&results=50&start="+found+"&formats=flash&showAdult=1",tabModele,lblLoad,sema);
 				Thread threadManager = new Thread(search);
 				threadManager.start();

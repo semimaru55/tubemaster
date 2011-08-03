@@ -326,7 +326,7 @@ public class ListFile extends JPanel
 	           { // Linux
 
 	               String urls = (String) t.getTransferData(DataFlavor.stringFlavor);
-	               List<File> files = new LinkedList();
+	               List<File> files = new LinkedList<File>();
 	               StringTokenizer tokens = new StringTokenizer(urls);
 	               while (tokens.hasMoreTokens()) 
 	               {

@@ -111,3 +111,7 @@
 	<82>TubeMaster++ pracuje správně a je schopný zachytávat packety.</82>
 	<83>Upozornění ! Zjištěna ztráta dat. Zkuste omezit využití procesoru a sítě.</83>
 	<84>Zachytávání je zakázáno. Aby jste byly schopni zachytávat soubory, musíte ho povolit.</84>
+		
+//Added 2.4 Version
+	<85>Copy</85>
+	<86>Paste</86>

@@ -134,6 +134,13 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 		    		}
 		    	}
 		    	else
+	    		/*if ((e.getMessage().contains("dependant")) && (e.getMessage().contains("libraries")) && (count < 2))
+		    	{
+	    			File f32 = new File(tm_path+File.separator+"Jpcap_x32.dll");
+		    		File f64 = new File(tm_path+File.separator+"Jpcap_x64.dll");
+		    		File fJP = new File(tm_path+File.separator+"Jpcap.dll");
+		    	}
+	    		else*/
 		    	{
 				    JOptionPane.showMessageDialog(null,"Error : "+e.getMessage()+"\n\n"+
 				    		"Be sure to : \n"+
@@ -153,7 +160,7 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 
 	public void initComposants()
 	{
-		tm_version = "2.2";
+		tm_version = "2.4";
 		tm_path = System.getProperty("user.dir");
 		
 		

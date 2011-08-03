@@ -197,7 +197,7 @@ public class StreamFile
 		name.replaceAll(""+(char)0, "");
 		artiste.replaceAll(""+(char)0, "");
 		
-		return name + " - " + artiste;
+		return artiste + " - " + name;
 	}
 		
 	//=====================================================================================================

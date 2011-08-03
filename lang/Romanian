@@ -111,3 +111,7 @@
 	<82>TubeMaster++ operează în mod corespunzator şi este apt să capteze pachete de date.</82>
 	<83>Avertizare ! Se detectează pierderi de date. Încearcă limitarea utilizarii procesorului şi a lărgimii de bandă.</83>
 	<84>Captura este dezactivată. Trebuie activată pentru a putea captura fişiere.</84>
+		
+//Added 2.4 Version
+	<85>Copy</85>
+	<86>Paste</86>

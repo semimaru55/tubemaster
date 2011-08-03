@@ -26,8 +26,10 @@ public class TrayMenu extends PopupMenu
 		this.menu_start_stop.setFont(Commun.tm_font12);
 		this.menu_start_stop.setActionCommand("START_STOP_TRAY");
 		this.menu_start_stop.addActionListener(listener);
-		this.add(this.menu_exit);
+		
 		this.add(this.menu_start_stop);
+		this.add(this.menu_exit);
+		
 	}
 	
 	

@@ -111,3 +111,7 @@
 	<82>TubeMaster++ fonctionne correctement et est capable de capturer des données.</82>
 	<83>Attention ! Perte de données détectée. Essayez de limiter l'usage du processeur et le débit de votre connexion.</83>
 	<84>La capture est désactivée. Vous devez l'activer pour capturer des fichiers.</84>
+		
+//Added 2.4 Version
+	<85>Copy</85>
+	<86>Paste</86>

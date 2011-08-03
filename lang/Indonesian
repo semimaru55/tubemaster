@@ -111,3 +111,7 @@
 	<82>Tubemaster beroperasi dengan benar dan mampu merekam data.</82>
 	<83>Peringatan! kehilangan Data terdeteksi. Cobalah untuk membatasi prosesor dan penggunaan bandwidth.</83>
 	<84>merekam tidak aktif. Anda harus mengaktifkannya untuk merekam file.</84>
+		
+//Added 2.4 Version
+	<85>Copy</85>
+	<86>Paste</86>

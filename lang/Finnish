@@ -111,3 +111,7 @@
 	<82>TubeMaster++ toimii kunnolla ja on valmis muuntamaan paketteja.</82>
 	<83>VAROITUS ! Datan hävikkiä havaittu. Yritä rajoittaa prosessorin ja verkon käyttöä.</83>
 	<84>Kaappaus on estetty. Sinun täytyy sallia sallia tiedostojen sieppaus.</84>
+		
+//Added 2.4 Version
+	<85>Copy</85>
+	<86>Paste</86>

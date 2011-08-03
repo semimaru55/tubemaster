@@ -111,3 +111,7 @@
 	<82>TubeMaster++ esta funcionando corretamente e ja esta capturando pacotes.</82>
 	<83>Cuidado ! detectado perda de pacotes. Tente limitar os processos que estão utilizando esta conexão.</83>
 	<84>Captura esta desabilitada. Você deve habilitar para capturar arquivos.</84>
+		
+//Added 2.4 Version
+	<85>Copy</85>
+	<86>Paste</86>

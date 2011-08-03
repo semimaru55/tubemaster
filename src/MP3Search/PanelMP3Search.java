@@ -39,6 +39,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -91,6 +92,23 @@ public class PanelMP3Search extends JPanel implements ActionListener, KeyListene
 		
 		this.edtSearch.setBounds(8,21,200,24);
 		this.edtSearch.addKeyListener(this);
+		
+		JPopupMenu rightMenu = new JPopupMenu();
+		rightMenu.add(MainForm.lang.lang_table[85]).addActionListener(new ActionListener() 
+		{
+		         public void actionPerformed(ActionEvent e) 
+		         {
+		        	 edtSearch.copy();
+		         }
+		      });
+		rightMenu.add(MainForm.lang.lang_table[86]).addActionListener(new ActionListener() 
+		{
+		         public void actionPerformed(ActionEvent e) 
+		         {
+		        	 edtSearch.paste();
+		         }
+		 });
+		this.edtSearch.setComponentPopupMenu(rightMenu);
 		
 		this.btnSearch.setBounds(215,20,30,26);
 		

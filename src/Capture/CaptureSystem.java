@@ -64,10 +64,8 @@ public class CaptureSystem
 
 		if (MainForm.interfaces.length == 0)
 		 {
-			 JOptionPane.showMessageDialog(null,  "You must run TubeMaster++ as Administrator ! \n" +
-				   		"- Windows : Right click on the icon > Properties > Compatibility > Run As Administrator.\n"+
-				   		"- UNIX & Others : You must be root to run TubeMaster++ properly."
-					 , "Error - Admin Rights", 0);
+			 JOptionPane.showMessageDialog(null,  "TubeMaster++ cannot find any suitable network interface to capture data ! Please make sure you are running the program as administrator." 
+					 , "Error - No Network Interface available !", 0);
 			 System.exit(0);
 		 }
 
