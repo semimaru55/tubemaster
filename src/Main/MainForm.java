@@ -62,7 +62,7 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	public static TrayIcon 				trayIcon;
 	public static NetworkInterface[] 	interfaces;
 	public static String 				tm_version;
-	public static String				tm_path;
+	public static String				tm_path = ".";
 	
 	private JPanel 						panFen; 	
 	private PanelCapture 				panCap;							
@@ -70,14 +70,15 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	private PanelMP3Search 				panSMP3;	
 	private Header 						header;
 	
-	private static boolean				start_min = false;			
-	
+	private static boolean				start_min = false;
+
 
 	//=====================================================================================================
 
 	public MainForm() throws IOException
 	{
 		super();
+		
 		this.setTitle("TubeMaster++ | GgSofts");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
@@ -162,7 +163,6 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	{
 		tm_version = "2.4";
 		tm_path = System.getProperty("user.dir");
-		
 		
 		File test_file = new File(tm_path+File.separator+"lang");
 		if (!test_file.exists())
@@ -326,7 +326,8 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	public void windowDeiconified(WindowEvent arg0) {}
 	public void windowIconified(WindowEvent arg0) 
 	{
-		if ((opts.trayIcon) && (SystemTray.isSupported()))
+		//Force disable tray icon on linux systems.
+		if ((opts.trayIcon) && (SystemTray.isSupported()) && (!System.getProperty("os.name").startsWith("Linux")))
 		{
 			this.setVisible(false);
 			ImageIcon n = new ImageIcon(getClass().getResource("images/icon.jpg"));
@@ -336,9 +337,10 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 			trayIcon.setPopupMenu(new TrayMenu(this));
 			((TrayMenu) trayIcon.getPopupMenu()).set_state(this.panCap.isCapAlive());
 
-			SystemTray systemTray = SystemTray.getSystemTray();
+			
 			try 
 			{
+				SystemTray systemTray = SystemTray.getSystemTray();
 				systemTray.add(trayIcon);
 			} catch (AWTException e) {Commun.logError(e);}
 		}
@@ -375,12 +377,10 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 	{
 		if (e.getButton() == MouseEvent.BUTTON1)
 		{
-
-	    	this.setVisible(true);
+			this.setVisible(true);
 	    	this.setState(JFrame.NORMAL);
 	    	SystemTray systemTray = SystemTray.getSystemTray();
-			systemTray.remove(trayIcon);
-
+	    	systemTray.remove(trayIcon);
 		}
 	}
 

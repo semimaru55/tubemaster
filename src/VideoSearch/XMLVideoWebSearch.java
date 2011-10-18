@@ -26,7 +26,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Vector;
 import java.util.concurrent.CountDownLatch;
-import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 import Main.Commun;
 
@@ -36,15 +35,13 @@ public class XMLVideoWebSearch implements Runnable
 	
 	private String addr;
 	private DefaultTableModel model;
-	private JLabel lblLoad;
 	private CountDownLatch sema;
 	private boolean error;
 	
-	public XMLVideoWebSearch(String addr, DefaultTableModel model, JLabel lblLoad, CountDownLatch sema)
+	public XMLVideoWebSearch(String addr, DefaultTableModel model, CountDownLatch sema)
 	{
 		this.addr = addr;
 		this.model = model;
-		this.lblLoad = lblLoad;
 		this.sema = sema;
 		this.error = false;
 	}
@@ -54,7 +51,6 @@ public class XMLVideoWebSearch implements Runnable
 
 	public void run() 
 	{
-		this.lblLoad.setVisible(true);
 		try
 		{
 			URL addr = new URL(this.addr);
@@ -120,7 +116,6 @@ public class XMLVideoWebSearch implements Runnable
 		
 		sema.countDown();
 
-		this.lblLoad.setVisible(false);
 	}
 	
 

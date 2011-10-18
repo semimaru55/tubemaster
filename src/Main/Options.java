@@ -52,7 +52,7 @@ public class Options
 		public String repMP4 = "ffplay";						//MP4 Player.
 		public String repMOV = "ffplay";						//MOV Player.
 		public boolean autoPlay = false;						//AutoPlay des fichier capturés.
-		public String timeout = "20";							//Timeout de destruction si coupure.
+		public String timeout = "-1";							//Timeout de destruction si coupure.
 		public String minimal = "100000";						//Taille minimale de capture.
 		
 	public Options()

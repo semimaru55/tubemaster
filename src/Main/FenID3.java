@@ -75,7 +75,7 @@ public class FenID3 extends JFrame implements ActionListener, WindowListener
 	private TMButton btnCancel = new TMButton(this,0,0,MainForm.lang.lang_table[64],"",0,4,100);
 	private TMButton btnApply = new TMButton(this,0,0,MainForm.lang.lang_table[65],"",0,4,100);
 	
-	private JTextField edtParent = new JTextField();
+	private JTextField edtParent;
 	private TMButton btnParent;
 	
 	//Pour les Tags
@@ -251,7 +251,7 @@ public class FenID3 extends JFrame implements ActionListener, WindowListener
 			mediaFile.setID3Tag(leTag);
 			mediaFile.sync();
 			
-			this.edtParent.setText(title + " - " + artist);
+			this.edtParent.setText(artist + " - " + title);
 	
 			
 	    } catch (Exception e) {Commun.logError(e);}

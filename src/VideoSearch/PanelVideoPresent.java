@@ -47,7 +47,7 @@ public class PanelVideoPresent extends JPanel implements ActionListener
 	private Image image;
 	private JTextArea edtVideo = new JTextArea();
 	private JScrollPane paneEdit = new JScrollPane(this.edtVideo);
-	private TMButton btnPlay = new TMButton(this,13,8,MainForm.lang.lang_table[36],"preview.png",32,7,115);
+	private TMButton btnPlay = new TMButton(this,13,10,MainForm.lang.lang_table[36],"preview.png",32,9,115);
 	
 	private String currentURL = new String("");
 
@@ -56,12 +56,12 @@ public class PanelVideoPresent extends JPanel implements ActionListener
 	{
 		super();
 		this.setLayout(null);
-		this.setBackground(Color.decode("#FFFFE1"));
-		this.setBorder(BorderFactory.createLineBorder(Color.black));
+		this.setOpaque(false);
+		//this.setBackground(Color.decode("#FFFFE1"));
+		//this.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		
-		
-		this.paneEdit.setBounds(110,0,417,81);
+		this.paneEdit.setBounds(115,0,417,81);
 		this.paneEdit.setBorder(BorderFactory.createLineBorder(Color.black));
 		this.edtVideo.setLineWrap(true);
 		this.edtVideo.setWrapStyleWord(true);
@@ -70,9 +70,9 @@ public class PanelVideoPresent extends JPanel implements ActionListener
 		this.edtVideo.setForeground(Color.black);
 		this.paneEdit.setOpaque(false);
 		
-		this.btnPlay.setBounds(531,41,150,35);
+		this.btnPlay.setBounds(537,40,150,40);
 
-		this.btnPlay.setVisible(false);
+		//this.btnPlay.setVisible(false);
 		
 		
 		

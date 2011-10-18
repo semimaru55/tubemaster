@@ -41,6 +41,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
 
 import Graphique.TMButton;
 import Main.Commun;
@@ -55,7 +56,6 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 	private JLabel lblTitle = new JLabel(MainForm.lang.lang_table[10] + " :");
 	private JTextField edtSearch = new JTextField(); 
 	private JTable gridResults;
-	private DefaultTableModel tabModele = new DefaultTableModel();
 	private JScrollPane paneList;
 	
 	private static final String enteteTableau[]= {MainForm.lang.lang_table[12],MainForm.lang.lang_table[13],MainForm.lang.lang_table[15],"","",""};
@@ -63,7 +63,8 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 	
 	private TMButton btnSearch = new TMButton(this,6,3,"","search.png",0,0,0);
 	private PanelVideoPresent vidPres = new PanelVideoPresent();
-
+	
+	private DefaultTableModel tabModele = new DefaultTableModel();
 
 	private Icon loadIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/loading.gif")));
 	private JLabel lblLoad = new JLabel(this.loadIcon);
@@ -104,32 +105,27 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 		
 		this.btnSearch.setBounds(215,20,30,26);
 		
-		
 		this.vidPres.setBounds(8,404,688,81);
 		this.vidPres.setVisible(false);
 		
-		this.lblLoad.setBounds(248,17,32,32);
+		this.lblLoad.setBounds(215,17,32,32);
 		this.lblLoad.setVisible(false);
 		
 		this.installGrid();
 		
-
 		this.add(this.vidPres);
 		this.add(this.lblTitle);
-		this.add(this.paneList);
 		this.add(this.edtSearch);
 		this.add(this.btnSearch);
 		this.add(this.lblLoad);
-		
-	
 	}
 
 	
 	public void installGrid()
 	{
 		
-		this.tabModele.setColumnIdentifiers(enteteTableau);
-		this.gridResults = new JTable(this.tabModele)
+		tabModele.setColumnIdentifiers(enteteTableau);
+		this.gridResults = new JTable(tabModele)
 		{
 			private static final long serialVersionUID = 1L;
 			public boolean isCellEditable(int rowIndex, int vColIndex) 
@@ -138,7 +134,6 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 	        }
 	    };
 	    
-	    this.gridResults.setAutoCreateRowSorter(true);
 	    this.gridResults.getTableHeader().setReorderingAllowed(false);
 		this.gridResults.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.gridResults.addMouseListener(this);
@@ -157,18 +152,16 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 		}
 
 		this.paneList.setBounds(8,53,688,431);
-	
+		this.add(this.paneList);
 	}
 
 	public void actionPerformed(ActionEvent e) 
 	{
-		System.out.println(e.getSource());
 		if (e.getSource().equals(this.btnSearch))
 		{
 			for(int i=this.tabModele.getRowCount()-1;i>=0;i--) this.tabModele.removeRow(i);
 			new DoSearch().start();
 		}
-	
 	}
 
 	
@@ -177,19 +170,22 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 	
 		public void run()
 		{
+			
+			gridResults.setRowSorter(null);
 			edtSearch.setEnabled(false);
-			btnSearch.setEnabled(false);
+			btnSearch.setVisible(false);
 			vidPres.setVisible(false);
+			lblLoad.setVisible(true);
 			paneList.setSize(688,431);
 			
 			String query = edtSearch.getText().replaceAll(" ", "+").replaceAll("&", "%26");
 	
 			int found=0;
-			for (int i=0;i<10;i++)
+			for (int i=0;i<6;i++)
 			{
 				String page = ""+i+1;
 				CountDownLatch sema = new CountDownLatch(1);					
-				XMLVideoWebSearch search = new XMLVideoWebSearch("http://www.tubemaster.net/video_search.php?q="+query+"&p="+page,tabModele,lblLoad,sema);
+				XMLVideoWebSearch search = new XMLVideoWebSearch("http://www.tubemaster.net/video_search.php?q="+query+"&p="+page,tabModele,sema);
 				Thread threadManager = new Thread(search);
 				threadManager.start();
 				found += 20;
@@ -201,8 +197,10 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 							
 			}
 	
-			btnSearch.setEnabled(true);
+			lblLoad.setVisible(false);
+			btnSearch.setVisible(true);
 			edtSearch.setEnabled(true);
+			gridResults.setRowSorter(new TableRowSorter<DefaultTableModel>(tabModele));
 		}
 	}
 
