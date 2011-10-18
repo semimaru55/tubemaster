@@ -132,7 +132,7 @@ public class TMButton extends JPanel implements MouseListener
 		if (this.isEnabled())
 		{
 			this.isOut = false;
-			this.setBorder(BorderFactory.createLineBorder(Color.white.darker().darker()));
+			if (!this.isFlat) this.setBorder(BorderFactory.createLineBorder(Color.white.darker().darker()));
 		}
 		
 	}
@@ -142,7 +142,7 @@ public class TMButton extends JPanel implements MouseListener
 		if (this.isEnabled())
 		{
 			this.isOut = true;
-			this.setBorder(BorderFactory.createLineBorder(Color.gray.darker().darker()));
+			if (!this.isFlat) this.setBorder(BorderFactory.createLineBorder(Color.gray.darker().darker()));
 			this.state = 0;
 			this.repaint();
 			this.lblCaption.setBounds(lblX,lblY,lblW,20);
@@ -194,7 +194,11 @@ public class TMButton extends JPanel implements MouseListener
 	public int getLastX() {return this.mouseX;}
 	public int getLastY() {return this.mouseY;}
 	
-	public void setFlat() {this.isFlat = true;}
+	public void setFlat() 
+	{
+		this.isFlat = true;
+		this.setBorder(BorderFactory.createEmptyBorder());
+	}
 	public void setTextColor(Color clr) {this.lblCaption.setForeground(clr);}
 	
 

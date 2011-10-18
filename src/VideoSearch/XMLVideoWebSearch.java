@@ -70,42 +70,48 @@ public class XMLVideoWebSearch implements Runnable
 			if (in != null)
 			{
 			
+				String total = "";
 				String inputLine;
 				while ((inputLine = in.readLine()) != null)
 				{
-					while (inputLine.indexOf("</Video>")!=-1)
+					total += inputLine;	
+				}
+					
+				while (total.indexOf("</tm_video>") > -1)
+				{
+					String vid = new String(Commun.parse(total, "<tm_video>", "</tm_video>").getBytes(),"UTF-8");
+					total = total.substring(total.indexOf("</tm_video>")+7);
+
+					String t = "n/a";
+					if (vid.indexOf("<v_title>")>-1) t = Commun.parse(vid, "<v_title>", "</v_title>");					
+					String url = "n/a";
+					if (vid.indexOf("<v_url>")>-1) url = Commun.parse(vid, "<v_url>", "</v_url>");
+					String ch = "n/a";
+					if (vid.indexOf("<v_src>")>-1) ch = Commun.parse(vid, "<v_src>", "</v_src>");
+					String d = "n/a";
+					if (vid.indexOf("<v_desc>")>-1) d = Commun.parse(vid, "<v_desc>", "</v_desc>");
+					String time ="n/a";
+					if (vid.indexOf("<v_length>")>-1) 
 					{
-						String vid = new String(Commun.parse(inputLine, "<Video>", "</Video>").getBytes(),"UTF-8");
-						inputLine = inputLine.substring(inputLine.indexOf("</Video>")+7);
-	
-						String t = "n/a";
-						if (vid.indexOf("<title>")>-1) t = Commun.parse(vid, "<title>", "</title>");					
-						String url = "n/a";
-						if (vid.indexOf("<videoUrl>")>-1) url = Commun.parse(vid, "<videoUrl>", "</videoUrl>");
-						String ch = "n/a";
-						if (vid.indexOf("<channel>")>-1) ch = Commun.parse(vid, "<channel>", "</channel>");
-						String d = "n/a";
-						if (vid.indexOf("<description>")>-1) d = Commun.parse(vid, "<description>", "</description>");
-						String c = "n/a";
-						if (vid.indexOf("<category>")>-1) c = Commun.parse(vid, "<category>", "</category>");
-						String time ="n/a";
-						if (vid.indexOf("<runtime>")>-1) time = ""+(Integer.parseInt(Commun.parse(vid, "<runtime>", "</runtime>"))/60)+" Min.";
-						String thumb ="n/a";
-						if (vid.indexOf("<thumbnailUrl>")>-1) thumb = Commun.parse(vid, "<thumbnailUrl>", "</thumbnailUrl>");
-						
-						
-						Vector<String> newRow = new Vector<String>();
-						newRow.add(t.replaceAll("&#039;", "").replaceAll("&amp;", "&").replaceAll("&quot;", ""));
-						newRow.add(time);
-						newRow.add(c);
-						newRow.add(ch);
-						newRow.add(d);
-						newRow.add(url);
-						newRow.add(thumb);
-						this.model.addRow(newRow);
-	
+						int sec = Integer.parseInt(Commun.parse(vid, "<v_length>", "</v_length>"));
+						if (sec > 3600) time = (sec/3600) + " h";
+						else
+						if (sec > 60) time = (sec/60) + " min";
+						else time = (sec) + " s";
 					}
-		
+					String thumb ="n/a";
+					if (vid.indexOf("<v_thumb>")>-1) thumb = Commun.parse(vid, "<v_thumb>", "</v_thumb>");
+					
+					
+					Vector<String> newRow = new Vector<String>();
+					newRow.add(t);
+					newRow.add(time);
+					newRow.add(ch);
+					newRow.add(d);
+					newRow.add(url);
+					newRow.add(thumb);
+					this.model.addRow(newRow);
+
 				}
 				in.close();
 			}

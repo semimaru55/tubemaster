@@ -28,20 +28,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Random;
-
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
@@ -57,22 +52,19 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 {
 	private static final long serialVersionUID = 1L;
 
-	
-	private String[] tabSites = {MainForm.lang.lang_table[11],"YouTube","Dailymotion","MySpace","Yahoo! Video","Google Video","ABC News","Amazon Unbox","Bloomberg","CBS News","CBS Sportsline","CHBN","CNBC","Comedy Central","Crackle","C-SPAN","CSTV","CW","AOL Music","ESPN","FOX News","FT.com","Funny or Die","KDKA Pittsburgh","KUTV Salt Lake City","MovieLink","MSN Video","MSNBC","NBA.com","NECN","NFL.com","ON Networks","Reuters","ROOTV","Seattle Seahawks","Sports Illustrated","The Sun","The Weather Channel","Warner Bros.","Zipidee","Vimeo","IFILM","VideoRigolo","metacafe","Veoh","56.com","Bebo","Megavideo","My Video","PANDORA.TV","soapbox","TU.tv","Tudou","YoQoo","RTVE.es","Revver","Forbes.com","NY1","sevenload","WCBS New York","CTV.ca","Sport1.de","sportal.de","blip.tv","Handelsblatt","KCAL/KCBS Los Angeles","MarketWatch","blogTV","Gametrailers.com","Jujunation","Myspace","ultimateGuitar","The Daily Show","AP Video","FORA.tv","France 24","Infolive.tv","KCNC Denver","Le Monde","MediaScrape","Moblogic","New York Times Video","Daily Star","U.S.News","USA TODAY","BBC News","UnCut Video","tu.tv","Nico Video","MSN France","South Park Studios","TMZ.com","Clipta","IGN","Hulu","CBS"};
 	private JLabel lblTitle = new JLabel(MainForm.lang.lang_table[10] + " :");
 	private JTextField edtSearch = new JTextField(); 
 	private JTable gridResults;
 	private DefaultTableModel tabModele = new DefaultTableModel();
 	private JScrollPane paneList;
 	
-	private static final String enteteTableau[]= {MainForm.lang.lang_table[12],MainForm.lang.lang_table[13],MainForm.lang.lang_table[14],MainForm.lang.lang_table[15],"","",""};
-	private static final int tailleColTableau[]= {320,5,40,40,0,0,0};
+	private static final String enteteTableau[]= {MainForm.lang.lang_table[12],MainForm.lang.lang_table[13],MainForm.lang.lang_table[15],"","",""};
+	private static final int tailleColTableau[]= {320,5,40,0,0,0};
 	
 	private TMButton btnSearch = new TMButton(this,6,3,"","search.png",0,0,0);
 	private PanelVideoPresent vidPres = new PanelVideoPresent();
 
-	private JComboBox comboSites = new JComboBox(this.tabSites);
-	
+
 	private Icon loadIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/loading.gif")));
 	private JLabel lblLoad = new JLabel(this.loadIcon);
 	
@@ -112,15 +104,11 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 		
 		this.btnSearch.setBounds(215,20,30,26);
 		
-		this.comboSites.setFont(Commun.tm_font11);
-		this.comboSites.setBounds(252,22,150,22);
-		this.comboSites.setMaximumRowCount(20);
-		
 		
 		this.vidPres.setBounds(8,404,688,81);
 		this.vidPres.setVisible(false);
 		
-		this.lblLoad.setBounds(410,17,32,32);
+		this.lblLoad.setBounds(248,17,32,32);
 		this.lblLoad.setVisible(false);
 		
 		this.installGrid();
@@ -131,7 +119,6 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 		this.add(this.paneList);
 		this.add(this.edtSearch);
 		this.add(this.btnSearch);
-		this.add(this.comboSites);
 		this.add(this.lblLoad);
 		
 	
@@ -161,7 +148,7 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 		{	TableColumn col = this.gridResults.getColumnModel().getColumn(i);
 			col.setPreferredWidth(tailleColTableau[i]);
 			
-			if ((i==4) || (i==5) || (i==6))
+			if ((i==3) || (i==4) || (i==5))
 			{
 				col.setMinWidth(0);
 				col.setMaxWidth(0);
@@ -170,10 +157,8 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 		}
 
 		this.paneList.setBounds(8,53,688,431);
-		
-		
+	
 	}
-
 
 	public void actionPerformed(ActionEvent e) 
 	{
@@ -199,43 +184,21 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 			
 			String query = edtSearch.getText().replaceAll(" ", "+").replaceAll("&", "%26");
 	
-			
-			String channel = "";
-			if (!((String)comboSites.getSelectedItem()).equals(MainForm.lang.lang_table[11]))
-					channel = "%20channel:\"" +(String)comboSites.getSelectedItem()+'"';
-			
-			
-			String[] appids = {"1x1jhj64466mi12ia","3oinhkvvvpzw3v5qb"};
-
-			int sec_count = 0;		
-			
-			Random randomGenerator = new Random();
-			int nbr = 200;
 			int found=0;
-			while(found<nbr)
+			for (int i=0;i<10;i++)
 			{
-				CountDownLatch sema = new CountDownLatch(1);
-				int ran = randomGenerator.nextInt(appids.length);	
-					
-				XMLVideoWebSearch search = new XMLVideoWebSearch("http://xml.truveo.com/apiv3?appid="+appids[ran]+"&method=truveo.videos.getVideos&query="+query+channel+"&results=50&start="+found+"&formats=flash&showAdult=1",tabModele,lblLoad,sema);
+				String page = ""+i+1;
+				CountDownLatch sema = new CountDownLatch(1);					
+				XMLVideoWebSearch search = new XMLVideoWebSearch("http://www.tubemaster.net/video_search.php?q="+query+"&p="+page,tabModele,lblLoad,sema);
 				Thread threadManager = new Thread(search);
 				threadManager.start();
-				found += 50;
+				found += 20;
 	
 				try 
 				{
 					sema.await(2, TimeUnit.SECONDS);
 				} catch (InterruptedException e) {Commun.logError(e);}
-				
-				//Check 403 error.
-				if (search.is_error()) 
-				{
-					found -= 50;
-					sec_count++;
-				}
-				
-				if (sec_count > 10) break;
-				
+							
 			}
 	
 			btnSearch.setEnabled(true);
@@ -276,9 +239,9 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 		{
 			this.paneList.setSize(688,343);
 			this.vidPres.setVisible(true);
-			this.vidPres.refresh(this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 5).toString(), 					//Le titre
-								 "Description : "+this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 4).toString(), //La description
-								 gridResults.getValueAt(gridResults.getSelectedRow(), 6).toString());							//Le thumb
+			this.vidPres.refresh(this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 4).toString(), 					//Le titre
+								 "Description : "+this.gridResults.getValueAt(this.gridResults.getSelectedRow(), 3).toString(), //La description
+								 gridResults.getValueAt(gridResults.getSelectedRow(), 5).toString());							//Le thumb
 
 		}
 		

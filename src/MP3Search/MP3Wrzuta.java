@@ -101,6 +101,7 @@ public class MP3Wrzuta
 						total = total.substring(total.indexOf("</div>"));		
 						
 					}	
+					
 				} else ended = true;
 				
 				
