@@ -12,7 +12,7 @@
 //Panel Capture
 	<6>Estä Kaappaus</6>
 	<7>Salli Kaappaus</7>
-	<8>Tallenne Valitut Tiedostot</8>
+	<8>Tallenna Valitut Tiedostot</8>
 	<9>Muunna Valitut Tiedostot</9>
 
 //Video Search Panel
@@ -60,7 +60,7 @@
 	<41>VIRHE. Tiedosto on jo. Muuta tiedostonimeä.</41>
 	<42>Tämä toiminto pysäyttää latauksen ! Suljetaanko lataaminen ?</42>
 	<43>Haluatko poistaa tämän tiedoston ?</43>
-	<44>Näyttää ettei Siulla ole LibPcap (WinPcap Windowsille) asennettuna. TubeMaster++ ei voi toimia ilman LibPcapia.</44>
+	<44>Näyttää ettei Sinulla ole LibPcap (WinPcap Windowsille) asennettuna. TubeMaster++ ei voi toimia ilman LibPcapia.</44>
 	<45>Haluatko asentaa sen nyt ?</45>
 	<46>VIRHE ! Asenna LibPcap !</46>
 	<47>Haluatko sulkea TubeMaster++:n ?</47>
@@ -69,13 +69,13 @@
 	
 //Added
 	<50>VIRHE. Ei vastaa. Yritä myöhemmin uudelleen.</50>
-	<51>Downloading</51>
+	<51>Ladataan verkosta</51>
 	<52>Ladataan</52>
 	<53>Kaappaus on aktiivisena. Sinun täytyy pysäyttää se koska TubeMaster++ muuntaa MP3 tiedostoa. Pysäytetäänkö nyt ?</53>
 	<54>Suositeltavaa pysäyttää muuntaminen.</54>
-	<55>Kysy ennen kuin suljetaan TubeMaster++.</55>
+	<55>Kysy ennen kuin TubeMaster++ suljetaan.</55>
 	<56>Sulje</56>
-	<57>Vihje : Voit vetää ja pudottaa ulkoisia media tiedostoja tänne (MP3,MP4,FLV,MOV,M4A).</57>
+	<57>Vihje: Voit vetää ja pudottaa ulkoisia media tiedostoja tänne (MP3,MP4,FLV,MOV,M4A).</57>
 	
 //ID3 Editor
 	<58>Laulun Nimi</58>
@@ -113,5 +113,5 @@
 	<84>Kaappaus on estetty. Sinun täytyy sallia sallia tiedostojen sieppaus.</84>
 		
 //Added 2.4 Version
-	<85>Copy</85>
-	<86>Paste</86>
+	<85>Kopioi</85>
+	<86>Liitä</86>
