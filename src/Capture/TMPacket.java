@@ -72,7 +72,8 @@ public class TMPacket
 	
 	public boolean searchFLV()
 	{
-		return (this.contains("FLV"+(char)1));
+		return (this.contains("Content-Type: video/x-flv") ||
+				this.contains("FLV"+(char)1));
 	}
 	
 	
