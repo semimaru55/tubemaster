@@ -180,7 +180,7 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 			
 			String query = edtSearch.getText().replaceAll(" ", "+").replaceAll("&", "%26");
 	
-			int found=0;
+
 			for (int i=0;i<6;i++)
 			{
 				String page = ""+i+1;
@@ -188,7 +188,6 @@ public class PanelVideoSearch extends JPanel implements ActionListener, KeyListe
 				XMLVideoWebSearch search = new XMLVideoWebSearch("http://www.tubemaster.net/video_search.php?q="+query+"&p="+page,tabModele,sema);
 				Thread threadManager = new Thread(search);
 				threadManager.start();
-				found += 20;
 	
 				try 
 				{
