@@ -67,6 +67,7 @@ public class CommandRunner implements Runnable
 		this.lblStatus = lblStatus;
 		this.pbar = pbar;
 		this.pbar.setMaximum(100);
+		pbar.setIndeterminate(false);
 		this.fileItem = fileItem;
 		this.sema = sema;
 	}
@@ -78,7 +79,6 @@ public class CommandRunner implements Runnable
 			if (this.fileItem != null) this.fileItem.setConverting();
 			boolean finish = false;
 			
-
 			this.process = Runtime.getRuntime().exec(this.commandCutter(this.command));
 			InputHandler errorHandler = new InputHandler(process.getErrorStream(), "Error Stream");
 	        errorHandler.start();
@@ -160,19 +160,36 @@ public class CommandRunner implements Runnable
 	            		if ((line.indexOf("Duration")>-1) && (duree==0))
 	    				{
 	    					res = parse(line,"Duration: ",",");	
-	    					duree = (Integer.parseInt(res.substring(0,2))*3600) +
-	    							(Integer.parseInt(res.substring(3,5))*60) +
-	    							(Integer.parseInt(res.substring(6,8)));	
+	    					
+	    					try
+	    					{
+	    						duree = (Integer.parseInt(res.substring(0,2))*3600) +
+	    								(Integer.parseInt(res.substring(3,5))*60) +
+	    								(Integer.parseInt(res.substring(6,8)));	
+	    					}
+	    					catch (Exception e)
+	    					{
+	    						pbar.setIndeterminate(true);
+	    						duree = -1;
+	    					}
 	    				}
 	    				
 	    				
 	    				if ((duree!=0) && (line.indexOf("time=")>-1))
 	    				{		
 	    					 convFailed = false;
-	    				     res = parse(line,"time=",".");	     
-	    				     progress = (Integer.parseInt(res)*100) / duree;
-	    				     lblStatus.setText("Encoding ... ["+progress+"%]");
-	    				     pbar.setValue(progress);
+	    					 
+	    					 if (duree > 0)
+	    					 {
+		    				     res = parse(line,"time=",".");	     
+		    				     progress = (Integer.parseInt(res)*100) / duree;
+		    				     lblStatus.setText("Encoding ... ["+progress+"%]");
+		    				     pbar.setValue(progress);
+	    					 }
+	    					 else
+	    					 {
+	    						 lblStatus.setText("Encoding, please wait...");
+	    					 }
 	    				}
 	
 	    				lastLine = line;
