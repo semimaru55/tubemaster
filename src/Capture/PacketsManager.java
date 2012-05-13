@@ -23,10 +23,8 @@ package Capture;
 import java.util.ArrayList;
 
 
-
 import Main.Commun;
 import Main.MainForm;
-
 
 
 public class PacketsManager implements Runnable
@@ -52,7 +50,7 @@ public class PacketsManager implements Runnable
 	}
 	
 	//=====================================================================================================
-
+	
 	public void run()
 	{		
 		System.out.println("*TubeMaster++ Core Started*");
@@ -108,7 +106,6 @@ public class PacketsManager implements Runnable
 	
 	private boolean search_stream(TMPacket p)
 	{
-		boolean found = false;
 		int len = this.fileList.getItemsCount();
 		for (int i=0;i<len;i++)
 		{
@@ -116,11 +113,22 @@ public class PacketsManager implements Runnable
 			if (stream.get_ack_number() == p.getAck())
 			{		
 				stream.add_datas(p);
-				found = true;
-				break;
+				return true;
+			}	
+			else if (stream.has_brothers())
+			{
+				for(int j=0;j<stream.get_brothers().size();j++)
+				{
+					if (stream.get_brothers().get(j).get_ack_number() == p.getAck())
+					{		
+						stream.get_brothers().get(j).add_datas(p);
+						return true;
+					}
+				}
 			}	
 		}
-		return found;	
+		
+		return false;	
 	}
 	
 	//=====================================================================================================	
@@ -137,15 +145,41 @@ public class PacketsManager implements Runnable
 			CaptureSystem.filterSize = 0;		
 		}
 		
+		/* Search url */
+		String url = this.stream_url(p);
+		
+		/* Check if it's from Youtube */
+		boolean from_youtube = false;
+		if (url.contains(".youtube.com/") && url.contains("&signature="))
+		{
+			from_youtube = true;
+		}
+		
 		/* If not too small, let's go! */
-		if (size > Integer.parseInt(MainForm.opts.minimal))
+		if (size > Integer.parseInt(MainForm.opts.minimal) || from_youtube)
 		{
 			
-			/* Search url */
-			String url = this.stream_url(p);
+			/* Youtube start part */
+			if (from_youtube && size == 1781747)
+			{
+				
+				size += 1781747;
+			}
 			
+			/* Youtube other parts */
+			StreamFile parent_stream = null;
+			if (from_youtube && size != 1781747)
+			{
+				parent_stream = search_youtube(url);
+				
+				if (parent_stream != null)
+				{
+					if (size < 1781747) parent_stream.red_content_length(1781747);
+				}
+			}
+
 			FileFormat format = new FileFormat(str_format);
-			StreamFile new_stream = new StreamFile(format, p, size, "");
+			StreamFile new_stream = new StreamFile(format, p, size, "", url, parent_stream, from_youtube);
 			
 			/* Search for datas in cache */
 			for (int i=0;i<this.packetCache.size();i++)
@@ -158,8 +192,15 @@ public class PacketsManager implements Runnable
 				}
 			}
 			
-			/* Add to the list */
-			this.fileList.ajoutItem(new ListFileItem(this.fileList,new_stream,url));	
+			if (parent_stream != null)
+			{
+				parent_stream.add_brother(new_stream);
+			}
+			else
+			{
+				/* Add to the list */
+				this.fileList.ajoutItem(new ListFileItem(this.fileList,new_stream,url));	
+			}		
 		}
 	}
 	
@@ -230,6 +271,30 @@ public class PacketsManager implements Runnable
 		
 		this.rtmp_app = "";
 		this.rtmp_stream = "";
+	}
+	
+	//=====================================================================================================
+	
+	private StreamFile search_youtube(String new_stream_url)
+	{
+		int len = this.fileList.getItemsCount();
+		for (int i=0;i<len;i++)
+		{
+			StreamFile stream = this.fileList.getItem(i).getFile();
+			String stream_url = stream.get_url();
+			if (stream_url.contains(".youtube.com/") && stream_url.contains("&signature="))
+			{
+				String stream_sign = Commun.parse(stream_url, "signature=", "&");
+				String packet_sign = Commun.parse(new_stream_url, "signature=", "&");
+				
+				if (stream_sign.equals(packet_sign)) 
+				{
+					return stream;	
+				}
+			}
+		}
+		
+		return null;
 	}
 	
 	//=====================================================================================================	

@@ -268,7 +268,7 @@ public class ListFile extends JPanel
              (extension.equals("MOV")))
          {
         	 
-        	StreamFile stream_file = new StreamFile(new FileFormat(extension),null,file.length(),file.getAbsolutePath());
+        	StreamFile stream_file = new StreamFile(new FileFormat(extension),null,file.length(),file.getAbsolutePath(),"file://", null, false);
          	ListFileItem item = new ListFileItem(this,stream_file,file.getAbsolutePath());
          	item.setDragged(true);
          	item.setTitle(file.getName().substring(0, file.getName().lastIndexOf(".")));

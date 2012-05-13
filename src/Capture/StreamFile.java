@@ -1,7 +1,9 @@
 package Capture;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -19,21 +21,25 @@ import Main.MainForm;
 public class StreamFile 
 {
 	
-	private long 				ack_number;
-	private long 				content_length;
-	private long 				current_length;
-	private long 				first_sequence;
-	private long 				current_sequence;
-	private TCPMap 				tcp_map;
-	private File				file;
-	private boolean				complete;
-	private boolean				cancelled;
-	private String				filepath;
-	private RandomAccessFile 	writer;
-	private FileFormat			format;
-
-
-	public StreamFile(FileFormat format, TMPacket p, long content_length, String filepath)
+	private long 					ack_number;
+	private long 					content_length;
+	private long 					current_length;
+	private long 					first_sequence;
+	private long 					current_sequence;
+	private TCPMap 					tcp_map;
+	private File					file;
+	private boolean					complete;
+	private boolean					cancelled;
+	private String					filepath;
+	private RandomAccessFile 		writer;
+	private FileFormat				format;
+	private String					url;
+	private ArrayList<StreamFile>	brothers;
+	private StreamFile				big_brother;
+	private long					brother_decal;
+	private boolean					is_youtube;
+	
+	public StreamFile(FileFormat format, TMPacket p, long content_length, String filepath, String url, StreamFile big_brother, boolean is_youtube)
 	{
 		this.content_length 	= content_length;
 		this.current_length		= 0;
@@ -43,7 +49,12 @@ public class StreamFile
 		this.tcp_map			= new TCPMap();
 		this.filepath			= filepath;
 		this.format				= format;
-
+		this.url				= url;
+		this.brothers			= new ArrayList<StreamFile>();
+		this.big_brother		= big_brother;
+		this.brother_decal		= 0;
+		this.is_youtube 		= is_youtube;
+		
 		this.create_file();
 		
 		if (p != null)
@@ -63,15 +74,37 @@ public class StreamFile
 		{
 			if (this.filepath.equals(""))
 			{
-				/* Create File In temp dir */
-				new File("temp").mkdir();
-				long idFile = (new Date()).getTime();
-				long random = (long) (Math.random()*100000);
-				this.filepath = MainForm.tm_path + File.separator + "temp" + File.separator + "tm++_capture_"+idFile+random+"."+this.format.retFormat().toLowerCase();
-			
-				/* Create file on the drive */
-				this.file = new File(this.filepath);
-				this.writer = new RandomAccessFile(this.file,"rw");
+				if (this.big_brother == null)
+				{
+					/* Create File In temp dir */
+					new File("temp").mkdir();
+					long idFile = (new Date()).getTime();
+					long random = (long) (Math.random()*100000);
+					this.filepath = MainForm.tm_path + File.separator + "temp" + File.separator + "tm++_capture_"+idFile+random+"."+this.format.retFormat().toLowerCase();
+				
+					/* Create file on the drive */
+					this.file = new File(this.filepath);
+					this.writer = new RandomAccessFile(this.file,"rw");
+					
+					if (this.is_youtube)
+					{
+						byte data[] = {0x46, 0x4C, 0x56, 0x01, 0x04, 0x00, 0x00, 0x00, 0x09, 0x00, 0x00, 0x00, 0x00};
+						try
+						{
+							this.writer.seek(0);	
+							this.writer.write(data);
+							this.brother_decal = 13;
+					
+						} catch (Exception e) {Commun.logError(e);}
+					}
+					
+				}
+				else
+				{
+					this.filepath = this.big_brother.get_filepath();
+					this.file = this.big_brother.get_file();
+					this.writer = this.big_brother.get_writer();	
+				}
 
 			}
 			else
@@ -100,14 +133,14 @@ public class StreamFile
 				
 				try
 				{
-					this.writer.seek(p.getSeq()-this.first_sequence);	
+					this.writer.seek(this.brother_decal+p.getSeq()-this.first_sequence);	
 					this.writer.write(p.getDatas());
 			
 				} catch (Exception e) {Commun.logError(e);}
 
 			}
 
-			if (this.current_length >= this.content_length) this.finnish();
+			if (this.get_current_length() >= this.get_content_length()) this.finnish();
 		}	
 	}
 	
@@ -140,7 +173,14 @@ public class StreamFile
 	public void finnish()
 	{
 		this.complete = true;
-		this.close();	
+		if (this.big_brother != null) 
+		{
+			this.big_brother.check_finished_from_brother();
+		}
+		else
+		{
+			this.close();	
+		}
 	}
 	
 	//=====================================================================================================
@@ -211,18 +251,70 @@ public class StreamFile
 	
 	//=====================================================================================================
 	
+	public void add_brother(StreamFile stream)
+	{
+		this.brothers.add(stream);
+		try { stream.set_decal(this.writer.length()); } catch (IOException e) {Commun.logError(e);}
+	}
+	
+	//=====================================================================================================
+	
+	public long get_content_length() 		
+	{
+		long len = this.content_length;
+		for(int i=0;i<this.brothers.size();i++)
+		{
+			len += this.brothers.get(i).get_content_length();
+		}
+		return len; 
+	}
+	
+	//=====================================================================================================
+	
+	public long get_current_length() 		
+	{ 
+		long len = this.current_length;
+		for(int i=0;i<this.brothers.size();i++)
+		{
+			len += this.brothers.get(i).get_current_length();
+		}
+
+		return len;
+	} 
+	
+	//=====================================================================================================
+	
+	public void check_finished_from_brother()
+	{
+		if (this.complete == false)
+		{
+			if (this.get_current_length() >= this.get_content_length()) this.finnish();
+		}
+	}
+	
+	//=====================================================================================================
+	
 	public long 		get_ack_number()			{ return this.ack_number; }
+	public void 		set_ack_number(long ack)	{ this.ack_number = ack; }
+	public void 		red_content_length(long l)	{ this.content_length -= l; }
 	public FileFormat 	get_format() 				{ return this.format; }
 	public String 		get_filepath() 				{ return this.filepath; }
+	public File 		get_file() 					{ return this.file; }
+	public void			set_decal(long d)			{ this.brother_decal = d; }
+	public RandomAccessFile get_writer() 			{ return this.writer; }
+	public String 		get_url() 					{ return this.url; }
+	public boolean		is_from_youtube()			{ return this.is_youtube; }
 	public boolean 		is_complete() 				{ return this.complete; }
 	public boolean		is_cancelled()				{ return this.cancelled; }
-	public long 		get_content_length() 		{ return this.content_length; }
-	public long 		get_current_length() 		{ return this.current_length; }
+	public ArrayList<StreamFile> get_brothers() 	{ return this.brothers; }
+	public boolean		has_brothers()				{ return this.brothers.size() > 0; }
 	public void 		add_rtmp_datas(long l) 	
 	{ 
 		this.current_length = l;
 		this.content_length = this.current_length + 1000000;
 	}
+	
+
 		
 	//=====================================================================================================
 }

@@ -22,7 +22,7 @@ public class RTMPDownload extends Thread
 		this.rtmp_app 		= app;
 		this.rtmp_stream 	= stream;
 		this.downloader 	= new RtmpDownloader();
-		this.file 			= new StreamFile(this.find_format(), null, 3000000, "");
+		this.file 			= new StreamFile(this.find_format(), null, 3000000, "", "rtmp://", null, false);
 	}
 	
 	//=====================================================================================================

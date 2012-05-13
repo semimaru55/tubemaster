@@ -322,9 +322,16 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 				this.timeout = Integer.parseInt(MainForm.opts.timeout);
 				speed = "at " + Commun.sizeConvert(Math.round(avg_speed)) + "/s";
 			}
+			else if (this.file.is_from_youtube())
+			{
+				this.timeout = Integer.parseInt(MainForm.opts.timeout);
+				speed = "YouTube Waiting...";
+			}
 			else speed = "Timeout = " + this.timeout + "s";
 			
-
+			
+			
+			
 			this.prev_speed = (int) curSize;		
 			this.lblState.setText(nfoSize + " (" + speed + ").");
 			
@@ -336,7 +343,7 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 				else this.edtTitle.setText(title);
 			}
 			
-			if ((MainForm.opts.autoPlay) && (!this.wasAutoPlayed) && (curSize>400000))
+			if ((MainForm.opts.autoPlay) && (!this.wasAutoPlayed) && (curSize > 400000))
 			{
 				this.wasAutoPlayed = true;
 				this.file.play();	
