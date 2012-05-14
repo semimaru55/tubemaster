@@ -137,7 +137,7 @@ public class PacketsManager implements Runnable
 	{	
 		/* Search content length */
 		long size = this.stream_content_length(p);
-		
+				
 		/* Check if not from MP3 downloader */
 		if ((str_format.equals("MP3")) && (size == CaptureSystem.filterSize)) 
 		{
@@ -150,7 +150,7 @@ public class PacketsManager implements Runnable
 		
 		/* Check if it's from Youtube */
 		boolean from_youtube = false;
-		if (url.contains(".youtube.com/") && url.contains("&signature="))
+		if (url.contains(".youtube.com/") && url.contains("signature="))
 		{
 			from_youtube = true;
 		}
@@ -162,7 +162,6 @@ public class PacketsManager implements Runnable
 			/* Youtube start part */
 			if (from_youtube && size == 1781747)
 			{
-				
 				size += 1781747;
 			}
 			
@@ -282,7 +281,7 @@ public class PacketsManager implements Runnable
 		{
 			StreamFile stream = this.fileList.getItem(i).getFile();
 			String stream_url = stream.get_url();
-			if (stream_url.contains(".youtube.com/") && stream_url.contains("&signature="))
+			if (stream_url.contains(".youtube.com/") && stream_url.contains("signature="))
 			{
 				String stream_sign = Commun.parse(stream_url, "signature=", "&");
 				String packet_sign = Commun.parse(new_stream_url, "signature=", "&");
