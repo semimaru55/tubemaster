@@ -161,7 +161,7 @@ public class MainForm extends JFrame implements WindowListener, MouseListener, A
 
 	public void initComposants()
 	{
-		tm_version = "2.6";
+		tm_version = "2.7";
 		tm_path = System.getProperty("user.dir");
 		
 		File test_file = new File(tm_path+File.separator+"lang");
