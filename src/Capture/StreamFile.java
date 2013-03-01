@@ -234,9 +234,11 @@ public class StreamFile
 			} catch (ID3Exception e) {/*NoLog*/}
 		
 		}		
-		name.replaceAll(""+(char)0, "");
-		artiste.replaceAll(""+(char)0, "");
-		
+
+        // Sometimes there are improper characters like "\u0000" in MP3 Tags especially in GrooveShark, so we are going to remove it
+        name = name.replaceAll("\u0000","");
+        artiste = artiste.replaceAll("\u0000","");
+
 		return artiste + " - " + name;
 	}
 		
