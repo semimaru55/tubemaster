@@ -35,15 +35,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.blinkenlights.jid3.ID3Tag;
-import org.blinkenlights.jid3.MP3File;
-import org.blinkenlights.jid3.MediaFile;
-import org.blinkenlights.jid3.v1.ID3V1Tag;
-import org.blinkenlights.jid3.v1.ID3V1_0Tag;
-import org.blinkenlights.jid3.v1.ID3V1Tag.Genre;
-import org.blinkenlights.jid3.v2.ID3V2_3_0Tag;
 
 import Graphique.TMButton;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.mp3.MP3File;
+import org.jaudiotagger.tag.FieldKey;
+import org.jaudiotagger.tag.id3.*;
+import org.jaudiotagger.tag.id3.valuepair.TextEncoding;
+import org.jaudiotagger.tag.reference.GenreTypes;
 
 public class FenID3 extends JFrame implements ActionListener, WindowListener
 {
@@ -129,41 +128,40 @@ public class FenID3 extends JFrame implements ActionListener, WindowListener
 	public void readTags()
 	{
 		String title="",artist="",album="",year="",track="",genre2="";
-		Genre genre = Genre.Undefined;
+//		Genre genre = Genre.Undefined;
+        genre2 = GenreTypes.getInstanceOf().getValueForId(0xff); // Undefined
 		File sourceFile = new File(this.fichier);
-		MediaFile mediaFile = new MP3File(sourceFile);
 		boolean v1 = false;
 		try 
 	    {
-			
-			ID3Tag[] lesTags = mediaFile.getTags();
-			for(int i=0;i<lesTags.length;i++)
-			{					
-				if (lesTags[i] instanceof ID3V1_0Tag)
-	            {
-					v1 = true;
-	                ID3V1_0Tag leTag = (ID3V1_0Tag)lesTags[i];
-	                if (leTag.getTitle() != null) title = leTag.getTitle();
-	    			if (leTag.getArtist()!=null) artist = leTag.getArtist();
-	    			if (leTag.getAlbum()!=null) album = leTag.getAlbum();
-	    			try {year = ""+leTag.getYear();} catch (Exception e) {}
-	    			if (leTag.getGenre()!=null) genre = leTag.getGenre();
+            MP3File f = (MP3File) AudioFileIO.read(sourceFile);
 
-	            }
-				else if (lesTags[i] instanceof ID3V2_3_0Tag)
-	            {
-	                ID3V2_3_0Tag leTag = (ID3V2_3_0Tag)lesTags[i];
-	                if (leTag.getTitle() != null) title = leTag.getTitle();
-	    			if (leTag.getArtist()!=null) artist = leTag.getArtist();
-	    			if (leTag.getAlbum()!=null) album = leTag.getAlbum();
-	    			try {year = ""+leTag.getYear();} catch (Exception e) {}
-	    			try {track = ""+leTag.getTrackNumber();} catch (Exception e) {}
-	    			if (leTag.getGenre()!=null) genre2 = leTag.getGenre();
-	            }	
-			}	
-		
-			if (v1) genre2 = genre.toString();
-			
+            ID3v1Tag            v1tag  = f.getID3v1Tag();
+            AbstractID3v2Tag    v2tag  = f.getID3v2Tag();
+
+            if( v2tag != null ) {
+                title = v2tag.getFirst(FieldKey.TITLE);
+                artist = v2tag.getFirst(FieldKey.ARTIST);
+                album = v2tag.getFirst(FieldKey.ALBUM);
+                year = v2tag.getFirst(FieldKey.YEAR);
+                genre2 = v2tag.getFirst(FieldKey.GENRE);
+                track = v2tag.getFirst(FieldKey.TRACK);
+
+            } else {
+                if(v1tag != null) {
+
+                    title = v1tag.getFirst(FieldKey.TITLE);
+                    artist = v1tag.getFirst(FieldKey.ARTIST);
+                    album = v1tag.getFirst(FieldKey.ALBUM);
+                    year = v1tag.getFirst(FieldKey.YEAR);
+                    genre2 = v1tag.getFirst(FieldKey.GENRE);
+                    track = v1tag.getFirst(FieldKey.TRACK);
+
+                } else {
+                    // no tags found
+                }
+            }
+
 		} catch (Exception e) {Commun.logError(e);}
 	
 			if ((genre2.indexOf("(")==0) || (genre2.equals(""))) genre2 = "Undefined";
@@ -207,8 +205,7 @@ public class FenID3 extends JFrame implements ActionListener, WindowListener
 		try 
 	    {
 			File sourceFile = new File(this.fichier);
-			MediaFile mediaFile = new MP3File(sourceFile);
-			mediaFile.removeTags();
+            MP3File f = (MP3File) AudioFileIO.read(sourceFile);
 
 			String title="",artist="",album="",genre="";
 			int year=0,track=0;
@@ -239,18 +236,22 @@ public class FenID3 extends JFrame implements ActionListener, WindowListener
 				if (i>=0) track = i;
 			}
 			
-			
-			ID3V2_3_0Tag leTag = new ID3V2_3_0Tag();
-			leTag.setTitle(title);
-			leTag.setArtist(artist);
-			leTag.setAlbum(album);
-			leTag.setYear(year);
-			leTag.setTrackNumber(track);
-			leTag.setGenre(genre);
+            AbstractID3v2Tag v2tag = f.getID3v2Tag();
+            if(v2tag == null) {
+                v2tag = new ID3v23Tag(); // windows explorer doesn't recognize 2.4 tag
+                f.setTag(v2tag);
+            }
 
-			mediaFile.setID3Tag(leTag);
-			mediaFile.sync();
-			
+            v2tag.setField(FieldKey.TITLE, title);
+            v2tag.setField(FieldKey.ARTIST, artist);
+            v2tag.setField(FieldKey.ALBUM, album);
+            v2tag.setField(FieldKey.YEAR, Integer.toString(year));
+            v2tag.setField(FieldKey.TRACK, Integer.toString(track));
+            v2tag.setField(FieldKey.GENRE, genre);
+
+            f.setID3v2TagOnly(v2tag);
+            AudioFileIO.write(f);
+
 			this.edtParent.setText(artist + " - " + title);
 	
 			
@@ -311,7 +312,10 @@ public class FenID3 extends JFrame implements ActionListener, WindowListener
 		Vector<String> genres = new Vector<String>();
 		try
 		{
-			for(int i=0;i<148;i++) genres.add(ID3V1Tag.Genre.lookupGenre(i).toString());
+            for(int i=0;i<148;i++) {
+                genres.add(GenreTypes.getInstanceOf().getValueForId(i));
+            }
+
 		} catch (Exception e) {Commun.logError(e);}
 		Collections.sort(genres);
 		this.cmbGenre = new JComboBox(genres);

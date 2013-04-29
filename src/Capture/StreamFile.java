@@ -7,16 +7,15 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-import org.blinkenlights.jid3.ID3Exception;
-import org.blinkenlights.jid3.ID3Tag;
-import org.blinkenlights.jid3.MP3File;
-import org.blinkenlights.jid3.MediaFile;
-import org.blinkenlights.jid3.v1.ID3V1_0Tag;
-import org.blinkenlights.jid3.v2.ID3V2_3_0Tag;
 
 import Conversion.CommandRunner;
 import Main.Commun;
 import Main.MainForm;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.mp3.MP3File;
+import org.jaudiotagger.tag.FieldKey;
+import org.jaudiotagger.tag.id3.AbstractID3v2Tag;
+import org.jaudiotagger.tag.id3.ID3v1Tag;
 
 public class StreamFile 
 {
@@ -210,28 +209,30 @@ public class StreamFile
 		
 		if (this.file != null)
 		{
-			MediaFile oMediaFile = new MP3File(this.file);
-	        try 
+
+	        try
 	        {
-				ID3Tag[] aoID3Tag = oMediaFile.getTags();
-	
-				for(int i=0;i<aoID3Tag.length;i++)
-				{					
-					if (aoID3Tag[i] instanceof ID3V1_0Tag)
-		            {
-		                ID3V1_0Tag v1 = (ID3V1_0Tag)aoID3Tag[i];
-		                if (v1.getTitle() != null) name = v1.getTitle();
-		                if (v1.getArtist() != null) artiste = v1.getArtist();
-		            }
-					else if (aoID3Tag[i] instanceof ID3V2_3_0Tag)
-		            {
-		                ID3V2_3_0Tag v2 = (ID3V2_3_0Tag)aoID3Tag[i];
-		                if (v2.getTitle() != null) name = v2.getTitle();
-		                if (v2.getArtist() != null) artiste = v2.getArtist();   
-		            }	
-				}		
-		
-			} catch (ID3Exception e) {/*NoLog*/}
+                MP3File f = (MP3File) AudioFileIO.read(this.file);
+
+                ID3v1Tag v1tag  = f.getID3v1Tag();
+                AbstractID3v2Tag v2tag  = f.getID3v2Tag();
+                if( v2tag != null ) {
+                    name = v2tag.getFirst(FieldKey.TITLE);
+                    artiste = v2tag.getFirst(FieldKey.ARTIST);
+
+                } else {
+                    if(v1tag != null) {
+
+                        name = v1tag.getFirst(FieldKey.TITLE);
+                        artiste = v1tag.getFirst(FieldKey.ARTIST);
+
+                    } else {
+                        // no tags found
+                    }
+                }
+
+
+			} catch (Exception e) {/*NoLog*/}
 		
 		}		
 
