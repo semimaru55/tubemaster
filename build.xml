@@ -121,7 +121,7 @@
     <jar destfile="${dist}/tubemaster.jar" basedir="${tubemaster.output.dir}">
       <manifest>
         <attribute name="Main-Class" value="Main.MainForm"/>
-        <attribute name="Class-Path" value=". libs/JID3.jar libs/jpcap.jar libs/rtmpdown.1.5.8.jar "/>
+        <attribute name="Class-Path" value=". libs/jaudiotagger-2.0.3.jar libs/jpcap.jar libs/rtmpdown.1.5.8.jar "/>
       </manifest>
     </jar>
     <copy todir="${dist}">
