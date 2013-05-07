@@ -301,7 +301,16 @@ public class ListFileItem extends JPanel implements ActionListener, FocusListene
 		{
 			this.timerRefresh.stop();
 			this.timerTimeout.stop();
-			this.setFinished(); 		
+
+            if ((this.edtTitle.getText().equals(MainForm.lang.lang_table[29])) && (!this.edtTitle.hasFocus())
+                    && (this.file.get_format().retFormat().equals("MP3")))
+            {
+                String title = this.file.find_ID3();
+                if (title.equals(" - ")) this.edtTitle.setText(MainForm.lang.lang_table[29]);
+                else this.edtTitle.setText(title);
+            }
+
+            this.setFinished();
 		}
 		else
 		{
