@@ -34,15 +34,17 @@
     <exclude name="**/__pycache__/**"/>
     <exclude name="**/.bundle/**"/>
     <exclude name="**/*.rbc/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
   </patternset>
   <patternset id="library.patterns">
-    <include name="*.zip"/>
-    <include name="*.apk"/>
     <include name="*.war"/>
-    <include name="*.egg"/>
     <include name="*.ear"/>
-    <include name="*.ane"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
     <include name="*.swc"/>
+    <include name="*.ane"/>
+    <include name="*.egg"/>
     <include name="*.jar"/>
   </patternset>
   <patternset id="compiler.resources">
@@ -60,27 +62,34 @@
   
   <!-- JDK definitions -->
   
-  <property name="jdk.bin.1.6" value="${jdk.home.1.6}/bin"/>
-  <path id="jdk.classpath.1.6">
-    <fileset dir="${jdk.home.1.6}">
+  <property name="jdk.bin.1.7" value="${jdk.home.1.7}/bin"/>
+  <path id="jdk.classpath.1.7">
+    <fileset dir="${jdk.home.1.7}">
       <include name="jre/lib/charsets.jar"/>
       <include name="jre/lib/deploy.jar"/>
       <include name="jre/lib/javaws.jar"/>
       <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxrt.jar"/>
       <include name="jre/lib/jsse.jar"/>
       <include name="jre/lib/management-agent.jar"/>
       <include name="jre/lib/plugin.jar"/>
       <include name="jre/lib/resources.jar"/>
       <include name="jre/lib/rt.jar"/>
+      <include name="jre/lib/ext/access-bridge-64.jar"/>
       <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
       <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
       <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunmscapi.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
     </fileset>
   </path>
   
-  <property name="project.jdk.home" value="${jdk.home.1.6}"/>
-  <property name="project.jdk.bin" value="${jdk.bin.1.6}"/>
-  <property name="project.jdk.classpath" value="jdk.classpath.1.6"/>
+  <property name="project.jdk.home" value="${jdk.home.1.7}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.7}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.7"/>
   
   
   <!-- Project Libraries -->
@@ -90,22 +99,92 @@
       <patternset refid="library.patterns"/>
     </fileset>
   </path>
-  <!-- Register Custom Compiler Taskdefs -->
-  <property name="javac2.home" value="${idea.home}/lib"/>
-  <path id="javac2.classpath">
-    <pathelement location="${javac2.home}/javac2.jar"/>
-    <pathelement location="${javac2.home}/jdom.jar"/>
-    <pathelement location="${javac2.home}/asm4-all.jar"/>
-    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
-  </path>
-  <target name="register.custom.compilers">
-    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
-    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
-  </target>
   
   <!-- Modules -->
   
-  <import file="${basedir}/module_tubemaster.xml"/>
+  
+  <!-- Module tubemaster -->
+  
+  <dirname property="module.tubemaster.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.tubemaster" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.tubemaster" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.tubemaster" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.tubemaster" value="${compiler.args}"/>
+  
+  <property name="tubemaster.output.dir" value="${module.tubemaster.basedir}/out/production/tubemaster"/>
+  <property name="tubemaster.testoutput.dir" value="${module.tubemaster.basedir}/out/test/tubemaster"/>
+  
+  <path id="tubemaster.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="tubemaster.module.production.classpath">
+    <path refid="${module.jdk.classpath.tubemaster}"/>
+    <path refid="library.libs.classpath"/>
+  </path>
+  
+  <path id="tubemaster.runtime.production.module.classpath">
+    <pathelement location="${tubemaster.output.dir}"/>
+    <path refid="library.libs.classpath"/>
+  </path>
+  
+  <path id="tubemaster.module.classpath">
+    <path refid="${module.jdk.classpath.tubemaster}"/>
+    <pathelement location="${tubemaster.output.dir}"/>
+    <path refid="library.libs.classpath"/>
+  </path>
+  
+  <path id="tubemaster.runtime.module.classpath">
+    <pathelement location="${tubemaster.testoutput.dir}"/>
+    <pathelement location="${tubemaster.output.dir}"/>
+    <path refid="library.libs.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.tubemaster">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.tubemaster">
+    <patternset refid="excluded.from.module.tubemaster"/>
+  </patternset>
+  
+  <path id="tubemaster.module.sourcepath">
+    <dirset dir="${module.tubemaster.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.tubemaster" depends="compile.module.tubemaster.production,compile.module.tubemaster.tests" description="Compile module tubemaster"/>
+  
+  <target name="compile.module.tubemaster.production" description="Compile module tubemaster; production classes">
+    <mkdir dir="${tubemaster.output.dir}"/>
+    <javac destdir="${tubemaster.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.tubemaster}/javac" encoding="Windows-1252">
+      <compilerarg line="${compiler.args.tubemaster}"/>
+      <bootclasspath refid="tubemaster.module.bootclasspath"/>
+      <classpath refid="tubemaster.module.production.classpath"/>
+      <src refid="tubemaster.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.tubemaster"/>
+    </javac>
+    
+    <copy todir="${tubemaster.output.dir}">
+      <fileset dir="${module.tubemaster.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.tubemaster.tests" depends="compile.module.tubemaster.production" description="compile module tubemaster; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.tubemaster" description="cleanup module">
+    <delete dir="${tubemaster.output.dir}"/>
+    <delete dir="${tubemaster.testoutput.dir}"/>
+  </target>
   
   <target name="init" description="Build initialization">
     <!-- Perform any build initialization in this target -->
@@ -114,34 +193,6 @@
   <target name="clean" depends="clean.module.tubemaster" description="cleanup all"/>
   
   <target name="build.modules" depends="init, clean, compile.module.tubemaster" description="build all modules"/>
-
-  <property name="dist" value="${module.tubemaster.basedir}/dist"/>  
-  <target name="jar" depends="build.modules" description="create a jar">
-    <mkdir dir="${dist}"/>
-    <jar destfile="${dist}/tubemaster.jar" basedir="${tubemaster.output.dir}">
-      <manifest>
-        <attribute name="Main-Class" value="Main.MainForm"/>
-        <attribute name="Class-Path" value=". libs/jaudiotagger-2.0.3.jar libs/jpcap.jar libs/rtmpdown.1.5.8.jar "/>
-      </manifest>
-    </jar>
-    <copy todir="${dist}">
-      <fileset dir="${module.tubemaster.basedir}/bat" />
-    </copy>
-    <copy todir="${dist}">
-      <fileset dir="${module.tubemaster.basedir}">
-        <include name="ffmpeg.exe"/>
-        <include name="ffplay.exe"/>
-        <include name="Jpcap.dll"/>
-        <include name="Jpcap_x64.dll"/>
-      </fileset>
-    </copy>
-    <copy todir="${dist}/lang">
-      <fileset dir="${module.tubemaster.basedir}/lang" />
-    </copy>
-    <copy todir="${dist}/libs">
-      <fileset dir="${module.tubemaster.basedir}/libs" />
-    </copy>
-  </target>
-
-  <target name="all" depends="jar" description="build all"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
 </project>
